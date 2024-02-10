@@ -12,7 +12,9 @@ interface IAntInput {
   require?: NodeRequire;
 }
 
-export default function AntInput(props: IAntInput) {
+const { TextArea } = Input;
+
+export default function AntText(props: IAntInput) {
   const {
     name,
     labelName,
@@ -37,27 +39,17 @@ export default function AntInput(props: IAntInput) {
         ]}
         hasFeedback
       >
-        <Input
-          name={name}
-          size="middle"
+        <TextArea
           value={value}
+          size="middle"
           variant="filled"
+          name={name}
           defaultValue={defaultValue}
           placeholder={labelName ? `masukkan ${labelName}` : placeholder}
           onChange={onChange}
-          className={`${className} hover:border-brand-muted focus:border-brand`}
+          className={`${className} p-2 hover:border-brand-muted focus:border-brand`}
         />
       </Form.Item>
     </div>
   );
 }
-
-// <Input
-//   name={name}
-//   variant="filled"
-//   value={value}
-//   defaultValue={defaultValue}
-//   placeholder={`masukkan ${labelName} `}
-//   onChange={onChange}
-//   className={`${className} p-2 hover:border-brand-muted focus:border-brand`}
-// />

@@ -11,6 +11,8 @@ import olmatLogo from "@/../public/olmat-logo.png";
 import { Form } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
+import AntPass from "@/components/input/AntPass";
+import AntEmail from "@/components/input/AntEmail";
 
 export default function RegisterAccount() {
   const { form } = useRegister();
@@ -78,10 +80,10 @@ export default function RegisterAccount() {
             <div className={`${step !== 1 && "hidden"} grid`}>
               <h1 className="my-2">Konfirmasi data diri</h1>
               <AntInput labelName="Nama Lengkap" />
-              <AntInput labelName="Alamat Email" />
+              <AntEmail labelName="Alamat Email" />
               <AntInput labelName="No WhatsApp" />
-              <AntInput password labelName="Buat kata sandi" />
-              <AntInput password labelName="Konfirmasi sata sandi" />
+              <AntPass labelName="Buat kata sandi" />
+              <AntPass labelName="Konfirmasi sata sandi" />
               <Button
                 onClick={() => {
                   setStep(0);

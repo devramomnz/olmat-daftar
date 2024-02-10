@@ -8,7 +8,16 @@ import id_ID from "antd/lib/locale/id_ID";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
-      <ConfigProvider locale={id_ID}>{children}</ConfigProvider>
+      <ConfigProvider
+        theme={
+          {
+            // algorithm: theme,
+          }
+        }
+        locale={id_ID}
+      >
+        {children}
+      </ConfigProvider>
     </NextUIProvider>
   );
 }

@@ -1,4 +1,5 @@
 export interface IPeserta {
+  id?: number;
   payment_id: number;
   school_id: number;
   name: string;

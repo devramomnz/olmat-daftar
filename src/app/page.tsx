@@ -3,13 +3,14 @@
 import React from "react";
 import olmatLogo from "@/../public/olmat-logo.png";
 import AppImage from "@/components/AppImage";
-import AntInput from "@/components/input/AntInput";
 import { Form } from "antd";
 import Button from "@/components/button/Button";
 import Link from "next/link";
 import { ROUTES } from "@/prefix/route.constant";
 import Wave from "@/assets/wave";
 import useLogin from "@/hooks/login/useLogin";
+import AntPass from "@/components/input/AntPass";
+import AntEmail from "@/components/input/AntEmail";
 
 export default function Login() {
   const { form } = useLogin();
@@ -38,15 +39,14 @@ export default function Login() {
             form={form}
             className="text-lg flex flex-col max-w-[] lg:w-fit justify-center"
           >
-            <AntInput
+            <AntEmail
               name="email"
               placeholder="Masukkan E-Mail"
               className="text-lg bg-white"
             />
-            <AntInput
+            <AntPass
               name="password"
               placeholder="Masukkan Password"
-              password
               className="text-lg bg-white"
               // onChange={onChange}
             />

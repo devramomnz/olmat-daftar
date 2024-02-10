@@ -10,6 +10,8 @@ import { Form } from "antd";
 import React from "react";
 import { IoSchool } from "react-icons/io5";
 import AppImage from "@/components/AppImage";
+import AntText from "@/components/input/AntText";
+import AntEmail from "@/components/input/AntEmail";
 
 export default function RegisterSekolah() {
   const { form } = useRegisterSekolah();
@@ -42,10 +44,10 @@ export default function RegisterSekolah() {
             <AntItemSelect labelName="Provinsi" />
             <AntItemSelect labelName="Kota" />
             <AntItemSelect labelName="Kecamatan" />
-            <AntInput textArea labelName="Alamat Lengkap" />
+            <AntText labelName="Alamat Lengkap" />
             <AntItemSelect labelName="Pilih Jenjang" />
             <AntInput labelName="Nama Sekolah" />
-            <AntInput labelName="Email Sekolah" />
+            <AntEmail labelName="Email Sekolah" />
             <AntInput labelName="No Tlp Sekolah" />
             <p className="flex flex-col text-xs ">
               Masukkan No WhatsApp, untuk konfirmasi jika sekolah kamu berhasil

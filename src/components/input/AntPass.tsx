@@ -1,5 +1,6 @@
 import { Form, Input } from "antd";
 import React, { ChangeEvent } from "react";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 interface IAntInput {
   name?: string;
@@ -12,7 +13,7 @@ interface IAntInput {
   require?: NodeRequire;
 }
 
-export default function AntInput(props: IAntInput) {
+export default function AntPass(props: IAntInput) {
   const {
     name,
     labelName,
@@ -21,7 +22,6 @@ export default function AntInput(props: IAntInput) {
     onChange,
     placeholder,
     className,
-    require,
   } = props;
 
   return (
@@ -31,33 +31,26 @@ export default function AntInput(props: IAntInput) {
         name={name}
         rules={[
           {
-            required: require !== undefined,
-            message: `Please input ${labelName}!`,
+            required: true,
+            message: `${name} is required`,
           },
         ]}
         hasFeedback
       >
-        <Input
-          name={name}
+        <Input.Password
           size="middle"
-          value={value}
+          name={name}
           variant="filled"
+          value={value}
+          iconRender={(visible) =>
+            visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+          }
           defaultValue={defaultValue}
           placeholder={labelName ? `masukkan ${labelName}` : placeholder}
           onChange={onChange}
-          className={`${className} hover:border-brand-muted focus:border-brand`}
+          className={`${className} text-sm hover:border-brand-muted focus:border-brand`}
         />
       </Form.Item>
     </div>
   );
 }
-
-// <Input
-//   name={name}
-//   variant="filled"
-//   value={value}
-//   defaultValue={defaultValue}
-//   placeholder={`masukkan ${labelName} `}
-//   onChange={onChange}
-//   className={`${className} p-2 hover:border-brand-muted focus:border-brand`}
-// />

@@ -1,4 +1,5 @@
 import { IPeserta } from "@/interfaces/IPeserta";
+import { UploadFile } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -22,6 +23,8 @@ export function useDaftar() {
     { label: "Laki-laki", value: "L" },
     { label: "Perempuan", value: "P" },
   ];
+  const [filePicture, setFilePicture] = useState<UploadFile[]>([]);
+  const [fileAtc, setFileAtc] = useState<UploadFile[]>([]);
 
   function handleInputChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -64,35 +67,37 @@ export function useDaftar() {
   }
 
   function handlePicture(e: any, i: number) {
-    //  console.log("this", e[0].file);
-    //  console.log(i);
-    setPayload((prev) => {
-      const updateImage = [...prev];
-      updateImage[i] = {
-        ...updateImage[i],
-        picture: e[0],
-      };
-      return updateImage;
-    });
+    console.log("this", e);
+    console.log(i);
+    // setPayload((prev) => {
+    //   const updateImage = [...prev];
+    //   updateImage[i] = {
+    //     ...updateImage[i],
+    //     picture: e[0],
+    //   };
+    //   return updateImage;
+    // });
   }
-  function handleAttachment(e: any, i: number) {
+
+  function handleAttachment(e: string, i: number) {
+    // setFileAtc(JSON.stringify(e));
     setPayload((prev) => {
       const updataAttachment = [...prev];
       updataAttachment[i] = {
         ...updataAttachment[i],
-        attachment: e[0],
+        attachment: e,
       };
       return updataAttachment;
     });
   }
 
   function handleSelect(i: number) {
+    setIPayload(i);
+    console.log(i);
     form.setFieldValue("name", payload[i].name);
     form.setFieldValue("gender", payload[i].gender);
-    //  form.setFieldValue("birthday", payload[i].birthday);
     form.setFieldValue("email", payload[i].email);
     form.setFieldValue("telepon", payload[i].telepon);
-    setIPayload(i);
   }
 
   function handleAddMore() {
@@ -113,6 +118,22 @@ export function useDaftar() {
     form.resetFields();
   }
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  function handleDelete(i: number) {
+    handleSelect(i);
+    setIsModalOpen(true);
+    setIPayload(i);
+  }
+  function deletePeserta(i: number) {
+    setPayload((prevPayload) => {
+      const updatedPayload = prevPayload.filter((_, idx) => idx !== i);
+      return updatedPayload;
+    });
+    handleSelect(i - 1);
+    setIPayload(i - 1);
+    setIsModalOpen(false);
+  }
+
   useEffect(() => {}, []);
 
   return {
@@ -120,6 +141,12 @@ export function useDaftar() {
     payload,
     genderOption,
     iPayload,
+    filePicture,
+    fileAtc,
+    isModalOpen,
+    setIsModalOpen,
+    setFileAtc,
+    setFilePicture,
     handleSelect,
     setPayload,
     setIPayload,
@@ -129,5 +156,7 @@ export function useDaftar() {
     handleBirthday,
     handlePicture,
     handleAttachment,
+    handleDelete,
+    deletePeserta,
   };
 }

@@ -27,11 +27,13 @@ export function useDaftarv2() {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     i: number
   ) {
-    setPayload((prev) => {
-      const updatedPayload = [...prev];
+    const { name, value } = e.target;
+
+    setPayload((prevPayload) => {
+      const updatedPayload = [...prevPayload];
       updatedPayload[i] = {
         ...updatedPayload[i],
-        [e.target.name]: e.target.value,
+        [name]: value,
       };
       return updatedPayload;
     });
@@ -92,25 +94,30 @@ export function useDaftarv2() {
     //  form.setFieldValue("birthday", payload[i].birthday);
     form.setFieldValue("email", payload[i].email);
     form.setFieldValue("telepon", payload[i].telepon);
-    setIPayload(i);
+    // setPayload(payload.index == i);
   }
 
   function handleAddMore() {
-    const newPeserta: IPeserta = {
-      payment_id: 0,
-      school_id: 0,
-      name: "",
-      gender: "Pilih Jenis Kelamin",
-      telepon: "",
-      email: "",
-      birthday: "",
-      picture: "",
-      attachment: "",
-    };
+    setPayload((prevPayload) => [
+      ...prevPayload,
+      {
+        payment_id: 0,
+        school_id: 0,
+        name: "",
+        gender: "Pilih Jenis Kelamin",
+        telepon: "",
+        email: "",
+        birthday: "",
+        picture: "",
+        attachment: "",
+      },
+    ]);
+  }
 
-    setPayload((prev) => [...prev, newPeserta]);
-    setIPayload(iPayload + 1);
-    form.resetFields();
+  function deletePeserta(i: number) {
+    if (payload.length !== 1) {
+      setPayload((prevPayload) => prevPayload.filter((_, idx) => idx !== i));
+    }
   }
 
   useEffect(() => {}, []);
@@ -119,15 +126,14 @@ export function useDaftarv2() {
     form,
     payload,
     genderOption,
-    iPayload,
     handleSelect,
     setPayload,
-    setIPayload,
     handleAddMore,
     handleGenderSelect,
     handleInputChange,
     handleBirthday,
     handlePicture,
     handleAttachment,
+    deletePeserta,
   };
 }
