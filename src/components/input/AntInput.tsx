@@ -32,7 +32,7 @@ export default function AntInput(props: IAntInput) {
   } = props;
 
   return (
-    <>
+    <div>
       <label className="text-sm">{labelName}</label>
       <Form.Item
         name={name}
@@ -69,6 +69,7 @@ export default function AntInput(props: IAntInput) {
           />
         ) : (
           <Input
+            name={name}
             size="middle"
             value={value}
             variant="filled"
@@ -79,7 +80,7 @@ export default function AntInput(props: IAntInput) {
           />
         )}
       </Form.Item>
-    </>
+    </div>
   );
 }
 

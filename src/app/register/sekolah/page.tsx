@@ -15,9 +15,10 @@ export default function RegisterSekolah() {
   const { form } = useRegisterSekolah();
   return (
     <div className="relative overflow-hidden bg-brand/5 text-white ">
+      <Wave className="w-screen absolute opacity-30 -z-10" />
       <div className="lg:grid lg:grid-cols-2">
         <div className="bg-brand hidden lg:block min-h-screen relative overflow-hidden">
-          <Wave className="w-screen absolute opacity-30" />
+          <Wave className="w-screen absolute opacity-10" />
           <div className="flex flex-col justify-center h-full mb-20 font-montserrat items-center">
             <AppImage
               src={olmatLogo}
@@ -27,7 +28,7 @@ export default function RegisterSekolah() {
             <h1 className="text-3xl font-black">OLIMPIADE MATEMATIKA 2024</h1>
             <p>Daftar Sekarang !! Dan Jadilah yang TERBAIK</p>
           </div>
-          <Wave className="w-screen absolute opacity-40 bottom-0 rotate-180" />
+          <Wave className="w-screen absolute opacity-10 bottom-0 rotate-180" />
         </div>
         <div className="flex flex-col p-6 overflow-y-scroll w-full h-fit items-center">
           <Form
@@ -55,7 +56,7 @@ export default function RegisterSekolah() {
           </Form>
         </div>
       </div>
-      {/* <Wave className="w-screen absolute bottom-0 rotate-180 opacity-5" /> */}
+      <Wave className="w-screen absolute bottom-0 -z-10 rotate-180 opacity-5" />
     </div>
   );
 }

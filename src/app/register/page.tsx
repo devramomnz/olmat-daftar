@@ -103,7 +103,7 @@ export default function RegisterAccount() {
           </Form>
         </div>
       </div>
-      {/* <Wave className="w-screen absolute bottom-0 rotate-180 opacity-5" /> */}
+      <Wave className="w-screen -z-10 absolute bottom-0 rotate-180 opacity-5" />
     </div>
   );
 }

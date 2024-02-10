@@ -1,13 +1,13 @@
 import { Form, Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
-import React from "react";
+import React, { ChangeEvent } from "react";
 
 interface IAntSelect {
   name?: string;
   labelName?: string;
-  value?: string;
+  value?: any;
   option?: DefaultOptionType[];
-  onChange?: (e: string) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export default function AntItemSelect(props: IAntSelect) {
@@ -17,9 +17,10 @@ export default function AntItemSelect(props: IAntSelect) {
       <Form.Item name={name}>
         <label className="text-sm">{labelName}</label>
         <Select
+          variant="filled"
           value={value}
           showSearch
-          size="large"
+          size="middle"
           style={{ width: "100%" }}
           placeholder={`Pilih ${labelName}`}
           optionFilterProp="children"
