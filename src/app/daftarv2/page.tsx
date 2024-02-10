@@ -1,35 +1,18 @@
 "use client";
 
-import AntDatePicker from "@/components/input/AntDatePicker";
-import AntEmail from "@/components/input/AntEmail";
-import AntInput from "@/components/input/AntInput";
-import AntItemSelect from "@/components/input/AntItemSelect";
-import { Form } from "antd";
 import React from "react";
-import { FilePond, registerPlugin } from "react-filepond";
+import { registerPlugin } from "react-filepond";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useDaftar } from "@/hooks/daftar/useDaftar";
+import { useDaftarv2 } from "@/hooks/daftar/useDaftarV2";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Daftar() {
-  const {
-    payload,
-    iPayload,
-    form,
-    genderOption,
-    handleSelect,
-    handleAddMore,
-    handleInputChange,
-    handleGenderSelect,
-    handleBirthday,
-    handlePicture,
-    handleAttachment,
-  } = useDaftar();
+  const { payload, iPayload, handleSelect, handleAddMore } = useDaftarv2();
   console.log("payload ", payload);
   console.log(iPayload);
 
@@ -64,7 +47,7 @@ export default function Daftar() {
           <label className="font-bold text-sm">
             Data Peserta {iPayload + 1}
           </label>
-          <Form
+          {/* <Form
             form={form}
             // onFinish={(
             //   values: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -120,7 +103,7 @@ export default function Daftar() {
                 />
               </Form.Item>
             </div>
-          </Form>
+          </Form> */}
           {/* )} */}
         </div>
       </div>
