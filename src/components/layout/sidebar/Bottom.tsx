@@ -5,7 +5,7 @@ import cathaBot from "@/../public/cathaBotLogo.png";
 
 export default function Bottom() {
   return (
-    <div className="h-16 absolute bottom-0 grid place-items-center">
+    <div className="h-16 absolute bottom-20 lg:bottom-2 grid place-items-center">
       <p className="text-xs grid place-items-center text-center">
         © Copyright 2024 Olimpiade Matematika Uinsa All rights reserved
         <span className="font-bold">

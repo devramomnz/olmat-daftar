@@ -69,23 +69,26 @@ export function useDaftar() {
   function handlePicture(e: any, i: number) {
     console.log("this", e);
     console.log(i);
-    // setPayload((prev) => {
-    //   const updateImage = [...prev];
-    //   updateImage[i] = {
-    //     ...updateImage[i],
-    //     picture: e[0],
-    //   };
-    //   return updateImage;
-    // });
+    setPayload((prev) => {
+      const updateImage = [...prev];
+      updateImage[i] = {
+        ...updateImage[i],
+        picture: e[0],
+      };
+      return updateImage;
+    });
   }
 
-  function handleAttachment(e: string, i: number) {
+  function handleAttachment(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    i: number
+  ) {
     // setFileAtc(JSON.stringify(e));
     setPayload((prev) => {
       const updataAttachment = [...prev];
       updataAttachment[i] = {
         ...updataAttachment[i],
-        attachment: e,
+        attachment: JSON.stringify(e),
       };
       return updataAttachment;
     });
@@ -94,10 +97,12 @@ export function useDaftar() {
   function handleSelect(i: number) {
     setIPayload(i);
     console.log(i);
-    form.setFieldValue("name", payload[i].name);
+    // form.setFieldsValue(payload[i]);
     form.setFieldValue("gender", payload[i].gender);
     form.setFieldValue("email", payload[i].email);
     form.setFieldValue("telepon", payload[i].telepon);
+    form.setFieldValue("picture", payload[i].picture);
+    form.setFieldValue("attachment", payload[i].attachment);
   }
 
   function handleAddMore() {

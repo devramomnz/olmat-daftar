@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { useSideBarStore } from "@/hooks/zustand/zustand";
+import { useSideDaftar } from "@/hooks/zustand/zustand";
 import { IoClose, IoMenu } from "react-icons/io5";
 import OlmatIcon from "@/assets/OlmatIcon";
 
 export default function TopNavDaftar() {
-  const { sideBar, setSideBar } = useSideBarStore();
+  const { sideBar, setSideBar } = useSideDaftar();
   return (
     <div
       className={`fixed top-0 z-50 bg-brand-dark w-screen drop-shadow-sm transition-transform duration-1000 flex items-center justify-center h-14 bg-dark-light/90`}

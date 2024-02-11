@@ -13,9 +13,9 @@ interface IAntSelect {
 export default function AntItemSelect(props: IAntSelect) {
   const { name, value, option, onChange, labelName } = props;
   return (
-    <>
+    <div>
+      <label className="text-sm">{labelName}</label>
       <Form.Item name={name}>
-        <label className="text-sm">{labelName}</label>
         <Select
           variant="filled"
           value={value}
@@ -38,6 +38,6 @@ export default function AntItemSelect(props: IAntSelect) {
           onChange={onChange}
         />
       </Form.Item>
-    </>
+    </div>
   );
 }
