@@ -7,13 +7,13 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
-import { useDaftar } from "@/hooks/daftar/useDaftar";
 import { Button } from "@nextui-org/react";
 import PriceDaftar from "./components/PriceDaftar";
 import ListPeserta from "./components/ListPeserta";
 import FormDaftar from "./components/FormDaftar";
 import { useSideBarStore } from "@/hooks/zustand/zustand";
 import SideBarDaftar from "./components/SideBarDaftar";
+import { useDaftar } from "./useDaftar";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -51,17 +51,17 @@ export default function Daftar() {
         footer=""
       >
         <p>Apakah anda yakin untuk menghapus peserta {iPayload + 1} ?</p>
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-4 text-white">
           <Button
             onClick={() => deletePeserta(iPayload)}
-            className="bg-brand/20 text-sm"
+            className="bg-brand/20 text-sm font-bold"
             size="sm"
           >
             Ya
           </Button>
           <Button
             onClick={() => setIsModalOpen(false)}
-            className="bg-brand/20 text-sm"
+            className="bg-brand-dark text-sm text-white font-bold"
             size="sm"
           >
             Tidak

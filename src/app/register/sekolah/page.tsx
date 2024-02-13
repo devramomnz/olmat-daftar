@@ -4,17 +4,17 @@ import Wave from "@/assets/wave";
 import Button from "@/components/button/Button";
 import AntInput from "@/components/input/AntInput";
 import AntItemSelect from "@/components/input/AntItemSelect";
-import useRegisterSekolah from "@/hooks/register/useRegisterSekolah";
-import olmatLogo from "@/../public/olmat-logo.png";
 import { Form } from "antd";
 import React from "react";
 import { IoSchool } from "react-icons/io5";
 import AppImage from "@/components/AppImage";
 import AntText from "@/components/input/AntText";
 import AntEmail from "@/components/input/AntEmail";
+import { appSetting } from "@/constants/appSetting";
+import useRegisterSchool from "./useRegisterSekolah";
 
 export default function RegisterSekolah() {
-  const { form } = useRegisterSekolah();
+  const { form } = useRegisterSchool();
   return (
     <div className="relative overflow-hidden bg-brand/5 text-white ">
       <Wave className="w-screen absolute opacity-30 -z-10" />
@@ -23,11 +23,11 @@ export default function RegisterSekolah() {
           <Wave className="w-screen absolute opacity-10" />
           <div className="flex flex-col justify-center h-full mb-20 font-montserrat items-center">
             <AppImage
-              src={olmatLogo}
+              src={appSetting.logoEvent}
               className="w-60 h-60 m-10"
               alt="olmat-logo"
             />
-            <h1 className="text-3xl font-black">OLIMPIADE MATEMATIKA 2024</h1>
+            <h1 className="text-3xl font-black">{appSetting.eventName}</h1>
             <p>Daftar Sekarang !! Dan Jadilah yang TERBAIK</p>
           </div>
           <Wave className="w-screen absolute opacity-10 bottom-0 rotate-180" />

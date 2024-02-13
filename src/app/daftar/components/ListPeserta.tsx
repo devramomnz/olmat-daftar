@@ -13,6 +13,7 @@ interface IProps {
 export default function ListPeserta(props: IProps) {
   const { handleDelete, handleAddMore, handleSelect, payload, iPayload } =
     props;
+  console.log("inilo", payload);
   return (
     <div className="bg-white rounded-lg drop-shadow-md h-full overflow-hidden">
       <h1 className="font-bold bg-brand-dark text-white py-1 px-2 w-full">
@@ -40,7 +41,9 @@ export default function ListPeserta(props: IProps) {
           </div>
         ))}
         <button
-          className="py-1 px-2 mb-28 bg-brand-dark rounded-lg w-full text-white font-bold mt-3 text-sm"
+          className={`${
+            payload.length === 11 && "hidden"
+          } py-1 px-2 mb-28 bg-brand-dark rounded-lg w-full text-white font-bold mt-3 text-sm`}
           onClick={handleAddMore}
         >
           Tambah Peserta

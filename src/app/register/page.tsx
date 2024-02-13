@@ -5,14 +5,14 @@ import AppImage from "@/components/AppImage";
 import Button from "@/components/button/Button";
 import AntInput from "@/components/input/AntInput";
 import AntItemSelect from "@/components/input/AntItemSelect";
-import useRegister from "@/hooks/register/useRegister";
 import { ROUTES } from "@/prefix/route.constant";
-import olmatLogo from "@/../public/olmat-logo.png";
 import { Form } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
 import AntPass from "@/components/input/AntPass";
 import AntEmail from "@/components/input/AntEmail";
+import { appSetting } from "@/constants/appSetting";
+import useRegister from "./useRegister";
 
 export default function RegisterAccount() {
   const { form } = useRegister();
@@ -24,11 +24,11 @@ export default function RegisterAccount() {
         <div className="bg-brand-dark hidden lg:block min-h-screen">
           <div className="flex flex-col justify-center h-full mb-20 font-montserrat items-center">
             <AppImage
-              src={olmatLogo}
+              src={appSetting.logoEvent}
               className="w-60 h-60 m-10"
               alt="olmat-logo"
             />
-            <h1 className="text-3xl font-black">OLIMPIADE MATEMATIKA 2024</h1>
+            <h1 className="text-3xl font-black">{appSetting.eventName}</h1>
             <p>Daftar Sekarang !! Dan Jadilah yang TERBAIK</p>
           </div>
         </div>
@@ -38,7 +38,7 @@ export default function RegisterAccount() {
             className="text-lg flex flex-col max-w-[300px] mt-8 justify-center"
           >
             <div className="flex text-2xl mb-16 font-montserrat font-black text-brand-dark items-center">
-              <h1>Pendaftaran Akun Olimpiade Matematika</h1>
+              <h1>Pendaftaran Akun {appSetting.eventName}</h1>
             </div>
             <div className="flex gap-3 text-sm">
               <button

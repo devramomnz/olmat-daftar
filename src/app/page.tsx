@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
-import olmatLogo from "@/../public/olmat-logo.png";
 import AppImage from "@/components/AppImage";
 import { Form } from "antd";
 import Button from "@/components/button/Button";
 import Link from "next/link";
 import { ROUTES } from "@/prefix/route.constant";
 import Wave from "@/assets/wave";
-import useLogin from "@/hooks/login/useLogin";
 import AntPass from "@/components/input/AntPass";
 import AntEmail from "@/components/input/AntEmail";
+import { appSetting } from "@/constants/appSetting";
+import useLogin from "./useLogin";
 
 export default function Login() {
   const { form } = useLogin();
@@ -21,17 +21,21 @@ export default function Login() {
         <div className="lg:flex flex-col hidden  justify-center p-6 h-full lg:h-screen w-full md:items-center lg:bg-none ">
           <div className="grid place-items-center  mb-20 font-montserrat items-center">
             <AppImage
-              src={olmatLogo}
+              src={appSetting.logoEvent}
               className="w-60 h-60 m-10"
               alt="olmat-logo"
             />
-            <h1 className="text-3xl font-black">OLIMPIADE MATEMATIKA 2024</h1>
+            <h1 className="text-3xl font-black">{appSetting.eventName}</h1>
             <p>Daftar Sekarang !! Dan Jadilah yang TERBAIK</p>
           </div>
         </div>
         <div className="flex flex-col justify-center p-6 h-screen w-full md:items-center lg:bg-none ">
           <div className="grid place-items-center text-3xl mb-20 font-montserrat lg:hidden gap-2 font-black items-center">
-            <AppImage src={olmatLogo} className="w-20 h-20" alt="olmat-logo" />
+            <AppImage
+              src={appSetting.logoEvent}
+              className="w-20 h-20"
+              alt="olmat-logo"
+            />
             <h1>OLMAT UINSA</h1>
           </div>
           <h1 className="text-2xl">Masuk Akun</h1>

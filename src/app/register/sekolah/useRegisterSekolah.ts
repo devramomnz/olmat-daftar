@@ -1,7 +1,7 @@
 import { Form } from "antd";
 
-const useRegisterSekolah = () => {
+const useRegisterSchool = () => {
   const [form] = Form.useForm();
   return { form };
 };
-export default useRegisterSekolah;
+export default useRegisterSchool;

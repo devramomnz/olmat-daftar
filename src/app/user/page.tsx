@@ -1,6 +1,6 @@
 "use client";
 
-import { EVENT_SETTING } from "@/constants/EventSetting";
+import { appSetting } from "@/constants/appSetting";
 import { ROUTES } from "@/prefix/route.constant";
 import Link from "next/link";
 import React from "react";
@@ -22,9 +22,7 @@ export default function Home() {
           </h2>
           <h1 className="w-fit">
             Pendaftaran ditutup pada tanggal{" "}
-            <span className="font-bold">
-              {EVENT_SETTING.PenutupanPendaftaran}
-            </span>
+            <span className="font-bold">{appSetting.endDate}</span>
           </h1>
         </div>
         <div className="w-full bg-white mt-5 overflow-hidden rounded-md drop-shadow-md">
