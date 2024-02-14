@@ -1,5 +1,5 @@
 import { convertRupiah } from "@/helper/common";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface IProps {
   payload?: any;
@@ -9,23 +9,17 @@ interface IProps {
 
 export default function PriceDaftar(props: IProps) {
   const { payload, price, freeInterval } = props;
+  const [free, setFree] = useState<number>(0);
+  console.log("free", free);
 
-  const calculateTotalPrice = (
-    payloadLength: number,
-    pricePerIndex: number,
-    freeIndexInterval: number
-  ) => {
-    const freeIndexes = Math.floor(payloadLength / freeIndexInterval);
-    const totalPrice =
-      payloadLength * pricePerIndex - freeIndexes * pricePerIndex;
-    return totalPrice;
-  };
-
-  const totalPrice = calculateTotalPrice(
-    payload?.length || 0,
-    price,
-    freeInterval
-  );
+  useEffect(() => {
+    if (
+      payload.length > freeInterval &&
+      payload.length % (freeInterval + 1) === 0
+    ) {
+      setFree(payload.length / (freeInterval + 1));
+    }
+  }, [payload]);
 
   return (
     <div className="bg-white h-fit flex flex-col rounded-lg drop-shadow-md">
@@ -41,9 +35,13 @@ export default function PriceDaftar(props: IProps) {
           <h2>Jumlah Peserta :</h2>
           <h2>{payload?.length}</h2>
         </div>
+        <div className="flex justify-between items-end">
+          <h2>Peserta gratis :</h2>
+          <h2>{free}</h2>
+        </div>
         <div className="border-t pt-2 font-bold flex justify-between items-end">
           <h2>Total Biaya</h2>
-          <h2>{convertRupiah(totalPrice)}</h2>
+          <h2>{convertRupiah((payload.length - free) * price)}</h2>
         </div>
       </div>
     </div>

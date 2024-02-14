@@ -67,8 +67,8 @@ export function useDaftar() {
   }
 
   function handlePicture(e: any, i: number) {
-    console.log("this", e);
-    console.log(i);
+    // console.log("this", e);
+    // console.log(i);
     setPayload((prev) => {
       const updateImage = [...prev];
       updateImage[i] = {
@@ -96,7 +96,7 @@ export function useDaftar() {
 
   function handleSelect(i: number) {
     setIPayload(i);
-    console.log(i);
+    // console.log(i);
     // form.setFieldsValue(payload[i]);
     form.setFieldValue("gender", payload[i].gender);
     form.setFieldValue("email", payload[i].email);

@@ -11,15 +11,12 @@ import { Button } from "@nextui-org/react";
 import PriceDaftar from "./components/PriceDaftar";
 import ListPeserta from "./components/ListPeserta";
 import FormDaftar from "./components/FormDaftar";
-import { useSideBarStore } from "@/hooks/zustand/zustand";
 import SideBarDaftar from "./components/SideBarDaftar";
 import { useDaftar } from "./useDaftar";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Daftar() {
-  const { sideBar } = useSideBarStore();
-  console.log("side", sideBar);
   const {
     payload,
     iPayload,
@@ -40,7 +37,7 @@ export default function Daftar() {
     deletePeserta,
   } = useDaftar();
 
-  console.log("here", payload);
+  // console.log("here", payload);
   return (
     <>
       <Modal
