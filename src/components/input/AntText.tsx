@@ -33,8 +33,8 @@ export default function AntText(props: IAntInput) {
         name={name}
         rules={[
           {
-            required: require !== undefined,
-            message: `Please input ${labelName}!`,
+            required: require !== null,
+            message: `${labelName} diperlukan!`,
           },
         ]}
         hasFeedback

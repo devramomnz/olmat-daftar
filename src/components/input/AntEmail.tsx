@@ -22,7 +22,7 @@ export function AntEmail(props: IEmailInputProps) {
     },
     {
       required: true,
-      message: `${name} is required`,
+      message: `${labelName} diperlukan`,
     },
   ];
 

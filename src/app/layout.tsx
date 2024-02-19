@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
-import NextTopLoader from "nextjs-toploader";
 import { Providers } from "./provider";
 
 const font = Ubuntu({ subsets: ["latin"], weight: "300" });
@@ -19,16 +18,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <NextTopLoader
-          color="#7FC7D9"
-          initialPosition={0.08}
-          crawlSpeed={200}
-          height={3}
-          crawl={true}
-          zIndex={100000}
-          showSpinner={true}
-          easing="ease"
-        />
         <Providers>{children}</Providers>
       </body>
     </html>

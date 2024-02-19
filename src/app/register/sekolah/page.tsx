@@ -3,7 +3,6 @@
 import Wave from "@/assets/wave";
 import Button from "@/components/button/Button";
 import AntInput from "@/components/input/AntInput";
-import AntItemSelect from "@/components/input/AntItemSelect";
 import { Form } from "antd";
 import React from "react";
 import { IoSchool } from "react-icons/io5";
@@ -12,9 +11,18 @@ import AntText from "@/components/input/AntText";
 import AntEmail from "@/components/input/AntEmail";
 import { appSetting } from "@/constants/appSetting";
 import useRegisterSchool from "./useRegisterSekolah";
+import AntItemSelect from "@/components/input/AntItemSelect";
 
 export default function RegisterSekolah() {
-  const { form } = useRegisterSchool();
+  const {
+    form,
+    option,
+    payload,
+    handleSubmit,
+    handleOptionSelect,
+    handleInputChange,
+  } = useRegisterSchool();
+  console.log(payload);
   return (
     <div className="relative overflow-hidden bg-brand/5 text-white ">
       <Wave className="w-screen absolute opacity-30 -z-10" />
@@ -35,25 +43,66 @@ export default function RegisterSekolah() {
         <div className="flex flex-col p-6 overflow-y-scroll w-full h-fit items-center">
           <Form
             form={form}
+            onFinish={handleSubmit}
             className="text-lg flex flex-col max-w-[400px] mt-8 justify-center"
           >
             <div className="flex text-2xl font-montserrat gap-2 font-black text-brand-dark items-center">
               <IoSchool />
               <h1>Pendaftaran Sekolah</h1>
             </div>
-            <AntItemSelect labelName="Provinsi" />
-            <AntItemSelect labelName="Kota" />
-            <AntItemSelect labelName="Kecamatan" />
-            <AntText labelName="Alamat Lengkap" />
-            <AntItemSelect labelName="Pilih Jenjang" />
-            <AntInput labelName="Nama Sekolah" />
-            <AntEmail labelName="Email Sekolah" />
-            <AntInput labelName="No Tlp Sekolah" />
+            <AntItemSelect
+              onChange={(e) => handleOptionSelect("province", e)}
+              option={option.province}
+              name="province"
+              labelName="Provinsi"
+            />
+            <AntItemSelect
+              onChange={(e) => handleOptionSelect("city", e)}
+              option={option.city}
+              name="city"
+              labelName="Kota"
+            />
+            <AntItemSelect
+              onChange={(e) => handleOptionSelect("subdistrict", e)}
+              option={option.subdistrict}
+              name="subdistrict"
+              labelName="Kecamatan"
+            />
+            <AntText
+              onChange={(e) => handleInputChange(e)}
+              name="address"
+              labelName="Alamat Lengkap"
+            />
+            <AntItemSelect
+              onChange={(e) => handleOptionSelect("degree", e)}
+              option={option.degree}
+              name="degree"
+              labelName="Jenjang Sekolah"
+            />
+            <AntInput
+              onChange={(e) => handleInputChange(e)}
+              name="name"
+              labelName="Nama Sekolah"
+            />
+            <AntEmail
+              onChange={(e) => handleInputChange(e)}
+              name="email"
+              labelName="Email Sekolah"
+            />
+            <AntInput
+              onChange={(e) => handleInputChange(e)}
+              name="phone"
+              labelName="No Tlp Sekolah"
+            />
             <p className="flex flex-col text-xs ">
               Masukkan No WhatsApp, untuk konfirmasi jika sekolah kamu berhasil
               ditambahkan
             </p>
-            <AntInput placeholder="Masukkan no whatsapp" />
+            <AntInput
+              onChange={(e) => handleInputChange(e)}
+              name="whatsapp"
+              placeholder="Masukkan no whatsapp"
+            />
             <Button>Selesai</Button>
           </Form>
         </div>

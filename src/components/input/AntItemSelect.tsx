@@ -1,13 +1,13 @@
 import { Form, Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 interface IAntSelect {
   name?: string;
   labelName?: string;
   value?: any;
   option?: DefaultOptionType[];
-  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (e: DefaultOptionType) => void;
 }
 
 export default function AntItemSelect(props: IAntSelect) {
@@ -15,7 +15,16 @@ export default function AntItemSelect(props: IAntSelect) {
   return (
     <div>
       <label className="text-sm">{labelName}</label>
-      <Form.Item name={name}>
+      <Form.Item
+        rules={[
+          {
+            required: true,
+            message: `Pilih ${labelName}`,
+          },
+        ]}
+        hasFeedback
+        name={name}
+      >
         <Select
           variant="filled"
           value={value}
@@ -34,7 +43,7 @@ export default function AntItemSelect(props: IAntSelect) {
               .toLowerCase()
               .localeCompare((optionB?.label as string).toLowerCase())
           }
-          options={option || []}
+          options={option}
           onChange={onChange}
         />
       </Form.Item>

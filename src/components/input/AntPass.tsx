@@ -11,30 +11,51 @@ interface IAntInput {
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   className?: string;
   require?: NodeRequire;
+  form?: any;
+  dependencies?: string[];
 }
 
 export default function AntPass(props: IAntInput) {
   const {
+    form,
     name,
     labelName,
     value,
     defaultValue,
     onChange,
+    dependencies,
     placeholder,
     className,
   } = props;
+
+  const validationRules: any[] = [
+    {
+      required: true,
+      message: `${labelName} minimal 8 karakter`,
+      min: 8,
+    },
+  ];
+
+  if (dependencies && dependencies.length > 0) {
+    validationRules.push({
+      validator: (_: any, value: any) => {
+        const [dependency] = dependencies;
+        const dependentValue = form.getFieldValue(dependency);
+        if (!value || dependentValue === value) {
+          return Promise.resolve();
+        }
+        return Promise.reject(new Error("Konfirmasi kata sandi tidak sama"));
+      },
+    });
+  }
 
   return (
     <div>
       <label className="text-sm">{labelName}</label>
       <Form.Item
         name={name}
-        rules={[
-          {
-            required: true,
-            message: `${name} is required`,
-          },
-        ]}
+        dependencies={dependencies}
+        rules={validationRules}
         hasFeedback
       >
         <Input.Password
