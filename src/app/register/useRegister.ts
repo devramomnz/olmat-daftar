@@ -1,8 +1,10 @@
 import api from "@/config/axiosConfig";
 import { useLayout } from "@/hooks/zustand/layout";
+import { useAuthVerif } from "@/hooks/zustand/useAuthVerif";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { IUser } from "@/interfaces/IUser";
 import { Form } from "antd";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface IOptions {
@@ -13,6 +15,7 @@ interface IOptions {
 }
 
 const useRegister = () => {
+  const router = useRouter();
   const { setIsSuccess, setError } = useLayout();
   const { setIsButtonLoading } = useButtonLoading();
   const [form] = Form.useForm();
@@ -24,6 +27,9 @@ const useRegister = () => {
     name: "",
     school_id: 0,
   });
+
+  const { setAuth } = useAuthVerif();
+
   const [option, setOption] = useState<IOptions>({
     province: [{ label: "", value: "" }],
     city: [{ label: "", value: "" }],
@@ -35,19 +41,25 @@ const useRegister = () => {
     setIsButtonLoading(true);
     await api
       .post("/auth/user/register", payload)
-      .then(() => {
+      .then((res) => {
+        console.log("this res register", res.data.data);
+        setAuth({ hash: res.data.data, authEmail: payload.email });
         setIsSuccess(true, "Pendaftaran Akun Terkirim");
         setIsButtonLoading(false);
+        router.push("/register/auth");
       })
       .catch((err: any) => {
-        if (err?.response?.data?.errors?.code) {
-          return Promise.reject(new Error("Code already exist"));
+        console.log("this", err.response.data.errors);
+        if (err.response.data.errors.email) {
+          setError(true, "Alamat Email sudah terdaftar");
         }
-        setError(true, "Pendaftara Akun Tidak Terkirim");
+        if (err.response.data.errors.phone) {
+          setError(true, "No WhatsApp sudah terdaftar");
+        }
+        setIsButtonLoading(false);
         setIsButtonLoading(false);
       });
   }
-
   async function getProvince() {
     await api.get("/location-api/province").then((res) => {
       const Options = res.data.map((prov: any) => ({
@@ -78,7 +90,6 @@ const useRegister = () => {
   }
   async function getSchool(e: number) {
     await api.get(`/location-api/school/${e}`).then((res) => {
-      console.log("schoolRes", res);
       const Options = res.data.map((school: any) => ({
         value: `${school.id}`,
         label: school.name,
@@ -88,8 +99,6 @@ const useRegister = () => {
   }
 
   function handleOptionSelect(name: string, e: any) {
-    console.log("this", e);
-    console.log("name", name);
     if (name === "province") {
       getCity(e);
     }
@@ -113,8 +122,6 @@ const useRegister = () => {
   function handleSubmit() {
     createAccount();
   }
-
-  console.log(payload);
 
   useEffect(() => {
     getProvince();

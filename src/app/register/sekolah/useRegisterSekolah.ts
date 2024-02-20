@@ -3,6 +3,7 @@ import { useLayout } from "@/hooks/zustand/layout";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { ISchool } from "@/interfaces/ISchool";
 import { Form } from "antd";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface IOptions {
@@ -13,6 +14,7 @@ interface IOptions {
 }
 
 const useRegisterSchool = () => {
+  const router = useRouter();
   const { setIsSuccess, setError } = useLayout();
   const { setIsButtonLoading } = useButtonLoading();
   const [form] = Form.useForm();
@@ -33,9 +35,9 @@ const useRegisterSchool = () => {
     city: [{ label: "", value: "" }],
     subdistrict: [{ label: "", value: "" }],
     degree: [
-      { label: "SD/MI", value: "011" },
-      { label: "SMP/MTs", value: "022" },
-      { label: "SMA/MA", value: "033" },
+      { label: "SD/MI", value: "004" },
+      { label: "SMP/MTs", value: "002" },
+      { label: "SMA/MA", value: "001" },
     ],
   });
 
@@ -86,6 +88,7 @@ const useRegisterSchool = () => {
       .then(() => {
         setIsSuccess(true, "Pendaftaran Sekolah Terkirim");
         setIsButtonLoading(false);
+        router.push("/register");
       })
       .catch((err: any) => {
         if (err?.response?.data?.errors?.code) {

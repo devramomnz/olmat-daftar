@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { ChangeEvent } from "react";
 import AppImage from "@/components/AppImage";
 import { Form } from "antd";
 import Button from "@/components/button/Button";
@@ -13,7 +13,7 @@ import { appSetting } from "@/constants/appSetting";
 import useLogin from "./useLogin";
 
 export default function Login() {
-  const { form } = useLogin();
+  const { form, handleChange, handleSubmit } = useLogin();
   return (
     <div className="relative overflow-hidden bg-gradient-to-b lg:bg-gradient-to-r from-brand to-brand-dark h-screen text-white">
       <Wave className="w-screen absolute opacity-10" fill="white" />
@@ -41,14 +41,21 @@ export default function Login() {
           <h1 className="text-2xl">Masuk Akun</h1>
           <Form
             form={form}
+            onFinish={handleSubmit}
             className="text-lg flex flex-col max-w-[] lg:w-fit justify-center"
           >
             <AntEmail
               name="email"
+              onChange={(
+                e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => handleChange(e)}
               placeholder="Masukkan E-Mail"
               className="text-lg bg-white"
             />
             <AntPass
+              onChange={(
+                e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => handleChange(e)}
               name="password"
               placeholder="Masukkan Password"
               className="text-lg bg-white"

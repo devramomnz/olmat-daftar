@@ -19,3 +19,16 @@ export const useSideDaftar = create<ISideDaftar>((set) => ({
   sideBar: false,
   setSideBar: (setSide: boolean) => set({ sideBar: setSide }),
 }));
+
+interface IAuthConfirm {
+  hash: string;
+  otp: string;
+  setAuthConfirm: (setAuth: { hash: string; otp: string }) => void;
+}
+
+export const useAuthConfirmStore = create<IAuthConfirm>((set) => ({
+  hash: "",
+  otp: "",
+  setAuthConfirm: (setAuth: { hash: string; otp: string }) =>
+    set(() => ({ hash: setAuth.hash, otp: setAuth.otp })),
+}));

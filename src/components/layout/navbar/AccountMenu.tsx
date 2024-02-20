@@ -4,38 +4,55 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Button,
 } from "@nextui-org/react";
 import { MdAccountCircle } from "react-icons/md";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useRouter } from "next/navigation";
+import { deleteCookie } from "cookies-next";
+import api from "@/config/axiosConfig";
 
 export default function AccountMenu() {
+  const { name } = useAdminProfile();
+
   const router = useRouter();
+
+  function handleLogOut() {
+    try {
+      api.post(`/auth/user/logout`);
+      deleteCookie("_CToken");
+      router.push("/");
+    } catch (error) {
+      alert("failed");
+    }
+  }
   return (
-    <Dropdown>
-      <DropdownTrigger>
-        <Button className="text-3xl text-white" variant="light">
-          <MdAccountCircle />
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu
-        // variant="flat"
-        aria-label="Static Actions"
-        // className="w-fit"
-      >
-        <DropdownItem
-          onClick={() => router.push("/user/account")}
-          className="mb-3 hover:bg-gray-100 py-1 px-2 rounded-md duration-300"
-        >
-          Akun Saya
-        </DropdownItem>
-        <DropdownItem className="border-t flex items-center hover:bg-gray-100 hover:text-red-600 py-1 px-2 rounded-md duration-300">
-          <button className="flex items-center gap-1">
-            <RiLogoutBoxRLine /> Keluar
+    <div>
+      <Dropdown>
+        <DropdownTrigger>
+          <button className="flex items-center text-white md:gap-3 md:px-4 md:py-1 bg-brand/20 rounded-xl">
+            <h2 className="hidden font-bold md:block">{name}</h2>
+            <MdAccountCircle className="text-2xl" />
           </button>
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+        </DropdownTrigger>
+        <DropdownMenu
+          // variant="flat"
+          aria-label="Static Actions"
+          // className="w-fit"
+        >
+          <DropdownItem className="flex items-center px-2 py-1 duration-300 rounded-md hover:bg-gray-100 hover:text-red-600">
+            {name}
+          </DropdownItem>
+          <DropdownItem className="flex items-center px-2 py-1 duration-300 border-t rounded-md hover:bg-gray-100 hover:text-red-600">
+            <button
+              onClick={handleLogOut}
+              className="flex items-center gap-1 w-full"
+            >
+              <RiLogoutBoxRLine /> Keluar
+            </button>
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    </div>
   );
 }
