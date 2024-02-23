@@ -10,7 +10,6 @@ interface IProps {
 export default function PriceDaftar(props: IProps) {
   const { payload, price, freeInterval } = props;
   const [free, setFree] = useState<number>(0);
-  console.log("free", free);
 
   useEffect(() => {
     if (

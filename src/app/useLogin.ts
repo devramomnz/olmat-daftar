@@ -19,8 +19,6 @@ const useLogin = () => {
     password: "",
   });
 
-  console.log(loginData);
-
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {

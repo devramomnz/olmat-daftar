@@ -13,7 +13,6 @@ export default function Auth() {
   const { authEmail, handleInputAuth, handleResendOtp, handleSubmitAuth } =
     useAuthConfirm();
   const [show, setShow] = useState(false);
-  console.log(authEmail);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,21 +34,23 @@ export default function Auth() {
           <Lottie animationData={otpWaiting} autoPlay loop className="h-32" />
           <div className="flex flex-col gap-3">
             <h2>Masukkan kode OTP</h2>
-            <div className="relativ flex justify-center h-10">
-              <AuthCode
-                length={6}
-                containerClassName="flex w-fit gap-2"
-                placeholder="_"
-                inputClassName="flex rounded-md w-7 text-center font-bold h-9 md:w-9 md:h-11 drop-shadow-sm bg-gray-100"
-                allowedCharacters="numeric"
-                onChange={(e: string) => handleInputAuth(e)}
-              />
-            </div>
-            <div className="w-full flex justify-center">
-              <Button onClick={handleSubmitAuth} className="mt-8 w-52">
-                Submit
-              </Button>
-            </div>
+            <form action="">
+              <div className="relativ flex justify-center h-10">
+                <AuthCode
+                  length={6}
+                  containerClassName="flex w-fit gap-2"
+                  placeholder="_"
+                  inputClassName="flex rounded-md w-7 text-center font-bold h-9 md:w-9 md:h-11 drop-shadow-sm bg-gray-100"
+                  allowedCharacters="numeric"
+                  onChange={(e: string) => handleInputAuth(e)}
+                />
+              </div>
+              <div className="w-full flex justify-center">
+                <Button onClick={handleSubmitAuth} className="mt-8 w-52">
+                  Submit
+                </Button>
+              </div>
+            </form>
             <div>
               <Countdown date={Date.now() + 5000}>
                 <button

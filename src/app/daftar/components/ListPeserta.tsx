@@ -13,7 +13,6 @@ interface IProps {
 export default function ListPeserta(props: IProps) {
   const { handleDelete, handleAddMore, handleSelect, payload, iPayload } =
     props;
-  // console.log("inilo", payload);
   return (
     <div className="bg-white rounded-lg drop-shadow-md h-full overflow-hidden">
       <h1 className="font-bold bg-brand-dark text-white py-1 px-2 w-full">

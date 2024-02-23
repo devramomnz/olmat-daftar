@@ -37,7 +37,6 @@ export default function Daftar() {
     deletePeserta,
   } = useDaftar();
 
-  // console.log("here", payload);
   return (
     <>
       <Modal

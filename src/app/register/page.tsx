@@ -129,12 +129,7 @@ export default function RegisterAccount() {
                   name="password2"
                   labelName="Konfirmasi kata sandi"
                 />
-                <Button
-                  onClick={() => {
-                    console.log("submit");
-                  }}
-                  className="py-2 text-brand-dark"
-                >
+                <Button onClick={() => {}} className="py-2 text-brand-dark">
                   Selesai
                 </Button>
               </div>

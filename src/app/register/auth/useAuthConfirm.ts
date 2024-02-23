@@ -12,8 +12,6 @@ const useAuthConfirm = () => {
   const { setIsButtonLoading } = useButtonLoading();
   const { hash, authEmail } = useAuthVerif();
 
-  console.log(hash);
-
   const [payload, setPayload] = useState({
     hash: "",
     otp: "",
@@ -37,19 +35,17 @@ const useAuthConfirm = () => {
       });
   }
 
-  console.log(payload.hash);
-
   async function resendOtp() {
     setIsButtonLoading(true);
     await api
-      .post("auth/user/resend", payload)
+      .post("auth/user/resend/otp", payload)
       .then(() => {
         setIsSuccess(true, "OTP Dikirim");
         setIsButtonLoading(false);
       })
       .catch((err: any) => {
         if (err.response.data) {
-          setError(true, "Kode OTP tidak valid");
+          setError(true, "Kode");
         }
         setIsButtonLoading(false);
       });

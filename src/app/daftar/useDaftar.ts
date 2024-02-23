@@ -67,8 +67,6 @@ export function useDaftar() {
   }
 
   function handlePicture(e: any, i: number) {
-    // console.log("this", e);
-    // console.log(i);
     setPayload((prev) => {
       const updateImage = [...prev];
       updateImage[i] = {
@@ -83,7 +81,6 @@ export function useDaftar() {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     i: number
   ) {
-    // setFileAtc(JSON.stringify(e));
     setPayload((prev) => {
       const updataAttachment = [...prev];
       updataAttachment[i] = {
@@ -96,8 +93,6 @@ export function useDaftar() {
 
   function handleSelect(i: number) {
     setIPayload(i);
-    // console.log(i);
-    // form.setFieldsValue(payload[i]);
     form.setFieldValue("gender", payload[i].gender);
     form.setFieldValue("email", payload[i].email);
     form.setFieldValue("telepon", payload[i].telepon);

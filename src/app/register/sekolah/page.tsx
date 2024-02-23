@@ -14,15 +14,8 @@ import useRegisterSchool from "./useRegisterSekolah";
 import AntItemSelect from "@/components/input/AntItemSelect";
 
 export default function RegisterSekolah() {
-  const {
-    form,
-    option,
-    payload,
-    handleSubmit,
-    handleOptionSelect,
-    handleInputChange,
-  } = useRegisterSchool();
-  console.log(payload);
+  const { form, option, handleSubmit, handleOptionSelect, handleInputChange } =
+    useRegisterSchool();
   return (
     <div className="relative overflow-hidden bg-brand/5 text-white ">
       <Wave className="w-screen absolute opacity-30 -z-10" />

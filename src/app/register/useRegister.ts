@@ -23,7 +23,6 @@ const useRegister = () => {
     email: "",
     phone: "",
     password: "",
-    password2: "",
     name: "",
     school_id: 0,
   });
@@ -42,21 +41,18 @@ const useRegister = () => {
     await api
       .post("/auth/user/register", payload)
       .then((res) => {
-        console.log("this res register", res.data.data);
         setAuth({ hash: res.data.data, authEmail: payload.email });
         setIsSuccess(true, "Pendaftaran Akun Terkirim");
         setIsButtonLoading(false);
         router.push("/register/auth");
       })
       .catch((err: any) => {
-        console.log("this", err.response.data.errors);
         if (err.response.data.errors.email) {
           setError(true, "Alamat Email sudah terdaftar");
         }
         if (err.response.data.errors.phone) {
           setError(true, "No WhatsApp sudah terdaftar");
         }
-        setIsButtonLoading(false);
         setIsButtonLoading(false);
       });
   }

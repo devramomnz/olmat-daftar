@@ -100,8 +100,6 @@ const useRegisterSchool = () => {
   }
 
   function handleOptionSelect(name: string, e: any) {
-    console.log("this", e);
-    console.log("name", name);
     if (name === "province") {
       setPayload({ ...payload, province_id: e });
       getCity(e);
@@ -129,8 +127,6 @@ const useRegisterSchool = () => {
 
   function handleSubmit() {
     createSchool();
-    // setIsSuccess(true, "Pendaftaran Sekolah Terkirim");
-    console.log("submit");
   }
 
   useEffect(() => {
