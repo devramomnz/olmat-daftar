@@ -1,20 +1,43 @@
 "use client";
 
 import { appSetting } from "@/constants/appSetting";
+import { useLayout } from "@/hooks/zustand/layout";
 import { ROUTES } from "@/prefix/route.constant";
 import Link from "next/link";
 import React from "react";
 import { IoTimeOutline, IoWarning } from "react-icons/io5";
+import { LuUser2 } from "react-icons/lu";
 import { PiStudentBold } from "react-icons/pi";
 
 export default function Home() {
+  const {} = useLayout();
   const userName = "user";
   const paid = 0;
   const success = 2;
   return (
     <>
-      <label className="font-bold">Dashboard</label>
+      <div className="flex items-center justify-between">
+        <label className="font-bold">Dashboard</label>
+        <Link href={ROUTES.DAFTAR}>
+          <button className="py-1 px-3 w-full bg-brand-dark text-white rounded-lg">
+            Daftar Sekarang
+          </button>
+        </Link>
+      </div>
       <div className="w-full grid md:grid-cols-2 gap-5">
+        <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">
+          <h2 className="font-bold border-b w-full text-start flex items-center gap-2 mb-4">
+            <LuUser2 /> Akun
+          </h2>
+          <div className="grid-cols-2 text-sm grid">
+            <h1 className="w-fit">Nama</h1>
+            <h1 className="w-fit">: {userName}</h1>
+            <h1 className="w-fit">Jenjang</h1>
+            <h1 className="w-fit">: {userName}</h1>
+            <h1 className="w-fit">Sekolah</h1>
+            <h1 className="w-fit">: {userName}</h1>
+          </div>
+        </div>
         <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">
           <h2 className="font-bold border-b w-full text-start flex items-center gap-2 mb-4">
             <IoTimeOutline />
@@ -25,19 +48,14 @@ export default function Home() {
             <span className="font-bold">{appSetting.endDate}</span>
           </h1>
         </div>
-        <div className="w-full bg-white mt-5 overflow-hidden rounded-md drop-shadow-md">
+        {/* <div className="w-full bg-white mt-5 overflow-hidden rounded-md drop-shadow-md">
           <div className="bg-brand-dark h-10 grid place-items-center">
             <h2 className="font-bold text-white">Pendaftaran Peserta</h2>
           </div>
           <div className="p-3">
             <h2>Hi {userName}</h2>
-            <Link href={ROUTES.DAFTAR}>
-              <button className="py-1 px-3 w-full bg-brand-dark text-white rounded-lg">
-                Daftar
-              </button>
-            </Link>
           </div>
-        </div>
+        </div> */}
         <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">
           <h2 className="font-bold border-b w-full text-start flex items-center gap-2">
             <span className="text-xl text-red-700">

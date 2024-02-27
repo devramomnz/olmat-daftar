@@ -13,6 +13,8 @@ import ListPeserta from "./components/ListPeserta";
 import FormDaftar from "./components/FormDaftar";
 import SideBarDaftar from "./components/SideBarDaftar";
 import { useDaftar } from "./useDaftar";
+import { IoArrowBackCircle } from "react-icons/io5";
+import Link from "next/link";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -25,6 +27,7 @@ export default function Daftar() {
     filePicture,
     fileAtc,
     isModalOpen,
+    defaultValue,
     setIsModalOpen,
     handleSelect,
     handleAddMore,
@@ -35,6 +38,7 @@ export default function Daftar() {
     handleAttachment,
     handleDelete,
     deletePeserta,
+    handlePayment,
   } = useDaftar();
 
   return (
@@ -66,7 +70,6 @@ export default function Daftar() {
       </Modal>
 
       <SideBarDaftar>
-        <PriceDaftar payload={payload} price={45000} freeInterval={10} />
         <ListPeserta
           handleAddMore={handleAddMore}
           handleDelete={handleDelete}
@@ -76,9 +79,23 @@ export default function Daftar() {
         />
       </SideBarDaftar>
 
+      <div className="pt-3 px-4 gap-2 flex">
+        <Link href={"/user"} className="flex items-center gap-3 ">
+          <IoArrowBackCircle className="text-2xl" />
+          Kembali
+        </Link>
+      </div>
       <div className="flex gap-2 p-3">
         <div className="min-h-screen hidden md:w-2/5 lg:w-3/12 md:flex flex-col gap-2">
-          <PriceDaftar payload={payload} price={45000} freeInterval={10} />
+          <div className="hidden md:block">
+            <PriceDaftar
+              defaultValue={defaultValue}
+              payload={payload}
+              handlePay={handlePayment}
+              price={45000}
+              freeInterval={10}
+            />
+          </div>
           <ListPeserta
             handleAddMore={handleAddMore}
             handleDelete={handleDelete}
@@ -87,19 +104,30 @@ export default function Daftar() {
             iPayload={iPayload}
           />
         </div>
-        <FormDaftar
-          form={form}
-          payload={payload}
-          iPayload={iPayload}
-          fileAtc={fileAtc}
-          filePicture={filePicture}
-          genderOption={genderOption}
-          handleInputChange={handleInputChange}
-          handleGenderSelect={handleGenderSelect}
-          handleAttachment={handleAttachment}
-          handleBirthday={handleBirthday}
-          handlePicture={handlePicture}
-        />
+        <div className="flex w-screen flex-col gap-5">
+          <div className="md:hidden">
+            <PriceDaftar
+              defaultValue={defaultValue}
+              payload={payload}
+              handlePay={handlePayment}
+              price={45000}
+              freeInterval={10}
+            />
+          </div>
+          <FormDaftar
+            form={form}
+            payload={payload}
+            iPayload={iPayload}
+            fileAtc={fileAtc}
+            filePicture={filePicture}
+            genderOption={genderOption}
+            handleInputChange={handleInputChange}
+            handleGenderSelect={handleGenderSelect}
+            handleAttachment={handleAttachment}
+            handleBirthday={handleBirthday}
+            handlePicture={handlePicture}
+          />
+        </div>
       </div>
     </>
   );

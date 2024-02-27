@@ -5,6 +5,7 @@ import AntItemSelect from "@/components/input/AntItemSelect";
 import AntUpload from "@/components/input/AntUpload";
 import { IPeserta } from "@/interfaces/IPeserta";
 import { Form } from "antd";
+import { DefaultOptionType } from "antd/es/select";
 import React, { ChangeEvent } from "react";
 
 interface IProps {
@@ -75,7 +76,9 @@ export default function FormDaftar(props: IProps) {
               name="gender"
               labelName="Jenis Kelamin"
               option={genderOption}
-              onChange={(e) => handleGenderSelect(e, iPayload)}
+              onChange={(e: DefaultOptionType | any) =>
+                handleGenderSelect(e, iPayload)
+              }
             />
             <AntDatePicker
               labelName="Tanggal lahir"
@@ -106,6 +109,7 @@ export default function FormDaftar(props: IProps) {
             />
           </div>
         </Form>
+
         {/* )} */}
       </div>
     </>

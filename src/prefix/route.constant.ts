@@ -4,6 +4,7 @@ export const ROUTES = {
   REG_SEKOLAH: "/register/sekolah",
   USER: "/user",
   DAFTAR: "/daftar",
+  PAYMENT: "/daftar/payment",
   PESERTA: "/user/peserta",
   TRANSACTION: "/user/transaction",
   ACCOUNT: "/user/account",

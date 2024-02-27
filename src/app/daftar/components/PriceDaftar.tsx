@@ -1,15 +1,22 @@
 import { convertRupiah } from "@/helper/common";
+import { IPeserta } from "@/interfaces/IPeserta";
 import React, { useEffect, useState } from "react";
 
 interface IProps {
-  payload?: any;
+  payload: IPeserta[];
   price: number;
   freeInterval: number;
+  handlePay: () => void;
+  defaultValue: IPeserta[];
 }
 
 export default function PriceDaftar(props: IProps) {
-  const { payload, price, freeInterval } = props;
+  const { payload, defaultValue, price, freeInterval, handlePay } = props;
   const [free, setFree] = useState<number>(0);
+
+  const disabled =
+    payload[0].attachment === defaultValue[0].attachment ||
+    payload[0].picture === defaultValue[0].picture;
 
   useEffect(() => {
     if (
@@ -42,6 +49,17 @@ export default function PriceDaftar(props: IProps) {
           <h2>Total Biaya</h2>
           <h2>{convertRupiah((payload.length - free) * price)}</h2>
         </div>
+      </div>
+      <div className="flex  justify-center m-4">
+        <button
+          disabled={disabled ? true : false}
+          onClick={() => handlePay()}
+          className={`${
+            disabled && "opacity-20 duration-500"
+          } px-9 py-1 rounded-full bg-brand-dark duration-500 text-white font-black`}
+        >
+          Bayar
+        </button>
       </div>
     </div>
   );

@@ -1,9 +1,13 @@
+import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
 import { IPeserta } from "@/interfaces/IPeserta";
+import { ROUTES } from "@/prefix/route.constant";
 import { UploadFile } from "antd";
 import { useForm } from "antd/es/form/Form";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export function useDaftar() {
+  const router = useRouter();
   const [payload, setPayload] = useState<IPeserta[]>([
     {
       payment_id: 0,
@@ -25,6 +29,7 @@ export function useDaftar() {
   ];
   const [filePicture, setFilePicture] = useState<UploadFile[]>([]);
   const [fileAtc, setFileAtc] = useState<UploadFile[]>([]);
+  const { setParticipantDataPay } = useParticipantPay();
 
   function handleInputChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -39,6 +44,20 @@ export function useDaftar() {
       return updatedPayload;
     });
   }
+
+  const defaultValue = [
+    {
+      payment_id: 0,
+      school_id: 0,
+      name: "",
+      gender: "Pilih Jenis Kelamin",
+      telepon: "",
+      email: "",
+      birthday: "",
+      picture: "",
+      attachment: "",
+    },
+  ];
 
   function handleGenderSelect(e: any, i: number) {
     setPayload((prev) => {
@@ -118,6 +137,11 @@ export function useDaftar() {
     form.resetFields();
   }
 
+  function handlePayment() {
+    setParticipantDataPay({ value: payload });
+    router.push(ROUTES.PAYMENT);
+  }
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   function handleDelete(i: number) {
     handleSelect(i);
@@ -144,6 +168,7 @@ export function useDaftar() {
     filePicture,
     fileAtc,
     isModalOpen,
+    defaultValue,
     setIsModalOpen,
     setFileAtc,
     setFilePicture,
@@ -156,6 +181,7 @@ export function useDaftar() {
     handleBirthday,
     handlePicture,
     handleAttachment,
+    handlePayment,
     handleDelete,
     deletePeserta,
   };
