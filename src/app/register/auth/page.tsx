@@ -13,6 +13,12 @@ export default function Auth() {
   const { authEmail, handleInputAuth, handleResendOtp, handleSubmitAuth } =
     useAuthConfirm();
   const [show, setShow] = useState(false);
+  const [resetCount, setResetCount] = useState(0);
+
+  function handleResetCount() {
+    console.log("press");
+    setResetCount((prevKey) => prevKey + 1);
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -52,9 +58,11 @@ export default function Auth() {
               </div>
             </form>
             <div>
-              <Countdown date={Date.now() + 5000}>
+              <Countdown key={resetCount} date={Date.now() + 60000}>
                 <button
-                  onClick={handleResendOtp}
+                  onClick={() => {
+                    handleResendOtp(), handleResetCount();
+                  }}
                   className="text-xs mt-3 font-bold"
                 >
                   Kirim ulang kode

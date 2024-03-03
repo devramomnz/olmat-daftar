@@ -4,9 +4,9 @@ export interface IPeserta {
   school_id: number;
   name: string;
   gender: string;
-  telepon: string;
+  phone: string;
   email: string;
-  birthday: string;
-  picture: string;
+  birth: string;
+  img: string;
   attachment: string;
 }

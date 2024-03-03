@@ -1,4 +1,5 @@
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
+import { Spin } from "antd";
 import React, { ReactNode } from "react";
 
 interface IProps {
@@ -20,9 +21,9 @@ export default function Button(props: IProps) {
         variant == "second"
           ? "from-slate-200 to-stone-50 text-black bg-gradient-to-r"
           : " bg-brand text-white"
-      }  px-6 py-[0.30rem] text-sm font-semibold hover:shadow-lg`}
+      } px-2 md:px-6 py-2 text-xs font-semibold hover:shadow-md`}
     >
-      {isButtonLoading ? "Loading..." : children}
+      {isButtonLoading ? <Spin size="small" /> : children}
     </button>
   );
 }

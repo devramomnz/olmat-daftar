@@ -43,8 +43,10 @@ const useRegister = () => {
       .then((res) => {
         setAuth({ hash: res.data.data, authEmail: payload.email });
         setIsSuccess(true, "Pendaftaran Akun Terkirim");
-        setIsButtonLoading(false);
+      })
+      .then(() => {
         router.push("/register/auth");
+        setIsButtonLoading(false);
       })
       .catch((err: any) => {
         if (err.response.data.errors.email) {
@@ -121,6 +123,7 @@ const useRegister = () => {
 
   useEffect(() => {
     getProvince();
+    setIsButtonLoading(false);
   }, []);
 
   return {

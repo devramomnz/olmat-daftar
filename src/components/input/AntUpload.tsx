@@ -65,8 +65,8 @@ export function AntUpload(props: IUpload) {
             defaultFileList={[...file]}
             onPreview={handlePreview}
             onChange={onChange}
-            multiple={false}
-            maxCount={1}
+            multiple={true}
+            maxCount={2}
           >
             <Button
               size="small"

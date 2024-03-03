@@ -38,6 +38,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
       const res = await api.get(`/auth/user/me`);
       setAdminProfile({
         name: res.data.data.name,
+        email: res.data.data.email,
+        phone: res.data.data.phone,
+        schoolName: res.data.data.school.name,
+        schoolId: res.data.data.school.id,
+        degreeId: res.data.data.school.degree.id,
+        degreeName: res.data.data.school.degree.name,
       });
       if (path === "/") {
         router.push("/user");

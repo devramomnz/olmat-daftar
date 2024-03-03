@@ -7,7 +7,7 @@ interface IProps {
   price: number;
   freeInterval: number;
   handlePay: () => void;
-  defaultValue: IPeserta[];
+  defaultValue: IPeserta;
 }
 
 export default function PriceDaftar(props: IProps) {
@@ -15,8 +15,8 @@ export default function PriceDaftar(props: IProps) {
   const [free, setFree] = useState<number>(0);
 
   const disabled =
-    payload[0].attachment === defaultValue[0].attachment ||
-    payload[0].picture === defaultValue[0].picture;
+    payload[0].attachment === defaultValue.attachment ||
+    payload[0].img === defaultValue.img;
 
   useEffect(() => {
     if (

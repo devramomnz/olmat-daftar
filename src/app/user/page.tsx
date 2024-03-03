@@ -2,6 +2,7 @@
 
 import { appSetting } from "@/constants/appSetting";
 import { useLayout } from "@/hooks/zustand/layout";
+import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { ROUTES } from "@/prefix/route.constant";
 import Link from "next/link";
 import React from "react";
@@ -10,8 +11,8 @@ import { LuUser2 } from "react-icons/lu";
 import { PiStudentBold } from "react-icons/pi";
 
 export default function Home() {
+  const { name, degreeName, schoolName } = useAdminProfile();
   const {} = useLayout();
-  const userName = "user";
   const paid = 0;
   const success = 2;
   return (
@@ -29,13 +30,13 @@ export default function Home() {
           <h2 className="font-bold border-b w-full text-start flex items-center gap-2 mb-4">
             <LuUser2 /> Akun
           </h2>
-          <div className="grid-cols-2 text-sm grid">
+          <div className="grid-cols-3 text-sm grid">
             <h1 className="w-fit">Nama</h1>
-            <h1 className="w-fit">: {userName}</h1>
+            <h1 className="w-fit col-span-2">: {name}</h1>
             <h1 className="w-fit">Jenjang</h1>
-            <h1 className="w-fit">: {userName}</h1>
+            <h1 className="w-fit col-span-2">: {degreeName}</h1>
             <h1 className="w-fit">Sekolah</h1>
-            <h1 className="w-fit">: {userName}</h1>
+            <h1 className="w-fit col-span-2">: {schoolName}</h1>
           </div>
         </div>
         <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">

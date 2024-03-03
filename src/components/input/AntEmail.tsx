@@ -14,7 +14,15 @@ interface IEmailInputProps {
 }
 
 export function AntEmail(props: IEmailInputProps) {
-  const { name, labelName, value, onChange, placeholder, className } = props;
+  const {
+    name,
+    labelName,
+    defaultValue,
+    value,
+    onChange,
+    placeholder,
+    className,
+  } = props;
   const emailValidator: Rule[] = [
     {
       pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
@@ -31,6 +39,7 @@ export function AntEmail(props: IEmailInputProps) {
       <label className="text-sm">{labelName}</label>
       <Form.Item name={name} rules={emailValidator} hasFeedback>
         <Input
+          defaultValue={defaultValue}
           variant="filled"
           value={value}
           name={name}

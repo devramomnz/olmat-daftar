@@ -62,7 +62,7 @@ export default function Login() {
               // onChange={onChange}
             />
             <div className="flex justify-center">
-              <Button className="w-32 py-3 text-brand-dark">Masuk</Button>
+              <Button className="w-32  text-brand-dark">Masuk</Button>
             </div>
           </Form>
           <p className="text-xs mt-10">

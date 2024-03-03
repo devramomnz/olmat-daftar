@@ -4,7 +4,7 @@ import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { Form } from "antd";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { setCookie } from "cookies-next";
 
 const useLogin = () => {
@@ -30,12 +30,11 @@ const useLogin = () => {
       setIsButtonLoading(true);
       const res = await api.post("/auth/user/login", loginData);
       setCookie("_CToken", res.data.data.token);
-      setIsSuccess(true, "Selamat Datang");
       setAdminProfile({
         name: res.data.data.user.name,
       });
       router.push("/user");
-      setIsButtonLoading(false);
+      setIsSuccess(true, "Selamat Datang");
     } catch (error) {
       setIsButtonLoading(false);
       if (error == "ERR_NETWORK") {
@@ -45,6 +44,10 @@ const useLogin = () => {
       }
     }
   }
+
+  useEffect(() => {
+    setIsButtonLoading(false);
+  }, []);
 
   return { form, handleChange, handleSubmit };
 };

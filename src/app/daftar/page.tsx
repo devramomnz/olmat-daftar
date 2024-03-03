@@ -2,9 +2,6 @@
 
 import { Modal } from "antd";
 import React from "react";
-import { registerPlugin } from "react-filepond";
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import "filepond/dist/filepond.min.css";
 import { Button } from "@nextui-org/react";
@@ -15,8 +12,6 @@ import SideBarDaftar from "./components/SideBarDaftar";
 import { useDaftar } from "./useDaftar";
 import { IoArrowBackCircle } from "react-icons/io5";
 import Link from "next/link";
-
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Daftar() {
   const {
@@ -121,6 +116,7 @@ export default function Daftar() {
             fileAtc={fileAtc}
             filePicture={filePicture}
             genderOption={genderOption}
+            handleSumbmit={handlePayment}
             handleInputChange={handleInputChange}
             handleGenderSelect={handleGenderSelect}
             handleAttachment={handleAttachment}

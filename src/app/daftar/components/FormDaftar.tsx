@@ -15,6 +15,7 @@ interface IProps {
   genderOption: any;
   filePicture: any;
   fileAtc: any;
+  handleSumbmit: () => void;
   handleInputChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     iPayload: number
@@ -45,6 +46,7 @@ export default function FormDaftar(props: IProps) {
     filePicture,
     genderOption,
     payload,
+    handleSumbmit,
     handleInputChange,
     handleAttachment,
     handleBirthday,
@@ -58,13 +60,7 @@ export default function FormDaftar(props: IProps) {
           Data Peserta {iPayload + 1}
         </h1>
         <label className="font-bold text-sm"></label>
-        <Form
-          form={form}
-          // onFinish={(
-          //   values: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-          // ) => handleInputChange(values, iPayload)}
-          className="p-3"
-        >
+        <Form form={form} onFinish={handleSumbmit} className="p-3">
           <AntInput
             labelName="Nama Peserta"
             name="name"
@@ -82,7 +78,7 @@ export default function FormDaftar(props: IProps) {
             />
             <AntDatePicker
               labelName="Tanggal lahir"
-              name="birthday"
+              name="birth"
               onChange={(e) => handleBirthday(e, iPayload)}
             />
             <AntEmail
@@ -92,12 +88,12 @@ export default function FormDaftar(props: IProps) {
             />
             <AntInput
               labelName="No Telp"
-              name="telepon"
+              name="phone"
               onChange={(e) => handleInputChange(e, iPayload)}
             />
             <AntUpload
               labelName="Foto Peserta"
-              name="picture"
+              name="img"
               file={filePicture}
               onChange={(e) => handlePicture(e, iPayload)}
             />
