@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: "cathabot.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "www.xendit.co",
+        port: "",
+      },
     ],
   },
 };

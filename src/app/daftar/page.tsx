@@ -19,8 +19,6 @@ export default function Daftar() {
     iPayload,
     form,
     genderOption,
-    filePicture,
-    fileAtc,
     isModalOpen,
     defaultValue,
     setIsModalOpen,
@@ -113,8 +111,6 @@ export default function Daftar() {
             form={form}
             payload={payload}
             iPayload={iPayload}
-            fileAtc={fileAtc}
-            filePicture={filePicture}
             genderOption={genderOption}
             handleSumbmit={handlePayment}
             handleInputChange={handleInputChange}

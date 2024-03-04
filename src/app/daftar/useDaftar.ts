@@ -4,15 +4,29 @@ import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
 import { IPeserta } from "@/interfaces/IPeserta";
-import { UploadFile } from "antd";
+import { ROUTES } from "@/prefix/route.constant";
 import { useForm } from "antd/es/form/Form";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 export function useDaftar() {
-  // const router = useRouter();
+  const router = useRouter();
   const { schoolId } = useAdminProfile();
   const { setIsButtonLoading } = useButtonLoading();
   const {} = useLayout();
+  const {
+    setPayData,
+    invoice,
+    participantAmount,
+    participantData,
+    payAmount,
+    qrString,
+  } = useParticipantPay();
+  console.log("invoice", invoice);
+  console.log("paramount", participantAmount);
+  console.log("partdata", participantData);
+  console.log("payamount", payAmount);
+  console.log("qr", qrString);
   const [payload, setPayload] = useState<IPeserta[]>([
     {
       payment_id: 0,
@@ -22,8 +36,8 @@ export function useDaftar() {
       phone: "",
       email: "",
       birth: "",
-      img: "",
-      attachment: "",
+      img: [],
+      attachment: [],
     },
   ]);
   const [iPayload, setIPayload] = useState<number>(0);
@@ -32,18 +46,6 @@ export function useDaftar() {
     { label: "Laki-laki", value: "L" },
     { label: "Perempuan", value: "P" },
   ];
-  const [filePicture, setFilePicture] = useState<UploadFile[]>([]);
-  const [fileAtc, setFileAtc] = useState<UploadFile[]>([]);
-  const { setParticipantDataPay } = useParticipantPay();
-
-  console.log("payload", payload);
-  console.log(
-    "legh",
-    Object.values(payload).map((dat) => ({
-      img: dat.img.length,
-      ath: dat.attachment.length,
-    }))
-  );
 
   const defaultValue: IPeserta = {
     payment_id: 0,
@@ -53,42 +55,57 @@ export function useDaftar() {
     phone: "",
     email: "",
     birth: "",
-    img: "",
-    attachment: "",
+    img: [],
+    attachment: [],
   };
+
+  const dataPost = Object.values(payload).map((data) => ({
+    name: data.name,
+    gender: data.gender,
+    phone: data.phone,
+    email: data.email,
+    birth: data.birth,
+  }));
+
+  console.log("data Pots", dataPost);
 
   const filePost = Object.values(payload).map((file) => ({
     imgs: file.img,
     attachmets: file.attachment,
   }));
-  console.log("this a", filePost);
+  console.log("this a");
 
   async function postParticipant() {
     setIsButtonLoading(true);
     try {
-      const dataPost = Object.values(payload).map((data) => ({
-        name: data.name,
-        gender: data.gender,
-        phone: data.phone,
-        email: data.email,
-        birth: data.birth,
-      }));
       const payloadForm = new FormData();
-      payloadForm.append("participants", JSON.stringify(dataPost));
+      dataPost.map((participat) => {
+        payloadForm.append("participants", JSON.stringify(participat));
+      });
       payloadForm.append("school_id", `${schoolId}`);
       payloadForm.append("payment_code", "QRIS");
       filePost.forEach((file) => {
-        payloadForm.append("imgs", JSON.stringify(file.imgs));
-        payloadForm.append(`attachments`, JSON.stringify(file.attachmets));
+        payloadForm.append("imgs", file.imgs[0].originFileObj);
+        payloadForm.append("attachments", file.attachmets[0].originFileObj);
       });
 
-      console.log("thisis", payloadForm);
-
-      await api.post(`/participant`, payloadForm, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await api
+        .post(`/participant`, payloadForm, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          setPayData({
+            invoice: res.data.payment.invoice,
+            qrString: res.data.payment.action.qr_string,
+            participantAmount: res.data.payment.participant_amounts,
+            payAmount: res.data.payment.amount,
+            value: res.data.participants,
+            expired: res.data.payment.expired_at,
+          });
+        })
+        .then(() => router.push(ROUTES.PAYMENT));
     } catch (error) {}
   }
 
@@ -132,30 +149,25 @@ export function useDaftar() {
     });
   }
 
-  function handlePicture(
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    i: number
-  ) {
+  function handlePicture(e: any[], i: number) {
+    console.log("img", e);
     setPayload((prev) => {
       const updateImage = [...prev];
       updateImage[i] = {
         ...updateImage[i],
-        img: JSON.stringify(e),
+        img: e,
       };
-      // console.log(e.target.value.length);
       return updateImage;
     });
   }
 
-  function handleAttachment(
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    i: number
-  ) {
+  function handleAttachment(e: any[], i: number) {
+    console.log("this attc", e);
     setPayload((prev) => {
       const updataAttachment = [...prev];
       updataAttachment[i] = {
         ...updataAttachment[i],
-        attachment: JSON.stringify(e),
+        attachment: e,
       };
       return updataAttachment;
     });
@@ -168,8 +180,6 @@ export function useDaftar() {
     form.setFieldValue("email", payload[i].email);
     form.setFieldValue("phone", payload[i].phone);
     // form.setFieldValue("birth", payload[i].birth);
-    form.setFieldValue("picture", payload[i].img);
-    form.setFieldValue("attachment", payload[i].attachment);
   }
 
   function handleAddMore() {
@@ -180,8 +190,7 @@ export function useDaftar() {
 
   function handlePayment() {
     postParticipant();
-    setParticipantDataPay({ value: payload });
-    // router.push(ROUTES.PAYMENT);
+    // setParticipantDataPay({ value: payload });
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -209,13 +218,9 @@ export function useDaftar() {
     payload,
     genderOption,
     iPayload,
-    filePicture,
-    fileAtc,
     isModalOpen,
     defaultValue,
     setIsModalOpen,
-    setFileAtc,
-    setFilePicture,
     handleSelect,
     setPayload,
     setIPayload,

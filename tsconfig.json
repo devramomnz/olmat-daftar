@@ -26,7 +26,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/daftar/payment/page.tss"
+    "src/app/payment/page.tss"
   ],
   "exclude": ["node_modules"]
 }

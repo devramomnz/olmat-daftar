@@ -18,7 +18,7 @@ interface IUpload {
   name: string;
   file?: any;
   setFile?: any;
-  onChange?: (e: any) => void;
+  onChange: (e: any) => void;
 }
 
 export function AntUpload(props: IUpload) {
@@ -62,11 +62,12 @@ export function AntUpload(props: IUpload) {
             name={name}
             //  action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
             listType="picture"
-            defaultFileList={[...file]}
+            fileList={file}
+            defaultFileList={file}
             onPreview={handlePreview}
-            onChange={onChange}
-            multiple={true}
-            maxCount={2}
+            onChange={(e) => onChange(e.fileList)}
+            multiple={false}
+            maxCount={1}
           >
             <Button
               size="small"

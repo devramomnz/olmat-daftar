@@ -7,6 +7,6 @@ export interface IPeserta {
   phone: string;
   email: string;
   birth: string;
-  img: string;
-  attachment: string;
+  img: any[];
+  attachment: any[];
 }

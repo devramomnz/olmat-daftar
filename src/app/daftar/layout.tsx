@@ -13,10 +13,8 @@ export default function UserLayout(props: ILayout) {
     <>
       <div>
         <TopNavDaftar />
-        {/* <SideMenuDaftar /> */}
         <div className="mt-14 min-h-screen bg-gray-100 ">
           <div>{children}</div>
-          {/* <Bottom /> */}
         </div>
       </div>
     </>

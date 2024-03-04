@@ -13,8 +13,6 @@ interface IProps {
   payload: IPeserta[];
   iPayload: number;
   genderOption: any;
-  filePicture: any;
-  fileAtc: any;
   handleSumbmit: () => void;
   handleInputChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -28,22 +26,14 @@ interface IProps {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     iPayload: number
   ) => void;
-  handlePicture: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    iPayload: number
-  ) => void;
-  handleAttachment: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    iPayload: number
-  ) => void;
+  handlePicture: (e: any[], iPayload: number) => void;
+  handleAttachment: (e: any[], iPayload: number) => void;
 }
 
 export default function FormDaftar(props: IProps) {
   const {
     iPayload,
     form,
-    fileAtc,
-    filePicture,
     genderOption,
     payload,
     handleSumbmit,
@@ -53,6 +43,7 @@ export default function FormDaftar(props: IProps) {
     handlePicture,
     handleGenderSelect,
   } = props;
+  console.log();
   return (
     <>
       <div className="w-full min-h-screen bg-white rounded-lg drop-shadow-md overflow-hidden">
@@ -94,12 +85,12 @@ export default function FormDaftar(props: IProps) {
             <AntUpload
               labelName="Foto Peserta"
               name="img"
-              file={filePicture}
+              file={payload[iPayload].img}
               onChange={(e) => handlePicture(e, iPayload)}
             />
             <AntUpload
               labelName="Foto Kartu Pelajar / Surat Rekomendasi"
-              file={fileAtc}
+              file={payload[iPayload].attachment}
               name="attachment"
               onChange={(e) => handleAttachment(e, iPayload)}
             />
