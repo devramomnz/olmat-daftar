@@ -55,7 +55,7 @@ const data = [
 const TablePayWaiting: React.FC = () => (
   <>
     <label>Menunggu Pembayaran</label>
-    <div className="overflow-x-scroll">
+    <div className="overflow-x-scroll no-scrollbar">
       <Table
         aria-label="Peserta Terdaftar"
         isStriped
