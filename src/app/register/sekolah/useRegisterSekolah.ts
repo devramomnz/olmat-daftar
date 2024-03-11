@@ -34,11 +34,7 @@ const useRegisterSchool = () => {
     province: [{ label: "", value: "" }],
     city: [{ label: "", value: "" }],
     subdistrict: [{ label: "", value: "" }],
-    degree: [
-      { label: "SD/MI", value: "004" },
-      { label: "SMP/MTs", value: "002" },
-      { label: "SMA/MA", value: "001" },
-    ],
+    degree: [{ label: "", value: "" }],
   });
 
   async function getProvince() {
@@ -50,7 +46,6 @@ const useRegisterSchool = () => {
       setOption({ ...option, province: Options });
     });
   }
-
   async function getCity(e: number) {
     await api.get(`/location-api/city/${e}`).then((res) => {
       const Options = res.data.map((city: any) => ({
@@ -69,16 +64,15 @@ const useRegisterSchool = () => {
       setOption({ ...option, subdistrict: Options });
     });
   }
-  // async function getDegree() {
-  //   await api.get(`/location-api/`).then((res) => {
-  //     console.log("schoolRes", res);
-  //     const Options = res.data.map((degree: any) => ({
-  //       value: `${degree.id}`,
-  //       label: degree.name,
-  //     }));
-  //     setOption({ ...option, degree: Options });
-  //   });
-  // }
+  async function getDegree() {
+    await api.get(`/location-api/degree`).then((res) => {
+      const Options = res.data.map((degree: any) => ({
+        value: `${degree.id}`,
+        label: degree.name,
+      }));
+      setOption({ ...option, degree: Options });
+    });
+  }
 
   async function createSchool() {
     setIsButtonLoading(true);
@@ -110,7 +104,7 @@ const useRegisterSchool = () => {
     }
     if (name === "subdistrict") {
       setPayload({ ...payload, subdistrict_id: e });
-      // getDegree();
+      getDegree();
     }
     if (name === "degree") {
       setPayload({ ...payload, degree_id: e });

@@ -1,7 +1,10 @@
+"use client";
+
 import { DatePicker, Form } from "antd";
 import locale from "antd/es/date-picker/locale/id_ID";
-import moment from "moment-timezone";
 import React, { ChangeEvent } from "react";
+import "dayjs/locale/id";
+import dayjs from "dayjs";
 
 interface IAntSelect {
   name?: string;
@@ -13,15 +16,16 @@ interface IAntSelect {
 
 export default function AntDatePicker(props: IAntSelect) {
   const { name, placeholder, onChange, labelName } = props;
-  const dateFormat = "DD/MM/YYYY";
-  moment.tz.setDefault("Asia/Jakarta");
+  const dateFormat = "DD-MM-YYYY";
+
+  dayjs.locale("id");
   return (
     <div>
       <label className="text-sm">{labelName}</label>
       <Form.Item name={name} className="">
+        {/* <ConfigProvider locale={locale}> */}
         <DatePicker
-          //  value={value}
-          //  lang="en"
+          lang="id"
           locale={locale}
           format={dateFormat}
           onChange={onChange}
@@ -30,6 +34,7 @@ export default function AntDatePicker(props: IAntSelect) {
           placeholder={labelName ? `masukkan ${labelName}` : placeholder}
           className="w-full"
         />
+        {/* </ConfigProvider> */}
       </Form.Item>
     </div>
   );

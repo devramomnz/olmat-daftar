@@ -14,19 +14,7 @@ export function useDaftar() {
   const { schoolId } = useAdminProfile();
   const { setIsButtonLoading } = useButtonLoading();
   const {} = useLayout();
-  const {
-    setPayData,
-    invoice,
-    participantAmount,
-    participantData,
-    payAmount,
-    qrString,
-  } = useParticipantPay();
-  console.log("invoice", invoice);
-  console.log("paramount", participantAmount);
-  console.log("partdata", participantData);
-  console.log("payamount", payAmount);
-  console.log("qr", qrString);
+  const { setPayData } = useParticipantPay();
   const [payload, setPayload] = useState<IPeserta[]>([
     {
       payment_id: 0,
@@ -67,13 +55,10 @@ export function useDaftar() {
     birth: data.birth,
   }));
 
-  console.log("data Pots", dataPost);
-
   const filePost = Object.values(payload).map((file) => ({
     imgs: file.img,
     attachmets: file.attachment,
   }));
-  console.log("this a");
 
   async function postParticipant() {
     setIsButtonLoading(true);
@@ -139,6 +124,10 @@ export function useDaftar() {
     const formattedDate = date[1] + "-" + date[2] + "-" + date[3];
     const birth = formattedDate;
 
+    console.log(e);
+    console.log(date);
+    console.log(birth);
+
     setPayload((prev) => {
       const updateBirthday = [...prev];
       updateBirthday[i] = {
@@ -150,7 +139,6 @@ export function useDaftar() {
   }
 
   function handlePicture(e: any[], i: number) {
-    console.log("img", e);
     setPayload((prev) => {
       const updateImage = [...prev];
       updateImage[i] = {
@@ -162,7 +150,6 @@ export function useDaftar() {
   }
 
   function handleAttachment(e: any[], i: number) {
-    console.log("this attc", e);
     setPayload((prev) => {
       const updataAttachment = [...prev];
       updataAttachment[i] = {
@@ -179,6 +166,7 @@ export function useDaftar() {
     form.setFieldValue("gender", payload[i].gender);
     form.setFieldValue("email", payload[i].email);
     form.setFieldValue("phone", payload[i].phone);
+    console.log("payload", payload[i].birth);
     // form.setFieldValue("birth", payload[i].birth);
   }
 
