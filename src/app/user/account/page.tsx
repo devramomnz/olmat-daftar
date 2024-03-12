@@ -9,7 +9,6 @@ import React from "react";
 
 export default function Account() {
   const { name, email, phone } = useAdminProfile();
-  console.log(email);
 
   return (
     <>

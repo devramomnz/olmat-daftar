@@ -76,7 +76,6 @@ const useRegisterSchool = () => {
 
   async function createSchool() {
     setIsButtonLoading(true);
-    setIsSuccess(true, "proses");
     await api
       .post("/school", payload)
       .then(() => {

@@ -65,7 +65,7 @@ export default function Login() {
               <Button className="w-32  text-brand-dark">Masuk</Button>
             </div>
           </Form>
-          <p className="text-xs mt-10">
+          <p className="text-xs mt-10 z-50">
             Belum punya akun ?{" "}
             <Link href={ROUTES.REGISTER} className="font-semibold">
               Yuk Buat Akun

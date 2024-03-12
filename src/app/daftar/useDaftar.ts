@@ -6,6 +6,7 @@ import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
 import { IPeserta } from "@/interfaces/IPeserta";
 import { ROUTES } from "@/prefix/route.constant";
 import { useForm } from "antd/es/form/Form";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -42,25 +43,26 @@ export function useDaftar() {
     gender: "Pilih Jenis Kelamin",
     phone: "",
     email: "",
-    birth: "",
+    birth: `${dayjs().year(2000)}`,
     img: [],
     attachment: [],
   };
 
-  const dataPost = Object.values(payload).map((data) => ({
-    name: data.name,
-    gender: data.gender,
-    phone: data.phone,
-    email: data.email,
-    birth: data.birth,
-  }));
-
-  const filePost = Object.values(payload).map((file) => ({
-    imgs: file.img,
-    attachmets: file.attachment,
-  }));
-
+  // const birth = dayjs(payload).format("DD-MM-YYYY");
   async function postParticipant() {
+    const dataPost = Object.values(payload).map((data) => ({
+      name: data.name,
+      gender: data.gender,
+      phone: data.phone,
+      email: data.email,
+      birth: dayjs(data.birth).format("DD-MM-YYYY"),
+    }));
+
+    const filePost = Object.values(payload).map((file) => ({
+      imgs: file.img,
+      attachmets: file.attachment,
+    }));
+
     setIsButtonLoading(true);
     try {
       const payloadForm = new FormData();
@@ -120,19 +122,11 @@ export function useDaftar() {
   }
 
   function handleBirthday(e: any, i: number) {
-    const date = e.toString().split(/[/\s:]+/);
-    const formattedDate = date[1] + "-" + date[2] + "-" + date[3];
-    const birth = formattedDate;
-
-    console.log(e);
-    console.log(date);
-    console.log(birth);
-
     setPayload((prev) => {
       const updateBirthday = [...prev];
       updateBirthday[i] = {
         ...updateBirthday[i],
-        birth: birth,
+        birth: e,
       };
       return updateBirthday;
     });
@@ -166,8 +160,7 @@ export function useDaftar() {
     form.setFieldValue("gender", payload[i].gender);
     form.setFieldValue("email", payload[i].email);
     form.setFieldValue("phone", payload[i].phone);
-    console.log("payload", payload[i].birth);
-    // form.setFieldValue("birth", payload[i].birth);
+    form.setFieldValue("birth", dayjs(payload[i].birth));
   }
 
   function handleAddMore() {
