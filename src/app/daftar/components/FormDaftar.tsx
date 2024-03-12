@@ -43,7 +43,6 @@ export default function FormDaftar(props: IProps) {
     handlePicture,
     handleGenderSelect,
   } = props;
-  console.log();
   return (
     <>
       <div className="w-full min-h-screen bg-white rounded-lg drop-shadow-md overflow-hidden">

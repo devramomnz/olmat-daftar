@@ -17,7 +17,6 @@ export default function Payment() {
     qrString,
     participantData,
   } = useParticipantPay();
-  console.log(expired);
   return (
     <div className="lg:grid lg:grid-cols-2">
       <div className="bg-brand-dark hidden lg:block min-h-screen">
