@@ -108,7 +108,6 @@ const useRegisterSchool = () => {
     }
     if (name === "degree") {
       setPayload({ ...payload, degree_id: e });
-      // getDegree();
     }
   }
 

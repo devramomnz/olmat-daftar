@@ -8,8 +8,39 @@ import AuthCode from "react-auth-code-input";
 import useAuthConfirm from "./useAuthConfirm";
 import Button from "@/components/button/Button";
 import Countdown from "react-countdown";
+import { deleteCookie, getCookie } from "cookies-next";
+import api from "@/config/axiosConfig";
+import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
+import { useRouter } from "next/navigation";
 
 export default function Auth() {
+  const router = useRouter();
+
+  const token = getCookie("_CToken");
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+  const { setAdminProfile } = useAdminProfile();
+
+  const getMe = async () => {
+    try {
+      const res = await api.get(`/auth/user/me`);
+      setAdminProfile({
+        name: res.data.data.name,
+        email: res.data.data.email,
+        phone: res.data.data.phone,
+        schoolName: res.data.data.school.name,
+        schoolId: res.data.data.school.id,
+        degreeId: res.data.data.school.degree.id,
+        degreeName: res.data.data.school.degree.name,
+      });
+      router.push("/user");
+    } catch (error) {
+      deleteCookie("_CToken");
+      router.push("/");
+    }
+  };
+
   const { authEmail, handleInputAuth, handleResendOtp, handleSubmitAuth } =
     useAuthConfirm();
   const [show, setShow] = useState(false);
@@ -21,6 +52,7 @@ export default function Auth() {
   }
 
   useEffect(() => {
+    getMe();
     const timer = setTimeout(() => {
       setShow(true);
     }, 2850);
