@@ -6,6 +6,8 @@ import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
 import { IPeserta } from "@/interfaces/IPeserta";
 import { ROUTES } from "@/prefix/route.constant";
 import { useForm } from "antd/es/form/Form";
+import { UploadFile } from "antd/es/upload/interface";
+import { UploadChangeParam } from "antd/lib/upload";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -35,6 +37,8 @@ export function useDaftar() {
     { label: "Laki-laki", value: "L" },
     { label: "Perempuan", value: "P" },
   ];
+
+  console.log(payload);
 
   const defaultValue: IPeserta = {
     payment_id: 0,
@@ -132,23 +136,24 @@ export function useDaftar() {
     });
   }
 
-  function handlePicture(e: any[], i: number) {
+  function handlePicture(e: UploadChangeParam<UploadFile>, i: number) {
+    console.log("cok", e);
     setPayload((prev) => {
       const updateImage = [...prev];
       updateImage[i] = {
         ...updateImage[i],
-        img: e,
+        img: e.fileList,
       };
       return updateImage;
     });
   }
 
-  function handleAttachment(e: any[], i: number) {
+  function handleAttachment(e: UploadChangeParam<UploadFile>, i: number) {
     setPayload((prev) => {
       const updataAttachment = [...prev];
       updataAttachment[i] = {
         ...updataAttachment[i],
-        attachment: e,
+        attachment: e.fileList,
       };
       return updataAttachment;
     });

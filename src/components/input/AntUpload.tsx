@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import { Form, Upload, Modal, Button, Image } from "antd";
-import type { GetProp, UploadFile, UploadProps } from "antd";
+import { Form, Upload, Modal, Image } from "antd";
+import { UploadFile, UploadProps } from "antd/lib/upload/interface";
+import { UploadListType } from "antd/es/upload/interface";
 
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+type FileType = Parameters<NonNullable<UploadProps["beforeUpload"]>>[0];
 
 const getBase64 = (file: FileType): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -14,15 +15,30 @@ const getBase64 = (file: FileType): Promise<string> =>
   });
 
 interface IUpload {
-  labelName: string;
-  name: string;
-  file?: any;
+  listType?: UploadListType;
+  uploadBtnTitle?: string;
+  labelName?: string;
+  name?: string;
+  file?: UploadFile[];
   setFile?: any;
-  onChange: (e: any) => void;
+  className?: string;
+  onRemove?: () => void;
+  onChange?: (e: any) => void;
+  require?: boolean;
 }
 
 export function AntUpload(props: IUpload) {
-  const { file, labelName, name, onChange } = props;
+  const {
+    require,
+    file,
+    uploadBtnTitle,
+    labelName,
+    className,
+    name,
+    listType,
+    onRemove,
+    onChange,
+  } = props;
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -41,6 +57,8 @@ export function AntUpload(props: IUpload) {
     );
   };
 
+  // const { Dragger } = Upload
+
   return (
     <>
       <Modal
@@ -55,28 +73,47 @@ export function AntUpload(props: IUpload) {
         <Image width={"100%"} src={`${previewImage}`} alt="" />
       </Modal>
 
-      <div>
+      <>
         <label className="text-sm">{labelName}</label>
-        <Form.Item className="bg-[#F5F5F5] rounded-md min-h-32 p-3" name={name}>
+        <Form.Item
+          className="bg-[#F5F5F5] rounded-md w-full min-h-32 p-3"
+          name={name}
+          rules={[
+            {
+              required: require !== undefined,
+              message: `Please input ${labelName}!`,
+            },
+          ]}
+          valuePropName="file"
+          getValueFromEvent={onChange}
+        >
           <Upload
             name={name}
-            //  action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-            listType="picture"
+            listType={listType !== undefined ? `${listType}` : "picture"}
             fileList={file}
-            defaultFileList={file}
+            supportServerRender={false}
+            // showUploadList={false}
             onPreview={handlePreview}
-            onChange={(e) => onChange(e.fileList)}
+            onChange={onChange}
             multiple={false}
+            onRemove={onRemove === undefined ? () => true : onRemove}
             maxCount={1}
+            className={`${className} flex flex-col`}
           >
-            <Button
-              size="small"
-              icon={<PlusOutlined />}
-              className="w-full"
-            ></Button>
+            {uploadBtnTitle === undefined ? (
+              <>
+                <span className="flex py-1 items-center justify-center gap-3 px-3 rounded-full bg-gray-200">
+                  <PlusOutlined /> Upload Image
+                </span>
+              </>
+            ) : (
+              <span className="flex py-1 items-center justify-center gap-3 px-3 rounded-full bg-gray-200">
+                {uploadBtnTitle}
+              </span>
+            )}
           </Upload>
         </Form.Item>
-      </div>
+      </>
     </>
   );
 }

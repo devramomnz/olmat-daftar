@@ -9,7 +9,7 @@ interface IAntInput {
   defaultValue?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   className?: string;
-  require?: NodeRequire;
+  require?: boolean;
 }
 
 const { TextArea } = Input;
@@ -33,21 +33,20 @@ export default function AntText(props: IAntInput) {
         name={name}
         rules={[
           {
-            required: require !== null,
-            message: `${labelName} diperlukan!`,
+            required: require !== undefined,
+            message: `Please input ${labelName}!`,
           },
         ]}
-        hasFeedback
       >
         <TextArea
           value={value}
           size="middle"
-          variant="filled"
           name={name}
           defaultValue={defaultValue}
           placeholder={labelName ? `masukkan ${labelName}` : placeholder}
           onChange={onChange}
-          className={`${className} p-2 hover:border-brand-muted focus:border-brand`}
+          variant="borderless"
+          className={`${className} active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full `}
         />
       </Form.Item>
     </div>

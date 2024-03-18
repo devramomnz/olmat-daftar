@@ -3,13 +3,15 @@ import React, { ChangeEvent } from "react";
 
 interface IAntInput {
   name?: string;
+  prefix?: string;
   labelName?: string;
   placeholder?: string;
   value?: string;
   defaultValue?: string;
+  disabled?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   className?: string;
-  require?: NodeRequire;
+  require?: boolean;
 }
 
 export default function AntInput(props: IAntInput) {
@@ -19,33 +21,36 @@ export default function AntInput(props: IAntInput) {
     value,
     defaultValue,
     onChange,
+    disabled,
+    prefix,
     placeholder,
     className,
     require,
   } = props;
 
   return (
-    <div>
+    <div className="h-fit ">
       <label className="text-sm">{labelName}</label>
       <Form.Item
         name={name}
         rules={[
           {
-            required: require !== null,
-            message: `Masukkan ${labelName}!`,
+            required: require !== undefined,
+            message: `Please input ${labelName}!`,
           },
         ]}
-        hasFeedback
       >
         <Input
+          disabled={disabled}
           name={name}
           size="middle"
+          prefix={prefix}
           value={value}
-          variant="filled"
           defaultValue={defaultValue}
           placeholder={labelName ? `masukkan ${labelName}` : placeholder}
           onChange={onChange}
-          className={`${className} hover:border-brand-muted focus:border-brand`}
+          variant="borderless"
+          className={`${className} active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full `}
         />
       </Form.Item>
     </div>

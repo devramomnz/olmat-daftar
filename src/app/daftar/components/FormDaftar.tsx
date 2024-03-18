@@ -4,8 +4,9 @@ import AntInput from "@/components/input/AntInput";
 import AntItemSelect from "@/components/input/AntItemSelect";
 import AntUpload from "@/components/input/AntUpload";
 import { IPeserta } from "@/interfaces/IPeserta";
-import { Form } from "antd";
+import { Form, UploadFile } from "antd";
 import { DefaultOptionType } from "antd/es/select";
+import { UploadChangeParam } from "antd/es/upload";
 import React, { ChangeEvent } from "react";
 
 interface IProps {
@@ -26,8 +27,11 @@ interface IProps {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     iPayload: number
   ) => void;
-  handlePicture: (e: any[], iPayload: number) => void;
-  handleAttachment: (e: any[], iPayload: number) => void;
+  handlePicture: (e: UploadChangeParam<UploadFile>, iPayload: number) => void;
+  handleAttachment: (
+    e: UploadChangeParam<UploadFile>,
+    iPayload: number
+  ) => void;
 }
 
 export default function FormDaftar(props: IProps) {
@@ -43,6 +47,8 @@ export default function FormDaftar(props: IProps) {
     handlePicture,
     handleGenderSelect,
   } = props;
+
+  console.log(payload[0].img);
   return (
     <>
       <div className="w-full min-h-screen bg-white rounded-lg drop-shadow-md overflow-hidden">

@@ -8,25 +8,25 @@ interface IAntSelect {
   value?: any;
   option?: DefaultOptionType[];
   onChange?: (e: DefaultOptionType) => void;
+  require?: boolean;
 }
 
 export default function AntItemSelect(props: IAntSelect) {
-  const { name, value, option, onChange, labelName } = props;
+  const { require, name, value, option, onChange, labelName } = props;
   return (
     <div>
       <label className="text-sm">{labelName}</label>
       <Form.Item
         rules={[
           {
-            required: true,
-            message: `Pilih ${labelName}`,
+            required: require !== undefined,
+            message: `Please input ${labelName}!`,
           },
         ]}
-        hasFeedback
+        // hasFeedback
         name={name}
       >
         <Select
-          variant="filled"
           value={value}
           showSearch
           size="middle"
@@ -45,6 +45,8 @@ export default function AntItemSelect(props: IAntSelect) {
           }
           options={option}
           onChange={onChange}
+          variant="borderless"
+          className={` active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full `}
         />
       </Form.Item>
     </div>
