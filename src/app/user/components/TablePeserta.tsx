@@ -19,48 +19,14 @@ import { TbCloudDownload } from "react-icons/tb";
 //   kartu_peserta: string;
 // }
 
-export default function App() {
+interface IProps {
+  tableData: any;
+}
+
+export default function TablePeserta(props: IProps) {
+  const { tableData } = props;
   // const [page, setPage] = React.useState(1);
   // const rowsPerPage = 4;
-
-  const dataPeserta = [
-    {
-      id: 0,
-      nama_peserta: "John",
-      jenis_kelamin: "laki-laki",
-      no_tlp: 32,
-      jenjang: "MA",
-      status: 0,
-      kartu_peserta: "link",
-    },
-    {
-      id: 1,
-      nama_peserta: "John",
-      jenis_kelamin: "laki-laki",
-      no_tlp: 32,
-      jenjang: "MA",
-      status: 1,
-      kartu_peserta: "link",
-    },
-    {
-      id: 2,
-      nama_peserta: "John",
-      jenis_kelamin: "laki-laki",
-      no_tlp: 3232532632632,
-      jenjang: "MA",
-      status: 2,
-      kartu_peserta: "link",
-    },
-    {
-      id: 3,
-      nama_peserta: "John",
-      jenis_kelamin: "laki-laki",
-      no_tlp: 32,
-      jenjang: "MA",
-      status: 2,
-      kartu_peserta: "link",
-    },
-  ];
 
   // const pages = Math.ceil(dataPeserta.length / rowsPerPage);
 
@@ -101,7 +67,7 @@ export default function App() {
         </TableColumn>
       </TableHeader>
       <TableBody className="">
-        {dataPeserta?.map((data, i) => (
+        {tableData?.map((data: any, i: number) => (
           <TableRow key={i}>
             <TableCell data-label="No">{i + 1}</TableCell>
             <TableCell className="text-start" data-label="nama_peserta">

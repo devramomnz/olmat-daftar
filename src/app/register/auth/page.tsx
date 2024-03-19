@@ -86,14 +86,14 @@ export default function Auth() {
             </form>
             <div>
               <Countdown key={resetCount} date={Date.now() + 60000}>
-                <button
+                <span
                   onClick={() => {
                     handleResendOtp(), handleResetCount();
                   }}
                   className="text-xs mt-3 font-bold"
                 >
                   Kirim ulang kode
-                </button>
+                </span>
               </Countdown>
             </div>
           </div>

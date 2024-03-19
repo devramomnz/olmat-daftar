@@ -1,4 +1,4 @@
-export interface IPeserta {
+export interface IParticipant {
   id?: number;
   payment_id: number;
   school_id: number;

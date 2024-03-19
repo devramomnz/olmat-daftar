@@ -1,7 +1,6 @@
 "use client";
 
 import { appSetting } from "@/constants/appSetting";
-import { useLayout } from "@/hooks/zustand/layout";
 import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { ROUTES } from "@/prefix/route.constant";
 import Link from "next/link";
@@ -9,12 +8,12 @@ import React from "react";
 import { IoTimeOutline, IoWarning } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
 import { PiStudentBold } from "react-icons/pi";
+import useUser from "./useUser";
 
 export default function Home() {
   const { name, degreeName, schoolName } = useAdminProfile();
-  const {} = useLayout();
-  const paid = 0;
-  const success = 2;
+
+  const { dashboard } = useUser();
   return (
     <>
       <div className="flex items-center justify-between">
@@ -65,14 +64,13 @@ export default function Home() {
             Menunggu Pembayaran
           </h2>
           <h2 className="w-fit mt-3">
-            {paid
-              ? ",ada pembayaran yang belum kamu selesaikan"
+            {dashboard?.payment_pending_lists.length !== 0
+              ? `${name},ada pembayaran yang belum kamu selesaikan`
               : "Yuk segera daftar sebelum kuota penuh"}
           </h2>
           <button
-            className={`${
-              !paid && "hidden"
-            } py-1 px-3 w-full mt-3 bg-brand-dark text-white rounded-lg`}
+            className={`
+            py-1 px-3 w-full mt-3 bg-brand-dark text-white rounded-lg`}
           >
             Bayar Sekarang
           </button>
@@ -83,7 +81,7 @@ export default function Home() {
             Peserta yang telah terdaftar
           </h2>
           <Link href={ROUTES.PESERTA} className="w-fit">
-            {success} peserta telah terdaftar
+            {dashboard?.total_participant_success} peserta telah terdaftar
           </Link>
         </div>
       </div>

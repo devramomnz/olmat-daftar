@@ -1,13 +1,13 @@
 import { convertRupiah } from "@/helper/common";
-import { IPeserta } from "@/interfaces/IPeserta";
+import { IParticipant } from "@/interfaces/IParticipant";
 import React, { useEffect, useState } from "react";
 
 interface IProps {
-  payload: IPeserta[];
+  payload: IParticipant[];
   price: number;
   freeInterval: number;
   handlePay: () => void;
-  defaultValue: IPeserta;
+  defaultValue: IParticipant;
 }
 
 export default function PriceDaftar(props: IProps) {
