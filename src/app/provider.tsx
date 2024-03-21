@@ -36,6 +36,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const getMe = async () => {
     try {
       const res = await api.get(`/auth/user/me`);
+      console.log(res.data.data);
       setAdminProfile({
         name: res.data.data.name,
         email: res.data.data.email,
@@ -43,6 +44,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         schoolName: res.data.data.school.name,
         schoolId: res.data.data.school.id,
         degreeId: res.data.data.school.degree.id,
+        registerPrice: res.data.data.school.degree.register_price,
         degreeName: res.data.data.school.degree.name,
       });
       if (path === "/") {

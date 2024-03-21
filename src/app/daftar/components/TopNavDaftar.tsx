@@ -16,7 +16,7 @@ export default function TopNavDaftar() {
           onClick={() => {
             setSideBar(!sideBar);
           }}
-          className="absolute lg:hidden w-12 left-2"
+          className="absolute md:hidden w-12 left-2"
         >
           {sideBar ? (
             <IoClose className="text-2xl text-white" />

@@ -3,7 +3,7 @@ import AntEmail from "@/components/input/AntEmail";
 import AntInput from "@/components/input/AntInput";
 import AntItemSelect from "@/components/input/AntItemSelect";
 import AntUpload from "@/components/input/AntUpload";
-import { IPeserta } from "@/interfaces/IPeserta";
+import { IParticipant } from "@/interfaces/IParticipant";
 import { Form, UploadFile } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { UploadChangeParam } from "antd/es/upload";
@@ -11,7 +11,7 @@ import React, { ChangeEvent } from "react";
 
 interface IProps {
   form: any;
-  payload: IPeserta[];
+  payload: IParticipant[];
   iPayload: number;
   genderOption: any;
   handleSumbmit: () => void;
@@ -48,7 +48,6 @@ export default function FormDaftar(props: IProps) {
     handleGenderSelect,
   } = props;
 
-  console.log(payload[0].img);
   return (
     <>
       <div className="w-full min-h-screen bg-white rounded-lg drop-shadow-md overflow-hidden">

@@ -57,10 +57,10 @@ export function AntUpload(props: IUpload) {
     );
   };
 
-  // const { Dragger } = Upload
+  const { Dragger } = Upload;
 
   return (
-    <>
+    <div>
       <Modal
         title={labelName}
         footer
@@ -87,7 +87,7 @@ export function AntUpload(props: IUpload) {
           valuePropName="file"
           getValueFromEvent={onChange}
         >
-          <Upload
+          <Dragger
             name={name}
             listType={listType !== undefined ? `${listType}` : "picture"}
             fileList={file}
@@ -111,10 +111,10 @@ export function AntUpload(props: IUpload) {
                 {uploadBtnTitle}
               </span>
             )}
-          </Upload>
+          </Dragger>
         </Form.Item>
       </>
-    </>
+    </div>
   );
 }
 

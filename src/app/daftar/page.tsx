@@ -21,6 +21,7 @@ export default function Daftar() {
     genderOption,
     isModalOpen,
     defaultValue,
+    registerPrice,
     setIsModalOpen,
     handleSelect,
     handleAddMore,
@@ -85,8 +86,8 @@ export default function Daftar() {
               defaultValue={defaultValue}
               payload={payload}
               handlePay={handlePayment}
-              price={45000}
               freeInterval={10}
+              price={registerPrice || 0}
             />
           </div>
           <ListPeserta
@@ -103,7 +104,7 @@ export default function Daftar() {
               defaultValue={defaultValue}
               payload={payload}
               handlePay={handlePayment}
-              price={45000}
+              price={registerPrice || 0}
               freeInterval={10}
             />
           </div>
