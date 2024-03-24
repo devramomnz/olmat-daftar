@@ -1,100 +1,96 @@
 "use client";
 
+import React from "react";
 import AppImage from "@/components/AppImage";
 import { appSetting } from "@/constants/appSetting";
-import { convertRupiah } from "@/helper/common";
-import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
 import { QRCode } from "antd";
+import { LiaCashRegisterSolid } from "react-icons/lia";
+import { HiOutlineReceiptTax } from "react-icons/hi";
+import { convertRupiah } from "@/helper/common";
+import { PiStudent } from "react-icons/pi";
 import Image from "next/image";
-import React from "react";
+import usePayment from "../user/transaction/[slug]/usePayment";
 
 export default function Payment() {
-  const {
-    expired,
-    invoice,
-    participantAmount,
-    payAmount,
-    qrString,
-    participantData,
-  } = useParticipantPay();
+  const { paymentData } = usePayment();
+  const expiredPay = new Date(paymentData.expiredDate).toLocaleString("id-ID", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Jakarta",
+  });
   return (
-    <div className="lg:grid lg:grid-cols-2">
-      <div className="bg-brand-dark hidden lg:block min-h-screen">
-        <div className="flex flex-col justify-center text-white h-full mb-20 font-montserrat items-center">
+    <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 gap-y-3">
+      <div className="bg-white p-4  text-center flex flex-col justify-center w-full gap-3 rounded-xl drop-shadow-md ">
+        <div className="flex flex-col text-white font-montserrat items-center">
           <AppImage
             src={appSetting.logoEvent}
-            className="w-60 h-60 m-10"
-            alt="olmat-logo"
-          />
-          <h1 className="text-3xl font-black">{appSetting.eventName}</h1>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-4 p-6 overflow-y-scroll text-black w-full h-fit items-center">
-        <div className="flex flex-col justify-center  font-montserrat items-center">
-          <AppImage
-            src={appSetting.logoEvent}
-            className="w-20 h-20"
+            className="w-16 h-16 "
             alt="olmat-logo"
           />
         </div>
+        <div className="border-t-2  border-brand-dark pt-4">
+          <h2 className="font-black text-lg text-center">
+            Selesaikan Pembayaran Sebelum
+          </h2>
+          <p className="text-sm font-bold">{expiredPay}</p>
+        </div>
 
-        <h2 className="font-black text-2xl text-center">
-          Selesaikan Pembayaran Sebelum
-        </h2>
-        <p>{expired}</p>
-
-        <div className="bg-white rounded-lg drop-shadow-md p-4 w-fit">
-          <QRCode value={qrString} size={250} />
-          <div className="relative aspect-[2/1] ">
+        <div className="flex flex-col gap-3 border-t-2 border-brand-dark pt-4">
+          <div className="">
+            <h2>Metode Pembayaran Otomatis</h2>
+            <h2 className="font-black">{paymentData.code}</h2>
+          </div>
+          <div className="flex flex-col items-center">
+            <QRCode value={paymentData.qrString} size={250} />
+          </div>
+        </div>
+        <h2 className="text-start font-bold border-b-2">Rincian Pembayaran</h2>
+        <div className="flex font-bold flex-col gap-1 text-sm ">
+          <div className="flex text-center justify-between w-full">
+            <h2 className="flex items-center gap-2">
+              <PiStudent /> Total Peserta
+            </h2>
+            <h2 className="font-black">{convertRupiah(paymentData.amount)}</h2>
+          </div>
+          <div className="flex text-center justify-between w-full">
+            <h2 className="flex items-center gap-2">
+              <LiaCashRegisterSolid />
+              Jumlah Biaya
+            </h2>
+            <h2 className="font-black">{convertRupiah(paymentData.amount)}</h2>
+          </div>
+          <div className="flex text-center justify-between w-full">
+            <h2 className="flex items-center gap-2">
+              <HiOutlineReceiptTax />
+              Biaya Admin Qris
+            </h2>
+            <h2 className="font-black">{convertRupiah(paymentData.fee)}</h2>
+          </div>
+          <div className="flex text-center pt-2 border-t-2 border-t-brand-semi justify-between w-full">
+            <h2 className="flex items-center gap-2">Total Pembayaran</h2>
+            <h2 className="font-black">
+              {convertRupiah(paymentData.totalAmount)}
+            </h2>
+          </div>
+        </div>
+        <div className="flex items-center text-xs font-bold justify-center gap-2 pt-4">
+          <h2>Powered By</h2>
+          <div className="relative w-20 aspect-[3/1]">
             <Image
-              alt="QRIS"
+              alt="xendit"
               src={
-                "https://www.xendit.co/wp-content/uploads/2020/03/iconQris.png"
+                "https://www.xendit.co/wp-content/uploads/2020/03/XENDIT-LOGOArtboard-1@2x-1024x441.png"
               }
               fill
             />
           </div>
         </div>
-
-        <div className="border-y-1 w-full py-2 border-gray-500 text-xs flex flex-col gap-2">
-          <div className="grid grid-cols-3">
-            <h2 className="font-bold">No. Invoice</h2>
-            <p className="col-span-2 text-end">{invoice}</p>
-          </div>
-
-          <div className="grid grid-cols-3">
-            <h2 className="font-bold">Jumlah Peserta</h2>
-            <p className="col-span-2 text-end">{participantAmount} Peserta</p>
-          </div>
-          <div className="grid grid-cols-3">
-            <h2 className="font-bold">Total Pembayaran</h2>
-            <p className="col-span-2 text-end">{convertRupiah(payAmount)}</p>
-          </div>
-        </div>
-        <div className="w-full text-xs">
-          <table className="w-full">
-            <thead className="w-full ">
-              <tr className="bg-brand">
-                <th>No</th>
-                <th>Nama</th>
-                <th>Jenis Kelamin</th>
-                <th>Tanggal Lahir</th>
-              </tr>
-            </thead>
-            <tbody>
-              {participantData.map((data, i) => (
-                <tr key={i} className="text-center">
-                  <td>{i + 1}</td>
-                  <td className="text-start">{data.name}</td>
-                  <td>{data.gender}</td>
-                  <td>{data.birth}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
       </div>
+      <div className="bg-white py-8 col-span-2 text-center flex flex-col justify-center w-full  px-4 rounded-xl drop-shadow-md "></div>
     </div>
   );
 }

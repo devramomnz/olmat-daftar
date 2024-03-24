@@ -32,6 +32,7 @@ const useLogin = () => {
       setCookie("_CToken", res.data.data.token);
       setAdminProfile({
         name: res.data.data.user.name,
+        registerPrice: res.data.data.school.degree.register_price,
       });
       router.push("/user");
       setIsSuccess(true, "Selamat Datang");

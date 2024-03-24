@@ -1,4 +1,4 @@
-export function convertRupiah(value: number | undefined) {
+export function convertRupiah(value: number | undefined | 0) {
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",

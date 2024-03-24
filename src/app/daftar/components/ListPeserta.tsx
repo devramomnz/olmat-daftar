@@ -1,4 +1,4 @@
-import { IPeserta } from "@/interfaces/IPeserta";
+import { IParticipant } from "@/interfaces/IParticipant";
 import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 
@@ -6,7 +6,7 @@ interface IProps {
   handleDelete: (i: number) => void;
   handleSelect: (i: number) => void;
   handleAddMore: () => void;
-  payload: IPeserta[];
+  payload: IParticipant[];
   iPayload: number;
 }
 

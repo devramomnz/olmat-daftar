@@ -7,6 +7,7 @@ interface IAdminProfile {
   schoolId?: number;
   schoolName?: string;
   degreeId?: number;
+  registerPrice?: number;
   degreeName?: string;
   setAdminProfile: (setAdmin: {
     name: string;
@@ -16,6 +17,7 @@ interface IAdminProfile {
     schoolId?: number;
     degreeName?: string;
     degreeId?: number;
+    registerPrice?: number;
   }) => void;
 }
 
@@ -27,6 +29,7 @@ export const useAdminProfile = create<IAdminProfile>((set) => ({
   degreeId: 0,
   schoolName: "",
   degreeName: "",
+  registerPrice: 0,
 
   setAdminProfile: (setAdmin: {
     name: string;
@@ -36,6 +39,7 @@ export const useAdminProfile = create<IAdminProfile>((set) => ({
     schoolName?: string;
     degreeId?: number;
     degreeName?: string;
+    registerPrice?: number;
   }) =>
     set({
       name: setAdmin.name,
@@ -45,5 +49,6 @@ export const useAdminProfile = create<IAdminProfile>((set) => ({
       schoolName: setAdmin.schoolName,
       degreeId: setAdmin.degreeId,
       degreeName: setAdmin.degreeName,
+      registerPrice: setAdmin.registerPrice,
     }),
 }));

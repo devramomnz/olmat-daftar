@@ -52,6 +52,7 @@ export default function PriceDaftar(props: IProps) {
       </div>
       <div className="flex  justify-center m-4">
         <button
+          type="submit"
           disabled={disabled ? true : false}
           onClick={() => handlePay()}
           className={`${

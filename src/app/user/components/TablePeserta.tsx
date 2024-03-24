@@ -1,3 +1,5 @@
+import { PaymentStatus } from "@/enum/payment.enum";
+import { IParticipant } from "@/interfaces/IParticipant";
 import {
   Table,
   TableBody,
@@ -9,33 +11,22 @@ import {
 import React from "react";
 import { TbCloudDownload } from "react-icons/tb";
 
-// interface IDataPeserta {
-//   // id: number;
-//   nama_peserta: string;
-//   jenis_kelamin: string;
-//   no_tlp: number;
-//   jenjang: string;
-//   status: number;
-//   kartu_peserta: string;
-// }
-
 interface IProps {
-  tableData: any;
+  tableData: IParticipant[];
 }
 
 export default function TablePeserta(props: IProps) {
   const { tableData } = props;
-  // const [page, setPage] = React.useState(1);
-  // const rowsPerPage = 4;
 
-  // const pages = Math.ceil(dataPeserta.length / rowsPerPage);
-
-  // const items = React.useMemo(() => {
-  //   const start = (page - 1) * rowsPerPage;
-  //   const end = start + rowsPerPage;
-
-  //   return dataPeserta.slice(start, end);
-  // }, [page, dataPeserta]);
+  function statusColor(data: string) {
+    if (data === PaymentStatus.PAID) {
+      return "bg-green-500/70";
+    } else if (data === PaymentStatus.PENDING) {
+      return "bg-yellow-500/70";
+    } else if (data === PaymentStatus.EXPIRED) {
+      return "bg-red-500/70";
+    }
+  }
 
   return (
     <Table
@@ -54,7 +45,7 @@ export default function TablePeserta(props: IProps) {
           Jenis Kelamin
         </TableColumn>
         <TableColumn align="center" scope="col">
-          No Tlp
+          Tanggal Lahir
         </TableColumn>
         <TableColumn align="center" scope="col">
           Jenjang
@@ -70,15 +61,21 @@ export default function TablePeserta(props: IProps) {
         {tableData?.map((data: any, i: number) => (
           <TableRow key={i}>
             <TableCell data-label="No">{i + 1}</TableCell>
-            <TableCell className="text-start" data-label="nama_peserta">
-              {data.nama_peserta}
+            <TableCell className="text-start" data-label="name">
+              {data.name}
             </TableCell>
-            <TableCell data-label="jenis_kelamin">
-              {data.jenis_kelamin}
+            <TableCell data-label="gender">{data.gender}</TableCell>
+            <TableCell data-label="birth">{data.birth}</TableCell>
+            <TableCell data-label="email">{data.jenjang}</TableCell>
+            <TableCell data-label="status">
+              <h2
+                className={`${statusColor(
+                  data.status
+                )} px-3 rounded-full font-bold w-fit`}
+              >
+                {data.status}
+              </h2>
             </TableCell>
-            <TableCell data-label="no_tlp">{data.no_tlp}</TableCell>
-            <TableCell data-label="jenjang">{data.jenjang}</TableCell>
-            <TableCell data-label="status">{data.status}</TableCell>
             <TableCell
               data-label="Actions"
               // className="flex items-center justify-center"

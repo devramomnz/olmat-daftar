@@ -3,7 +3,7 @@ import { useLayout } from "@/hooks/zustand/layout";
 import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
-import { IPeserta } from "@/interfaces/IPeserta";
+import { IParticipant } from "@/interfaces/IParticipant";
 import { ROUTES } from "@/prefix/route.constant";
 import { useForm } from "antd/es/form/Form";
 import { UploadFile } from "antd/es/upload/interface";
@@ -14,11 +14,11 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 export function useDaftar() {
   const router = useRouter();
-  const { schoolId } = useAdminProfile();
+  const { schoolId, registerPrice } = useAdminProfile();
   const { setIsButtonLoading } = useButtonLoading();
   const {} = useLayout();
   const { setPayData } = useParticipantPay();
-  const [payload, setPayload] = useState<IPeserta[]>([
+  const [payload, setPayload] = useState<IParticipant[]>([
     {
       payment_id: 0,
       school_id: 0,
@@ -40,7 +40,7 @@ export function useDaftar() {
 
   console.log(payload);
 
-  const defaultValue: IPeserta = {
+  const defaultValue: IParticipant = {
     payment_id: 0,
     school_id: 0,
     name: "",
@@ -206,6 +206,7 @@ export function useDaftar() {
     iPayload,
     isModalOpen,
     defaultValue,
+    registerPrice,
     setIsModalOpen,
     handleSelect,
     setPayload,
