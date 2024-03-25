@@ -1,6 +1,7 @@
 import { PaymentStatus } from "@/enum/payment.enum";
 import { IParticipant } from "@/interfaces/IParticipant";
 import {
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -20,11 +21,11 @@ export default function TablePeserta(props: IProps) {
 
   function statusColor(data: string) {
     if (data === PaymentStatus.PAID) {
-      return "bg-green-500/70";
+      return "success";
     } else if (data === PaymentStatus.PENDING) {
-      return "bg-yellow-500/70";
+      return "warning";
     } else if (data === PaymentStatus.EXPIRED) {
-      return "bg-red-500/70";
+      return "danger";
     }
   }
 
@@ -68,13 +69,16 @@ export default function TablePeserta(props: IProps) {
             <TableCell data-label="birth">{data.birth}</TableCell>
             <TableCell data-label="email">{data.jenjang}</TableCell>
             <TableCell data-label="status">
-              <h2
+              <Chip
+                variant="solid"
+                size="sm"
+                color={statusColor(data.status)}
                 className={`${statusColor(
                   data.status
-                )} px-3 rounded-full font-bold w-fit`}
+                )} px-3 rounded-full font-black w-fit`}
               >
-                {data.status}
-              </h2>
+                <p className="font-black text-xs">{data.status}</p>
+              </Chip>
             </TableCell>
             <TableCell
               data-label="Actions"

@@ -1,8 +1,9 @@
 import api from "@/config/axiosConfig";
-import { usePathname } from "next/navigation";
+import { decryptString } from "@/utils/encrypt";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface IPaymentData {
+export interface IPaymentData {
   invoice: string;
   code: string;
   paymentId: string;
@@ -16,7 +17,9 @@ interface IPaymentData {
 }
 
 const usePayment = () => {
-  const slug = usePathname().split("/")[3];
+  const params = useParams().slug.toString();
+  const decodedSlug = decodeURIComponent(params);
+  const paymentId = decryptString(decodedSlug);
 
   const [paymentData, setPaymentData] = useState<IPaymentData>({
     invoice: "",
@@ -30,10 +33,9 @@ const usePayment = () => {
     expiredDate: "",
     status: "",
   });
-  console.log(paymentData);
 
   async function getPaymentById() {
-    await api.get(`/payment/${slug}`).then((res) => {
+    await api.get(`/payment/${paymentId}`).then((res) => {
       const resData = {
         invoice: res.data.invoice,
         code: res.data.code,

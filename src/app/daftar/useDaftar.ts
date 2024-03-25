@@ -2,22 +2,21 @@ import api from "@/config/axiosConfig";
 import { useLayout } from "@/hooks/zustand/layout";
 import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
-import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
 import { IParticipant } from "@/interfaces/IParticipant";
 import { ROUTES } from "@/prefix/route.constant";
+import { encryptString } from "@/utils/encrypt";
 import { useForm } from "antd/es/form/Form";
 import { UploadFile } from "antd/es/upload/interface";
 import { UploadChangeParam } from "antd/lib/upload";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export function useDaftar() {
   const router = useRouter();
   const { schoolId, registerPrice } = useAdminProfile();
   const { setIsButtonLoading } = useButtonLoading();
-  const {} = useLayout();
-  const { setPayData } = useParticipantPay();
+  const { setIsSuccess, setError } = useLayout();
   const [payload, setPayload] = useState<IParticipant[]>([
     {
       payment_id: 0,
@@ -52,7 +51,6 @@ export function useDaftar() {
     attachment: [],
   };
 
-  // const birth = dayjs(payload).format("DD-MM-YYYY");
   async function postParticipant() {
     const dataPost = Object.values(payload).map((data) => ({
       name: data.name,
@@ -87,17 +85,16 @@ export function useDaftar() {
           },
         })
         .then((res) => {
-          setPayData({
-            invoice: res.data.payment.invoice,
-            qrString: res.data.payment.action.qr_string,
-            participantAmount: res.data.payment.participant_amounts,
-            payAmount: res.data.payment.amount,
-            value: res.data.participants,
-            expired: res.data.payment.expired_at,
-          });
-        })
-        .then(() => router.push(ROUTES.PAYMENT));
-    } catch (error) {}
+          setIsSuccess(true, "Pendaftaran Berhasil");
+          router.push(
+            ROUTES.TRANSACTION + "/" + encryptString(`${res.data.payment.id}`)
+          );
+        });
+    } catch (error: any) {
+      if (error?.response?.data?.errors?.message) {
+        setError(true, `${error.response.data.errors.message}`);
+      }
+    }
   }
 
   function handleInputChange(
@@ -194,10 +191,6 @@ export function useDaftar() {
     setIPayload(i - 1);
     setIsModalOpen(false);
   }
-
-  useEffect(() => {
-    // postParticipant();
-  }, []);
 
   return {
     form,
