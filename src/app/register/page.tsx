@@ -4,7 +4,7 @@ import Wave from "@/assets/wave";
 import AppImage from "@/components/AppImage";
 import Button from "@/components/button/Button";
 import AntInput from "@/components/input/AntInput";
-import { ROUTES } from "@/prefix/route.constant";
+import { ROUTES } from "@/prefix/routes";
 import { Form } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";

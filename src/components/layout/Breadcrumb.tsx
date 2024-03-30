@@ -14,7 +14,7 @@ const Breadcrumb = () => {
   });
 
   return (
-    <div className="text-sm breadcrumbs ">
+    <div className="text-sm breadcrumbs">
       <ul className="flex gap-3">
         <li>
           <Link

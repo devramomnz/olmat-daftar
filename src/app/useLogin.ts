@@ -11,8 +11,10 @@ const useLogin = () => {
   const router = useRouter();
   const { setIsSuccess, setError } = useLayout();
   const { setIsButtonLoading } = useButtonLoading();
-  const { setAdminProfile } = useAdminProfile();
+  const { name, setAdminProfile } = useAdminProfile();
   const [form] = Form.useForm();
+
+  console.log(name);
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -26,21 +28,24 @@ const useLogin = () => {
   }
 
   async function handleSubmit() {
+    setIsButtonLoading(true);
     try {
-      setIsButtonLoading(true);
       const res = await api.post("/auth/user/login", loginData);
       setCookie("_CToken", res.data.data.token);
+      setIsSuccess(true, "Selamat Datang");
+      router.push("/user");
+      setIsButtonLoading(false);
       setAdminProfile({
         name: res.data.data.user.name,
         registerPrice: res.data.data.school.degree.register_price,
       });
-      router.push("/user");
-      setIsSuccess(true, "Selamat Datang");
-    } catch (error) {
+    } catch (error: any) {
       setIsButtonLoading(false);
+      console.log();
       if (error == "ERR_NETWORK") {
         setError(true, "Internal Server Error");
-      } else {
+      }
+      if (error?.request?.response) {
         setError(true, "Email atau kata sandi salah");
       }
     }

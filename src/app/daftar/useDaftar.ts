@@ -3,7 +3,7 @@ import { useLayout } from "@/hooks/zustand/layout";
 import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { IParticipant } from "@/interfaces/IParticipant";
-import { ROUTES } from "@/prefix/route.constant";
+import { ROUTES } from "@/prefix/routes";
 import { encryptString } from "@/utils/encrypt";
 import { useForm } from "antd/es/form/Form";
 import { UploadFile } from "antd/es/upload/interface";

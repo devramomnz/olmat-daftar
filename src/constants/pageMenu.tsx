@@ -1,4 +1,4 @@
-import { ROUTES } from "@/prefix/route.constant";
+import { ROUTES } from "@/prefix/routes";
 import { AiFillDashboard } from "react-icons/ai";
 // import { FaListCheck } from "react-icons/fa6";
 import { GiTakeMyMoney } from "react-icons/gi";

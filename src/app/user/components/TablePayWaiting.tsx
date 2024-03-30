@@ -1,4 +1,6 @@
+import React from "react";
 import {
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -6,96 +8,113 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import React from "react";
+import { IPayment } from "@/interfaces/IPayments";
+import { convertRupiah } from "@/helper/common";
+import Link from "next/link";
+import { ROUTES } from "@/prefix/routes";
+import { encryptString } from "@/utils/encrypt";
 
-// interface DataType {
-//   id: number;
-//   waktu_pendaftaran: string;
-//   batas_waktu: string;
-//   jumlah_peserta: number;
-//   total_pembayaran: number;
-//   status: string;
-// }
+interface IProps {
+  tableData: IPayment[];
+}
 
-const data = [
-  {
-    id: 0,
-    waktu_pendaftaran: "John",
-    batas_waktu: "Brown",
-    jumlah_peserta: 32,
-    total_pembayaran: 200000,
-    status: "sukses",
-  },
-  {
-    id: 1,
-    waktu_pendaftaran: "John",
-    batas_waktu: "Brown",
-    jumlah_peserta: 32,
-    total_pembayaran: 200000,
-    status: "sukses",
-  },
-  {
-    id: 2,
-    waktu_pendaftaran: "John",
-    batas_waktu: "Brown",
-    jumlah_peserta: 32,
-    total_pembayaran: 200000,
-    status: "sukses",
-  },
-  {
-    id: 3,
-    waktu_pendaftaran: "John",
-    batas_waktu: "Brown",
-    jumlah_peserta: 32,
-    total_pembayaran: 200000,
-    status: "sukses",
-  },
-];
+export default function TablePayWaiting(props: IProps) {
+  const { tableData } = props;
 
-const TablePayWaiting: React.FC = () => (
-  <>
-    <label>Menunggu Pembayaran</label>
-    <div className="overflow-x-scroll no-scrollbar">
-      <Table
-        aria-label="Peserta Terdaftar"
-        isStriped
-        className=" text-nowrap w-full min-w-[700px] rounded-lg overflow-hidden p-3"
-      >
-        <TableHeader className="bg-brand-dark h-10 text-white text-center">
-          <TableColumn align="center" scope="col" className="w-[80px]">
-            No.
-          </TableColumn>
-          <TableColumn align="center" scope="col">
-            Waktu Pendaftaran
-          </TableColumn>
-          <TableColumn align="center" className="" scope="col">
-            Jumlah Peserta
-          </TableColumn>
-          <TableColumn align="center" scope="col">
-            Total Pembayaran
-          </TableColumn>
-          <TableColumn align="center" scope="col">
-            Status
-          </TableColumn>
-        </TableHeader>
-        <TableBody className="">
-          {data?.map((data, i) => (
-            <TableRow key={i}>
-              <TableCell data-label="No">{i + 1}</TableCell>
-              <TableCell data-label="jenis_kelamin">
-                {data.waktu_pendaftaran}
-              </TableCell>
-              <TableCell data-label="no_tlp">{data.jumlah_peserta}</TableCell>
-              <TableCell data-label="jenjang">
-                {data.total_pembayaran}
-              </TableCell>
-              <TableCell data-label="status">{data.status}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  </>
-);
-
-export default TablePayWaiting;
+  function statusColor(data: string) {
+    if (data === "Paid") {
+      return "success";
+    } else if (data === "pending") {
+      return "warning";
+    } else if (data === "expired") {
+      return "danger";
+    }
+  }
+  return (
+    <>
+      <div className="bg-white p-1 rounded-md">
+        <label>Menunggu Pembayaran</label>
+        <div className="overflow-x-scroll no-scrollbar">
+          <Table
+            aria-label="Peserta Terdaftar"
+            isStriped
+            isCompact
+            removeWrapper
+            className=" text-nowrap w-full min-w-[700px] rounded-lg "
+          >
+            <TableHeader className="bg-brand-dark h-10 text-white text-center">
+              <TableColumn align="center" scope="col" className="w-[80px]">
+                No.
+              </TableColumn>
+              <TableColumn align="center" scope="col">
+                No. Invoice
+              </TableColumn>
+              <TableColumn align="center" className="" scope="col">
+                Metode
+              </TableColumn>
+              <TableColumn align="center" scope="col">
+                Jumlah Peserta
+              </TableColumn>
+              <TableColumn align="center" scope="col">
+                Harga
+              </TableColumn>
+              <TableColumn align="center" scope="col">
+                Total Harga
+              </TableColumn>
+              <TableColumn align="center" scope="col">
+                Status
+              </TableColumn>
+              <TableColumn align="center" scope="col">
+                Aksi
+              </TableColumn>
+            </TableHeader>
+            <TableBody className="">
+              {tableData?.map((data, i) => (
+                <TableRow key={i}>
+                  <TableCell data-label="No">{i + 1}</TableCell>
+                  <TableCell data-label="invoice">{data.invoice}</TableCell>
+                  <TableCell data-label="code">{data.code}</TableCell>
+                  <TableCell data-label="participantAmount">
+                    {data.participantAmount}
+                  </TableCell>
+                  <TableCell data-label="amount">
+                    {convertRupiah(data.amount)}
+                  </TableCell>
+                  <TableCell data-label="totalAmount">
+                    {convertRupiah(data.totalAmount)}
+                  </TableCell>
+                  <TableCell data-label="status">
+                    <Chip
+                      variant="flat"
+                      size="sm"
+                      color={statusColor(data.status)}
+                      className={`${statusColor(
+                        data.status
+                      )} px-3 rounded-full font-black w-fit`}
+                    >
+                      <p className="font-black text-xs">{data.status}</p>
+                    </Chip>
+                  </TableCell>
+                  <TableCell data-label="participantAmount">
+                    <Link
+                      href={
+                        ROUTES.TRANSACTION + "/" + encryptString(`${data.id}`)
+                      }
+                    >
+                      {data.id}
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {tableData.length < 1 && (
+            <h1 className="text-center text-sm text-gray-400 font-bold pb-5">
+              Tidak ada data
+            </h1>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}

@@ -1,28 +1,36 @@
 "use client";
 
-import { appSetting } from "@/constants/appSetting";
 import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
-import { ROUTES } from "@/prefix/route.constant";
+import { ROUTES } from "@/prefix/routes";
 import Link from "next/link";
 import React from "react";
 import { IoTimeOutline, IoWarning } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
 import { PiStudentBold } from "react-icons/pi";
 import useUser from "./useUser";
+import { convertDate } from "@/helper/common";
+import dayjs from "dayjs";
 
 export default function Home() {
   const { name, degreeName, schoolName } = useAdminProfile();
-
   const { dashboard } = useUser();
+  const now = dayjs(new Date());
+  const startDate = dayjs(dashboard.eventStart);
+  const endDate = dayjs(dashboard.eventEnd);
+
   return (
     <>
       <div className="flex items-center justify-between">
         <label className="font-bold">Dashboard</label>
-        <Link href={ROUTES.DAFTAR}>
-          <button className="py-1 px-3 w-full bg-brand-dark text-white rounded-lg">
-            Daftar Sekarang
-          </button>
-        </Link>
+        <div>
+          {now > startDate && now < endDate && (
+            <Link href={ROUTES.DAFTAR}>
+              <button className="py-1 px-3 w-full bg-brand-dark text-white rounded-lg">
+                Daftar Sekarang
+              </button>
+            </Link>
+          )}
+        </div>
       </div>
       <div className="w-full grid md:grid-cols-2 gap-5">
         <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">
@@ -41,12 +49,25 @@ export default function Home() {
         <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">
           <h2 className="font-bold border-b w-full text-start flex items-center gap-2 mb-4">
             <IoTimeOutline />
-            Penutupan Pendaftaran
+            {(now > startDate && now < endDate && "Penutupan Pendaftaran") ||
+              (now < endDate && now < startDate && "Pembukaan Pendaftaran") ||
+              (now > endDate && now > startDate && `${dashboard.eventName}`)}
           </h2>
           <h1 className="w-fit">
-            Pendaftaran ditutup pada tanggal{" "}
-            <span className="font-bold">{appSetting.endDate}</span>
+            {(now > startDate && now < endDate && "Pendaftaran ditutup pada") ||
+              (now < endDate && now < startDate && "Pendaftaran dibuka pada") ||
+              (now > endDate &&
+                now > startDate &&
+                `Tunggu Event ${dashboard.eventName} Selanjutnya`)}
           </h1>
+          <span className="font-bold">
+            {(now > startDate &&
+              now < endDate &&
+              convertDate(dashboard.eventEnd)) ||
+              (now < endDate &&
+                now < startDate &&
+                convertDate(dashboard.eventStart))}
+          </span>
         </div>
         {/* <div className="w-full bg-white mt-5 overflow-hidden rounded-md drop-shadow-md">
           <div className="bg-brand-dark h-10 grid place-items-center">
@@ -64,16 +85,19 @@ export default function Home() {
             Menunggu Pembayaran
           </h2>
           <h2 className="w-fit mt-3">
-            {dashboard?.payment_pending_lists.length !== 0
+            {dashboard.pendingPayment.length !== 0
               ? `${name},ada pembayaran yang belum kamu selesaikan`
               : "Yuk segera daftar sebelum kuota penuh"}
           </h2>
-          <button
-            className={`
-            py-1 px-3 w-full mt-3 bg-brand-dark text-white rounded-lg`}
-          >
-            Bayar Sekarang
-          </button>
+          <div className="w-full flex">
+            <Link
+              href={ROUTES.TRANSACTION}
+              className={`
+             w-full mt-3 bg-brand-dark text-center text-white rounded-lg py-1`}
+            >
+              Bayar Sekarang
+            </Link>
+          </div>
         </div>
         <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">
           <h2 className="font-bold border-b w-full text-start flex items-center gap-2 mb-4">
@@ -81,7 +105,7 @@ export default function Home() {
             Peserta yang telah terdaftar
           </h2>
           <Link href={ROUTES.PESERTA} className="w-fit">
-            {dashboard?.total_participant_success} peserta telah terdaftar
+            {dashboard?.succesParticipant} peserta telah terdaftar
           </Link>
         </div>
       </div>

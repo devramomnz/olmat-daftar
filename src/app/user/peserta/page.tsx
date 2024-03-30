@@ -9,7 +9,7 @@ export default function Peserta() {
   return (
     <>
       <label className="font-bold">Data Peserta</label>
-      <div className="w-full p-4 bg-white mt-5 rounded-md drop-shadow-md no-scrollbar overflow-x-scroll">
+      <div className="w-full p-1 bg-white mt-5 rounded-md drop-shadow-md no-scrollbar overflow-x-scroll">
         <TablePeserta tableData={participant} />
       </div>
     </>

@@ -1,4 +1,5 @@
 import { PaymentStatus } from "@/enum/payment.enum";
+import { convertBirth } from "@/helper/common";
 import { IParticipant } from "@/interfaces/IParticipant";
 import {
   Chip,
@@ -29,14 +30,24 @@ export default function TablePeserta(props: IProps) {
     }
   }
 
+  function genderLabel(data: string) {
+    if (data === "L") {
+      return "Laki-Laki";
+    } else if (data === "P") {
+      return "Perempuan";
+    }
+  }
+
   return (
     <Table
       aria-label="Peserta Terdaftar"
       isStriped
-      className=" text-nowrap w-full min-w-[700px] rounded-lg overflow-hidden p-3"
+      removeWrapper
+      isCompact
+      className=" text-nowrap w-full min-w-[700px] rounded-lg p-3"
     >
       <TableHeader className="bg-brand-dark h-10 text-white text-center">
-        <TableColumn align="center" scope="col" className="w-[80px]">
+        <TableColumn align="center" scope="col" className="w-[10px]">
           No.
         </TableColumn>
         <TableColumn align="center" scope="col">
@@ -49,9 +60,6 @@ export default function TablePeserta(props: IProps) {
           Tanggal Lahir
         </TableColumn>
         <TableColumn align="center" scope="col">
-          Jenjang
-        </TableColumn>
-        <TableColumn align="center" scope="col">
           Status
         </TableColumn>
         <TableColumn align="center" scope="col">
@@ -61,16 +69,21 @@ export default function TablePeserta(props: IProps) {
       <TableBody className="">
         {tableData?.map((data: any, i: number) => (
           <TableRow key={i}>
-            <TableCell data-label="No">{i + 1}</TableCell>
-            <TableCell className="text-start" data-label="name">
+            <TableCell className="text-xs" data-label="No">
+              {i + 1}
+            </TableCell>
+            <TableCell className="text-xs text-start" data-label="name">
               {data.name}
             </TableCell>
-            <TableCell data-label="gender">{data.gender}</TableCell>
-            <TableCell data-label="birth">{data.birth}</TableCell>
-            <TableCell data-label="email">{data.jenjang}</TableCell>
-            <TableCell data-label="status">
+            <TableCell className="text-xs" data-label="gender">
+              {genderLabel(data.gender)}
+            </TableCell>
+            <TableCell className="text-xs" data-label="birth">
+              {convertBirth(data.birth)}
+            </TableCell>
+            <TableCell className="text-xs" data-label="status">
               <Chip
-                variant="solid"
+                variant="flat"
                 size="sm"
                 color={statusColor(data.status)}
                 className={`${statusColor(
@@ -81,6 +94,7 @@ export default function TablePeserta(props: IProps) {
               </Chip>
             </TableCell>
             <TableCell
+              className="text-xs"
               data-label="Actions"
               // className="flex items-center justify-center"
             >

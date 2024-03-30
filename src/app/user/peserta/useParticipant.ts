@@ -8,7 +8,6 @@ const useParticipant = () => {
       name: "",
       gender: "",
       birth: "",
-      degree: "",
       status: "",
       img: [],
       attachment: [],
