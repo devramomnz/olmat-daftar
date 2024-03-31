@@ -36,7 +36,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const getMe = async () => {
     try {
       const res = await api.get(`/auth/user/me`);
-      console.log(res.data.data);
       setAdminProfile({
         name: res.data.data.name,
         email: res.data.data.email,

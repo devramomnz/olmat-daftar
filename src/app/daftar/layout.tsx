@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect } from "react";
 import TopNavDaftar from "./components/TopNavDaftar";
 import { useRouter } from "next/navigation";
 import api from "@/config/axiosConfig";
@@ -10,21 +10,19 @@ interface ILayout {
   children: ReactNode;
 }
 
-interface IEventDate {
-  start: string;
-  end: string;
-}
+// interface IEventDate {
+//   start: string;
+//   end: string;
+// }
 
 export default function UserLayout(props: ILayout) {
   const router = useRouter();
   const { children } = props;
-  const [eventDate, setEventDate] = useState<IEventDate>();
-
-  console.log(eventDate);
+  // const [eventDate, setEventDate] = useState<IEventDate>();
 
   async function getEventDate() {
     await api.get("/event-setting").then((res) => {
-      setEventDate(res.data[0]);
+      // setEventDate(res.data[0]);
       const now = dayjs(new Date());
       const startDate = dayjs(res.data[0].start);
       const endDate = dayjs(res.data[0].end);

@@ -11,10 +11,8 @@ const useLogin = () => {
   const router = useRouter();
   const { setIsSuccess, setError } = useLayout();
   const { setIsButtonLoading } = useButtonLoading();
-  const { name, setAdminProfile } = useAdminProfile();
+  const { setAdminProfile } = useAdminProfile();
   const [form] = Form.useForm();
-
-  console.log(name);
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -41,7 +39,6 @@ const useLogin = () => {
       });
     } catch (error: any) {
       setIsButtonLoading(false);
-      console.log();
       if (error == "ERR_NETWORK") {
         setError(true, "Internal Server Error");
       }

@@ -90,13 +90,15 @@ export default function Home() {
               : "Yuk segera daftar sebelum kuota penuh"}
           </h2>
           <div className="w-full flex">
-            <Link
-              href={ROUTES.TRANSACTION}
-              className={`
+            {dashboard.pendingPayment.length !== 0 && (
+              <Link
+                href={ROUTES.TRANSACTION}
+                className={`
              w-full mt-3 bg-brand-dark text-center text-white rounded-lg py-1`}
-            >
-              Bayar Sekarang
-            </Link>
+              >
+                Bayar Sekarang
+              </Link>
+            )}
           </div>
         </div>
         <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">

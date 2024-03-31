@@ -37,8 +37,6 @@ export function useDaftar() {
     { label: "Perempuan", value: "P" },
   ];
 
-  console.log(payload);
-
   const defaultValue: IParticipant = {
     payment_id: 0,
     school_id: 0,
@@ -123,18 +121,18 @@ export function useDaftar() {
   }
 
   function handleBirthday(e: any, i: number) {
+    const date = dayjs(e).toISOString();
     setPayload((prev) => {
       const updateBirthday = [...prev];
       updateBirthday[i] = {
         ...updateBirthday[i],
-        birth: e,
+        birth: date,
       };
       return updateBirthday;
     });
   }
 
   function handlePicture(e: UploadChangeParam<UploadFile>, i: number) {
-    console.log("cok", e);
     setPayload((prev) => {
       const updateImage = [...prev];
       updateImage[i] = {

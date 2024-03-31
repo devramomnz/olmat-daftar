@@ -32,7 +32,7 @@ export default function ListPeserta(props: IProps) {
             <button
               onClick={() => handleSelect(i)}
               className={`${
-                iPayload === i ? "bg-brand-dark/80 text-white" : "bg-gray-100"
+                iPayload === i ? "bg-brand text-white" : "bg-gray-100"
               } w-full text-brand-dark font-bold rounded-md`}
             >
               Peserta {i + 1}
@@ -40,7 +40,7 @@ export default function ListPeserta(props: IProps) {
           </div>
         ))}
         <button
-          className={` py-1 px-2 mb-28 bg-brand-dark rounded-lg w-full text-white font-bold mt-3 text-sm`}
+          className={` py-1 px-2 mb-28 bg-brand-dark rounded-full w-full text-white font-bold mt-3 text-sm`}
           onClick={handleAddMore}
         >
           Tambah Peserta

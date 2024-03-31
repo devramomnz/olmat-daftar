@@ -41,7 +41,9 @@ const Breadcrumb = () => {
                 ) : (
                   <FaRegCreditCard />
                 )}
-                <p>{data.breadcrumb.replace("-", " ")}</p>
+                <p className="text-nowrap">
+                  {data.breadcrumb.replace("-", " ")}
+                </p>
               </Link>
             </li>
           );

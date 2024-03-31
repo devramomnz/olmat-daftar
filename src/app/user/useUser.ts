@@ -22,7 +22,6 @@ const useUser = () => {
 
   async function getDasboardData() {
     await api.get("/dashboard").then((res) => {
-      console.log(res.data);
       setDashboard({
         ...dashboard,
         succesParticipant: res.data.total_participant_success,

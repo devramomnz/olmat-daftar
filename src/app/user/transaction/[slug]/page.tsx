@@ -14,7 +14,7 @@ export default function Payment() {
         <PaymentDetail paymentData={paymentData} />
       </div>
       <div className="bg-white py-4 col-span-2 text-center flex flex-col w-full px-4 rounded-xl drop-shadow-md ">
-        <TablePaymentParticipant />
+        <TablePaymentParticipant tableData={paymentData.participants} />
       </div>
     </div>
   );

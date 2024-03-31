@@ -3,6 +3,11 @@ import { decryptString } from "@/utils/encrypt";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+interface IParticipant {
+  name: string;
+  gender: string;
+  birth: string;
+}
 export interface IPaymentData {
   invoice: string;
   code: string;
@@ -14,6 +19,7 @@ export interface IPaymentData {
   totalAmount: number;
   expiredDate: string;
   status: string;
+  participants: IParticipant[];
 }
 
 const usePayment = () => {
@@ -32,6 +38,7 @@ const usePayment = () => {
     totalAmount: 0,
     expiredDate: "",
     status: "",
+    participants: [],
   });
 
   async function getPaymentById() {
@@ -47,6 +54,7 @@ const usePayment = () => {
         totalAmount: res.data.total_amount,
         expiredDate: res.data.expired_at,
         status: res.data.status,
+        participants: res.data.participants,
       };
       setPaymentData(resData);
     });

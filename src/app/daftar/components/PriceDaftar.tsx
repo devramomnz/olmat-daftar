@@ -57,7 +57,7 @@ export default function PriceDaftar(props: IProps) {
           onClick={() => handlePay()}
           className={`${
             disabled && "opacity-20 duration-500"
-          } px-9 py-1 rounded-full bg-brand-dark duration-500 text-white font-black`}
+          } px-9 py-1 rounded-full bg-brand duration-500 text-white font-black`}
         >
           Bayar
         </button>

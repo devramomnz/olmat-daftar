@@ -8,6 +8,11 @@ import { convertRupiah } from "@/helper/common";
 import { LiaCashRegisterSolid } from "react-icons/lia";
 import { HiOutlineReceiptTax } from "react-icons/hi";
 import Image from "next/image";
+import { PaymentStatus } from "@/enum/payment.enum";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
+
+dayjs.locale("id");
 
 interface IProps {
   paymentData: IPaymentData;
@@ -15,15 +20,10 @@ interface IProps {
 
 export default function PaymentDetail(props: IProps) {
   const { paymentData } = props;
-  const expiredPay = new Date(paymentData.expiredDate).toLocaleString("id-ID", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Jakarta",
-  });
+  // const dateEnd = convertDate(paymentData.expiredDate);
+  const date = dayjs(paymentData.expiredDate)
+    .locale("id")
+    .format("dddd, D MMMM YYYY, [Pukul] HH.mm [WIB]");
   return (
     <>
       <div className="flex flex-col text-white font-montserrat items-center">
@@ -37,7 +37,7 @@ export default function PaymentDetail(props: IProps) {
         <h2 className="font-black text-lg text-center">
           Selesaikan Pembayaran Sebelum
         </h2>
-        <p className="text-sm font-bold">{expiredPay} WIB</p>
+        <p className="text-sm font-bold">{`${date}`}</p>
       </div>
 
       <div className="flex flex-col gap-3 border-t-2 border-brand-dark pt-4">
@@ -46,7 +46,29 @@ export default function PaymentDetail(props: IProps) {
           <h2 className="font-black">{paymentData.code}</h2>
         </div>
         <div className="flex flex-col items-center">
-          <QRCode value={paymentData.qrString} size={250} />
+          {(paymentData.status === PaymentStatus.PENDING && (
+            <QRCode value={paymentData.qrString} size={250} />
+          )) ||
+            (paymentData.status === PaymentStatus.PAID && (
+              <div className="flex flex-col items-center gap-3">
+                <div className="relative h-28 aspect-square">
+                  <Image
+                    alt="Succes Cathabot"
+                    fill
+                    src={`/icons/success.png`}
+                  />
+                </div>
+                <h1 className="font-bold text-xl">TERBAYAR</h1>
+              </div>
+            )) ||
+            (paymentData.status === PaymentStatus.EXPIRED && (
+              <div className="flex flex-col items-center gap-3">
+                <div className="relative h-28 aspect-square">
+                  <Image alt="Succes Cathabot" fill src={`/icons/failed.png`} />
+                </div>
+                <h1 className="font-bold text-xl">EXPIRED</h1>
+              </div>
+            ))}
         </div>
       </div>
       <h2 className="text-start font-bold border-b-2">Rincian Pembayaran</h2>

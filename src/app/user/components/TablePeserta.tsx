@@ -21,7 +21,7 @@ export default function TablePeserta(props: IProps) {
   const { tableData } = props;
 
   function statusColor(data: string) {
-    if (data === PaymentStatus.PAID) {
+    if (data === "active") {
       return "success";
     } else if (data === PaymentStatus.PENDING) {
       return "warning";
@@ -39,77 +39,84 @@ export default function TablePeserta(props: IProps) {
   }
 
   return (
-    <Table
-      aria-label="Peserta Terdaftar"
-      isStriped
-      removeWrapper
-      isCompact
-      className=" text-nowrap w-full min-w-[700px] rounded-lg p-3"
-    >
-      <TableHeader className="bg-brand-dark h-10 text-white text-center">
-        <TableColumn align="center" scope="col" className="w-[10px]">
-          No.
-        </TableColumn>
-        <TableColumn align="center" scope="col">
-          Nama Peserta
-        </TableColumn>
-        <TableColumn align="center" className="" scope="col">
-          Jenis Kelamin
-        </TableColumn>
-        <TableColumn align="center" scope="col">
-          Tanggal Lahir
-        </TableColumn>
-        <TableColumn align="center" scope="col">
-          Status
-        </TableColumn>
-        <TableColumn align="center" scope="col">
-          Kartu Peserta
-        </TableColumn>
-      </TableHeader>
-      <TableBody className="">
-        {tableData?.map((data: any, i: number) => (
-          <TableRow key={i}>
-            <TableCell className="text-xs" data-label="No">
-              {i + 1}
-            </TableCell>
-            <TableCell className="text-xs text-start" data-label="name">
-              {data.name}
-            </TableCell>
-            <TableCell className="text-xs" data-label="gender">
-              {genderLabel(data.gender)}
-            </TableCell>
-            <TableCell className="text-xs" data-label="birth">
-              {convertBirth(data.birth)}
-            </TableCell>
-            <TableCell className="text-xs" data-label="status">
-              <Chip
-                variant="flat"
-                size="sm"
-                color={statusColor(data.status)}
-                className={`${statusColor(
-                  data.status
-                )} px-3 rounded-full font-black w-fit`}
+    <>
+      <Table
+        aria-label="Peserta Terdaftar"
+        isStriped
+        removeWrapper
+        isCompact
+        className=" text-nowrap w-full min-w-[700px] rounded-lg p-3"
+      >
+        <TableHeader className="bg-brand-dark h-10 text-white text-center">
+          <TableColumn align="center" scope="col" className="w-[10px]">
+            No.
+          </TableColumn>
+          <TableColumn align="center" scope="col">
+            Nama Peserta
+          </TableColumn>
+          <TableColumn align="center" className="" scope="col">
+            Jenis Kelamin
+          </TableColumn>
+          <TableColumn align="center" scope="col">
+            Tanggal Lahir
+          </TableColumn>
+          <TableColumn align="center" scope="col">
+            Status
+          </TableColumn>
+          <TableColumn align="center" scope="col">
+            Kartu Peserta
+          </TableColumn>
+        </TableHeader>
+        <TableBody className="">
+          {tableData?.map((data: any, i: number) => (
+            <TableRow key={i}>
+              <TableCell className="text-xs" data-label="No">
+                {i + 1}
+              </TableCell>
+              <TableCell className="text-xs text-start" data-label="name">
+                {data.name}
+              </TableCell>
+              <TableCell className="text-xs" data-label="gender">
+                {genderLabel(data.gender)}
+              </TableCell>
+              <TableCell className="text-xs" data-label="birth">
+                {convertBirth(data.birth)}
+              </TableCell>
+              <TableCell className="text-xs" data-label="status">
+                <Chip
+                  variant="flat"
+                  size="sm"
+                  color={statusColor(data.status)}
+                  className={`${statusColor(
+                    data.status
+                  )} px-3 rounded-full font-black w-fit`}
+                >
+                  <p className="font-black text-xs">{data.status}</p>
+                </Chip>
+              </TableCell>
+              <TableCell
+                className="text-xs"
+                data-label="Actions"
+                // className="flex items-center justify-center"
               >
-                <p className="font-black text-xs">{data.status}</p>
-              </Chip>
-            </TableCell>
-            <TableCell
-              className="text-xs"
-              data-label="Actions"
-              // className="flex items-center justify-center"
-            >
-              <button
-                onClick={() => console.log(data.kartu_peserta)}
-                type="button"
-                className="p-1 mb-2 mr-2 flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
-              >
-                <TbCloudDownload />
-                Download
-              </button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+                <button
+                  // onClick={() => console.log(data.kartu_peserta)}
+                  type="button"
+                  className="p-1 mb-2 mr-2 flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+                >
+                  <TbCloudDownload />
+                  Download
+                </button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {tableData.length === 0 && (
+        <h1 className="text-center text-sm text-gray-400 font-bold pb-5">
+          Tidak ada data
+        </h1>
+      )}
+    </>
   );
 }

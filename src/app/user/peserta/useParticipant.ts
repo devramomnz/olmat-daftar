@@ -16,7 +16,6 @@ const useParticipant = () => {
 
   async function getParticipants() {
     await api.get(`/participant?page=1&limit=10`).then((res) => {
-      console.log(res.data.data);
       setParticipant(res.data.data);
     });
   }

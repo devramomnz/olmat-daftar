@@ -13,6 +13,7 @@ import { convertRupiah } from "@/helper/common";
 import Link from "next/link";
 import { ROUTES } from "@/prefix/routes";
 import { encryptString } from "@/utils/encrypt";
+import { PaymentStatus } from "@/enum/payment.enum";
 
 interface IProps {
   tableData: IPayment[];
@@ -22,11 +23,11 @@ export default function TablePayWaiting(props: IProps) {
   const { tableData } = props;
 
   function statusColor(data: string) {
-    if (data === "Paid") {
+    if (data === PaymentStatus.PAID) {
       return "success";
-    } else if (data === "pending") {
+    } else if (data === PaymentStatus.PENDING) {
       return "warning";
-    } else if (data === "expired") {
+    } else if (data === PaymentStatus.EXPIRED) {
       return "danger";
     }
   }
@@ -74,7 +75,10 @@ export default function TablePayWaiting(props: IProps) {
                   <TableCell data-label="No">{i + 1}</TableCell>
                   <TableCell data-label="invoice">{data.invoice}</TableCell>
                   <TableCell data-label="code">{data.code}</TableCell>
-                  <TableCell data-label="participantAmount">
+                  <TableCell
+                    className="text-center"
+                    data-label="participantAmount"
+                  >
                     {data.participantAmount}
                   </TableCell>
                   <TableCell data-label="amount">
@@ -100,8 +104,9 @@ export default function TablePayWaiting(props: IProps) {
                       href={
                         ROUTES.TRANSACTION + "/" + encryptString(`${data.id}`)
                       }
+                      className="px-2 hover:bg-brand-semi duration-300 bg-brand-dark font-bold text-white rounded-lg py-1"
                     >
-                      {data.id}
+                      Detail
                     </Link>
                   </TableCell>
                 </TableRow>
