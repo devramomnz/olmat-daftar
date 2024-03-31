@@ -19,7 +19,7 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cd /var/www/olim-daftar
+            cd /var/www/olim-register
             git reset --hard
             git pull
             yarn install
