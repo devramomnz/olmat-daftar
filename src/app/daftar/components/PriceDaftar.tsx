@@ -7,16 +7,11 @@ interface IProps {
   price: number;
   freeInterval: number;
   handlePay: () => void;
-  defaultValue: IParticipant;
 }
 
 export default function PriceDaftar(props: IProps) {
-  const { payload, defaultValue, price, freeInterval, handlePay } = props;
+  const { payload, price, freeInterval, handlePay } = props;
   const [free, setFree] = useState<number>(0);
-
-  const disabled =
-    payload[0].attachment === defaultValue.attachment ||
-    payload[0].img === defaultValue.img;
 
   useEffect(() => {
     if (
@@ -53,11 +48,8 @@ export default function PriceDaftar(props: IProps) {
       <div className="flex  justify-center m-4">
         <button
           type="submit"
-          disabled={disabled ? true : false}
           onClick={() => handlePay()}
-          className={`${
-            disabled && "opacity-20 duration-500"
-          } px-9 py-1 rounded-full bg-brand duration-500 text-white font-black`}
+          className={`px-9 py-1 rounded-full bg-brand duration-500 text-white font-black`}
         >
           Bayar
         </button>

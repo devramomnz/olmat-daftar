@@ -82,11 +82,13 @@ export default function Home() {
             <span className="text-xl text-red-700">
               <IoWarning />
             </span>
-            Menunggu Pembayaran
+            {dashboard.pendingPayment.length !== 0
+              ? `Menunggu Pembayaran`
+              : "Tidak ada pembayaran yang belum terselesaikan"}
           </h2>
           <h2 className="w-fit mt-3">
             {dashboard.pendingPayment.length !== 0
-              ? `${name},ada pembayaran yang belum kamu selesaikan`
+              ? `${name}, ada pembayaran yang belum kamu selesaikan`
               : "Yuk segera daftar sebelum kuota penuh"}
           </h2>
           <div className="w-full flex">

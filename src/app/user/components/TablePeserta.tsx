@@ -100,7 +100,6 @@ export default function TablePeserta(props: IProps) {
                 // className="flex items-center justify-center"
               >
                 <button
-                  // onClick={() => console.log(data.kartu_peserta)}
                   type="button"
                   className="p-1 mb-2 mr-2 flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
                 >

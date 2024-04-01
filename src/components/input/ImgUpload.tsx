@@ -1,26 +1,24 @@
+import { useLayout } from "@/hooks/zustand/layout";
+import { Form } from "antd";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 
 interface IProps {
   onChange: (e: any) => void;
-  file?: any[];
+  file?: string;
+  name?: string;
+  title?: string;
   className?: string;
 }
 
 export default function ImgUpload(props: IProps) {
-  const { onChange, file, className } = props;
+  const { setError } = useLayout();
+  const { onChange, name, title, file, className } = props;
   const [isDrag, setIsDrag] = useState(false);
   const [isStyle, setIsStyle] = useState("bg-gray-100");
   const buttonUpload = useRef<any>();
-
-  let ImgPreviewUrl = "";
-  if (file && file.length > 0) {
-    const firstFile = file[0];
-    ImgPreviewUrl = URL.createObjectURL(firstFile);
-  }
-
-  console.log(file);
+  // const thisFile = URL.createObjectURL(file);
 
   function handleDrag(e: any) {
     e.preventDefault();
@@ -39,15 +37,31 @@ export default function ImgUpload(props: IProps) {
     e.stopPropagation();
     setIsDrag(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      setIsStyle("bg-gray-100");
-      onChange(e.dataTransfer.files);
-      console.log(Object.values(e.dataTransfer.files));
+      const uploadedFile = e.dataTransfer.files[0];
+      const allowedExtensions = ["jpeg", "jpg", "png"];
+      const fileExtension = uploadedFile.name.split(".").pop()?.toLowerCase();
+      if (fileExtension && allowedExtensions.includes(fileExtension)) {
+        setIsStyle("bg-gray-100");
+        onChange(uploadedFile);
+      } else {
+        setError(true, "Please upload a JPEG, JPG, or PNG file.");
+        setIsStyle("bg-gray-100");
+      }
     }
   }
 
   function handleChange(e: any) {
-    onChange(e.target.files);
-    console.log(Object.values(e.target.files));
+    const uploadedFile = e.target.files?.[0];
+    if (uploadedFile) {
+      const allowedExtensions = ["jpeg", "jpg", "png"];
+      const fileExtension = uploadedFile.name.split(".").pop()?.toLowerCase();
+      if (fileExtension && allowedExtensions.includes(fileExtension)) {
+        onChange(uploadedFile);
+      } else {
+        setError(true, "Please upload a JPEG, JPG, or PNG file.");
+        setIsStyle("bg-gray-100");
+      }
+    }
   }
 
   function handleButton() {
@@ -85,7 +99,7 @@ export default function ImgUpload(props: IProps) {
                 </span>
               </div>
               <div className="relative aspect-square">
-                <Image alt="" src={ImgPreviewUrl} fill />
+                <Image alt="" src={file} fill />
               </div>
             </div>
           )}
@@ -104,16 +118,27 @@ export default function ImgUpload(props: IProps) {
           )}
         </div>
       </div>
-      <input
-        className="absolute opacity-0 -z-10"
-        onDrop={handleDrop}
-        type="file"
-        ref={buttonUpload}
-        onChange={(e) => {
-          handleChange(e);
-        }}
-        style={{ display: isDrag ? "" : "none" }}
-      />
+      <Form.Item
+        required
+        name={name}
+        rules={[
+          {
+            required: true,
+            message: `Please input ${title}`,
+          },
+        ]}
+      >
+        <input
+          className="absolute opacity-0 -z-10"
+          onDrop={handleDrop}
+          type="file"
+          ref={buttonUpload}
+          onChange={(e) => {
+            handleChange(e);
+          }}
+          style={{ display: isDrag ? "" : "none" }}
+        />
+      </Form.Item>
     </div>
   );
 }

@@ -20,7 +20,6 @@ interface IProps {
 
 export default function PaymentDetail(props: IProps) {
   const { paymentData } = props;
-  // const dateEnd = convertDate(paymentData.expiredDate);
   const date = dayjs(paymentData.expiredDate)
     .locale("id")
     .format("dddd, D MMMM YYYY, [Pukul] HH.mm [WIB]");
@@ -69,16 +68,14 @@ export default function PaymentDetail(props: IProps) {
                 <h1 className="font-bold text-xl">EXPIRED</h1>
               </div>
             ))}
+          <div className="flex flex-col text-nowrap text-center justify-between w-full">
+            <h2 className="">No. Invoice</h2>
+            <h2 className="font-black">{paymentData.invoice}</h2>
+          </div>
         </div>
+        <h2 className="text-start font-bold border-b-2">Rincian Pembayaran</h2>
       </div>
-      <h2 className="text-start font-bold border-b-2">Rincian Pembayaran</h2>
       <div className="flex font-bold flex-col gap-1 text-sm ">
-        <div className="flex text-center justify-between w-full">
-          <h2 className="flex items-center gap-2">
-            <PiStudent /> No. Invoice
-          </h2>
-          <h2 className="font-black">{paymentData.invoice}</h2>
-        </div>
         <div className="flex text-center justify-between w-full">
           <h2 className="flex items-center gap-2">
             <PiStudent /> Total Peserta

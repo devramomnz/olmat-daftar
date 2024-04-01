@@ -15,13 +15,15 @@ import Link from "next/link";
 
 export default function Daftar() {
   const {
+    blob,
     payload,
     iPayload,
     form,
     genderOption,
     isModalOpen,
-    defaultValue,
     registerPrice,
+    submitButton,
+    postParticipant,
     setIsModalOpen,
     handleSelect,
     handleAddMore,
@@ -83,7 +85,6 @@ export default function Daftar() {
         <div className="min-h-screen hidden md:w-2/5 lg:w-3/12 md:flex flex-col gap-2">
           <div className="hidden md:block">
             <PriceDaftar
-              defaultValue={defaultValue}
               payload={payload}
               handlePay={handlePayment}
               freeInterval={10}
@@ -101,7 +102,6 @@ export default function Daftar() {
         <div className="flex w-screen flex-col gap-5">
           <div className="md:hidden">
             <PriceDaftar
-              defaultValue={defaultValue}
               payload={payload}
               handlePay={handlePayment}
               price={registerPrice || 0}
@@ -109,11 +109,13 @@ export default function Daftar() {
             />
           </div>
           <FormDaftar
+            submitRef={submitButton}
+            blob={blob}
             form={form}
             payload={payload}
             iPayload={iPayload}
             genderOption={genderOption}
-            handleSumbmit={handlePayment}
+            handleSumbmit={postParticipant}
             handleInputChange={handleInputChange}
             handleGenderSelect={handleGenderSelect}
             handleAttachment={handleAttachment}

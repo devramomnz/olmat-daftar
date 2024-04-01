@@ -34,7 +34,6 @@ export default function TablePayWaiting(props: IProps) {
   return (
     <>
       <div className="bg-white p-1 rounded-md">
-        <label>Menunggu Pembayaran</label>
         <div className="overflow-x-scroll no-scrollbar">
           <Table
             aria-label="Peserta Terdaftar"
