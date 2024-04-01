@@ -47,7 +47,7 @@ export default function PaymentDetail(props: IProps) {
         </div>
         <div className="flex flex-col items-center">
           {(paymentData.status === PaymentStatus.PENDING && (
-            <QRCode value={paymentData.qrString} size={250} />
+            <QRCode value={paymentData.invoice} size={250} />
           )) ||
             (paymentData.status === PaymentStatus.PAID && (
               <div className="flex flex-col items-center gap-3">
@@ -75,9 +75,15 @@ export default function PaymentDetail(props: IProps) {
       <div className="flex font-bold flex-col gap-1 text-sm ">
         <div className="flex text-center justify-between w-full">
           <h2 className="flex items-center gap-2">
+            <PiStudent /> No. Invoice
+          </h2>
+          <h2 className="font-black">{paymentData.invoice}</h2>
+        </div>
+        <div className="flex text-center justify-between w-full">
+          <h2 className="flex items-center gap-2">
             <PiStudent /> Total Peserta
           </h2>
-          <h2 className="font-black">{convertRupiah(paymentData.amount)}</h2>
+          <h2 className="font-black">{paymentData.participantAmount}</h2>
         </div>
         <div className="flex text-center justify-between w-full">
           <h2 className="flex items-center gap-2">
