@@ -1,3 +1,4 @@
+import Button from "@/components/button/Button";
 import { convertRupiah } from "@/helper/common";
 import { IParticipant } from "@/interfaces/IParticipant";
 import React, { useEffect, useState } from "react";
@@ -46,13 +47,13 @@ export default function PriceDaftar(props: IProps) {
         </div>
       </div>
       <div className="flex  justify-center m-4">
-        <button
-          type="submit"
+        <Button
+          // type="submit"
           onClick={() => handlePay()}
           className={`px-9 py-1 rounded-full bg-brand duration-500 text-white font-black`}
         >
           Bayar
-        </button>
+        </Button>
       </div>
     </div>
   );

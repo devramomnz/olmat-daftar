@@ -132,7 +132,6 @@ export function useDaftar() {
     });
   }
 
-  console.log(payload);
   function handleBirthday(e: any, i: number) {
     const date = dayjs(e).toISOString();
     console.log(date);
@@ -210,6 +209,8 @@ export function useDaftar() {
 
   function handlePayment() {
     submitButton.current.click();
+    console.log("first");
+    setIsButtonLoading(true);
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false);
