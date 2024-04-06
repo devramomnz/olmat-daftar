@@ -6,20 +6,26 @@ import React, { useEffect, useState } from "react";
 interface IProps {
   payload: IParticipant[];
   price: number;
+  amount: number;
   freeInterval: number;
   handlePay: () => void;
 }
 
 export default function PriceDaftar(props: IProps) {
-  const { payload, price, freeInterval, handlePay } = props;
+  const { payload, price, amount, freeInterval, handlePay } = props;
   const [free, setFree] = useState<number>(0);
+
+  console.log(amount, freeInterval);
+  console.log(payload.length / (amount + freeInterval));
+  console.log(payload.length);
 
   useEffect(() => {
     if (
-      payload.length > freeInterval &&
-      payload.length % (freeInterval + 1) === 0
+      payload.length > amount &&
+      payload.length % (amount + freeInterval) === 0
     ) {
-      setFree(payload.length / (freeInterval + 1));
+      setFree(payload.length / (amount + freeInterval));
+      // setFree(freeInterval);
     }
   }, [payload]);
 

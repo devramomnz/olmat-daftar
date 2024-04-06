@@ -2,13 +2,14 @@ import api from "@/config/axiosConfig";
 import { useLayout } from "@/hooks/zustand/layout";
 import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
+import { IEventSetting } from "@/interfaces/IEventSetting";
 import { IParticipant } from "@/interfaces/IParticipant";
 import { ROUTES } from "@/prefix/routes";
 import { encryptString } from "@/utils/encrypt";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 export interface IBlob {
   img: string | undefined;
@@ -48,6 +49,12 @@ export function useDaftar() {
     },
   ]);
 
+  const [eventSetting, setEventSetting] = useState<IEventSetting>({
+    amount: 0,
+    free: 0,
+  });
+  console.log(eventSetting);
+
   const defaultValue: IParticipant = {
     payment_id: 0,
     school_id: 0,
@@ -59,6 +66,16 @@ export function useDaftar() {
     img: undefined,
     attachment: undefined,
   };
+
+  async function getEventSetting() {
+    await api.get(`/event-setting`).then((res) => {
+      console.log(res.data);
+      setEventSetting({
+        amount: res.data[0].amount,
+        free: res.data[0].free,
+      });
+    });
+  }
 
   async function postParticipant() {
     const dataPost = Object.values(payload).map((data) => ({
@@ -209,7 +226,6 @@ export function useDaftar() {
 
   function handlePayment() {
     submitButton.current.click();
-    console.log("first");
     setIsButtonLoading(true);
   }
 
@@ -229,6 +245,10 @@ export function useDaftar() {
     setIsModalOpen(false);
   }
 
+  useEffect(() => {
+    getEventSetting();
+  }, []);
+
   return {
     blob,
     form,
@@ -239,6 +259,7 @@ export function useDaftar() {
     defaultValue,
     registerPrice,
     submitButton,
+    eventSetting,
     postParticipant,
     setIsModalOpen,
     handleSelect,
