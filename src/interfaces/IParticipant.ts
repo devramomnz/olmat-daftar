@@ -9,6 +9,6 @@ export interface IParticipant {
   status?: string;
   phone?: string;
   email?: string;
-  img: any[];
-  attachment: any[];
+  img: any | undefined;
+  attachment: any | undefined;
 }

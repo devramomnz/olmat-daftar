@@ -14,7 +14,7 @@ const Breadcrumb = () => {
   });
 
   return (
-    <div className="text-sm breadcrumbs ">
+    <div className="text-sm breadcrumbs">
       <ul className="flex gap-3">
         <li>
           <Link
@@ -41,7 +41,9 @@ const Breadcrumb = () => {
                 ) : (
                   <FaRegCreditCard />
                 )}
-                <p>{data.breadcrumb.replace("-", " ")}</p>
+                <p className="text-nowrap">
+                  {data.breadcrumb.replace("-", " ")}
+                </p>
               </Link>
             </li>
           );

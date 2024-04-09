@@ -6,6 +6,5 @@ export const ROUTES = {
   DAFTAR: "/daftar",
   PESERTA: "/user/peserta",
   TRANSACTION: "/user/transaction",
-  PAYMENT: "/payment",
   ACCOUNT: "/user/account",
 };

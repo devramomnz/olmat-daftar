@@ -23,8 +23,12 @@ export default function UserLayout(props: ILayout) {
         <SideBar />
         <div className="mt-16 z-0 lg:ml-64 min-h-screen bg-gray-100 p-3">
           <div className="flex items-center justify-start pb-2 border-b gap-5">
-            <BackButton />
-            <Breadcrumb />
+            <div>
+              <BackButton />
+            </div>
+            <div className="overflow-x-scroll no-scrollbar">
+              <Breadcrumb />
+            </div>
           </div>
           <div className="mt-3">{children}</div>
           {/* <Bottom /> */}

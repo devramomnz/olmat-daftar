@@ -92,6 +92,7 @@ export function AntUpload(props: IUpload) {
             listType={listType !== undefined ? `${listType}` : "picture"}
             fileList={file}
             supportServerRender={false}
+            onDrop={onChange}
             // showUploadList={false}
             onPreview={handlePreview}
             onChange={onChange}

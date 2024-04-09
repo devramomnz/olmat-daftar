@@ -4,7 +4,7 @@ module.exports = {
       name: "prod-olim-daftar",
       script: "yarn",
       args: "start",
-      cwd: "/var/www/olmat-daftar",
+      cwd: "/var/www/olim-register",
       instances: 1,
       autorestart: true,
       watch: false,

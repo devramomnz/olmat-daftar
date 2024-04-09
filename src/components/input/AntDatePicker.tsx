@@ -2,6 +2,8 @@ import { DatePicker, Form } from "antd";
 import locale from "antd/es/date-picker/locale/id_ID";
 import moment from "moment-timezone";
 import React, { ChangeEvent } from "react";
+import "dayjs/locale/id";
+import dayjs from "dayjs";
 
 interface IAntSelect {
   name?: string;
@@ -12,9 +14,11 @@ interface IAntSelect {
   require?: boolean;
 }
 
+dayjs.locale("id");
+
 export default function AntDatePicker(props: IAntSelect) {
   const { name, require, placeholder, onChange, labelName } = props;
-  const dateFormat = "YYYY/MM/DD";
+  const dateFormat = "DD MMMM YYYY";
   moment.tz.setDefault("Asia/Jakarta");
   return (
     <div>

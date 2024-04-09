@@ -50,7 +50,11 @@ export default function AntInput(props: IAntInput) {
           placeholder={labelName ? `masukkan ${labelName}` : placeholder}
           onChange={onChange}
           variant="borderless"
-          className={`${className} active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full `}
+          className={`${className} ${
+            disabled
+              ? "text-black bg-white"
+              : "active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full"
+          } `}
         />
       </Form.Item>
     </div>

@@ -12,8 +12,14 @@ export default function AppModal(props: IProps) {
   const { children, setOpen, open, title, className } = props;
 
   return (
-    <button onClick={setOpen} className="w-screen h-screen bg-danger-50 fixed">
-      <Modal isOpen={open} className="w-full">
+    // <div className="w-screen h-screen  fixed">
+    <>
+      <Modal
+        isOpen={open}
+        onTouchCancel={setOpen}
+        className="w-full absolute z-50"
+        onOpenChange={setOpen}
+      >
         <ModalContent>
           <>
             <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
@@ -23,6 +29,7 @@ export default function AppModal(props: IProps) {
           </>
         </ModalContent>
       </Modal>
-    </button>
+    </>
+    // </div>
   );
 }

@@ -2,14 +2,15 @@ import AntDatePicker from "@/components/input/AntDatePicker";
 import AntEmail from "@/components/input/AntEmail";
 import AntInput from "@/components/input/AntInput";
 import AntItemSelect from "@/components/input/AntItemSelect";
-import AntUpload from "@/components/input/AntUpload";
+import ImgUpload from "@/components/input/ImgUpload";
 import { IParticipant } from "@/interfaces/IParticipant";
-import { Form, UploadFile } from "antd";
+import { Form } from "antd";
 import { DefaultOptionType } from "antd/es/select";
-import { UploadChangeParam } from "antd/es/upload";
 import React, { ChangeEvent } from "react";
+import { IBlob } from "../useDaftar";
 
 interface IProps {
+  blob: IBlob[];
   form: any;
   payload: IParticipant[];
   iPayload: number;
@@ -27,11 +28,9 @@ interface IProps {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     iPayload: number
   ) => void;
-  handlePicture: (e: UploadChangeParam<UploadFile>, iPayload: number) => void;
-  handleAttachment: (
-    e: UploadChangeParam<UploadFile>,
-    iPayload: number
-  ) => void;
+  handlePicture: (e: any, iPayload: number) => void;
+  handleAttachment: (e: any, iPayload: number) => void;
+  submitRef: any;
 }
 
 export default function FormDaftar(props: IProps) {
@@ -40,6 +39,8 @@ export default function FormDaftar(props: IProps) {
     form,
     genderOption,
     payload,
+    blob,
+    submitRef,
     handleSumbmit,
     handleInputChange,
     handleAttachment,
@@ -57,12 +58,14 @@ export default function FormDaftar(props: IProps) {
         <label className="font-bold text-sm"></label>
         <Form form={form} onFinish={handleSumbmit} className="p-3">
           <AntInput
+            require
             labelName="Nama Peserta"
             name="name"
             onChange={(e) => handleInputChange(e, iPayload)}
           />
           <div className="grid grid-cols-2 gap-3">
             <AntItemSelect
+              require
               value={payload[iPayload].gender || "pilih"}
               name="gender"
               labelName="Jenis Kelamin"
@@ -72,33 +75,62 @@ export default function FormDaftar(props: IProps) {
               }
             />
             <AntDatePicker
+              require
               labelName="Tanggal lahir"
               name="birth"
               onChange={(e) => handleBirthday(e, iPayload)}
             />
             <AntEmail
+              require
               labelName="Email"
               name="email"
               onChange={(e) => handleInputChange(e, iPayload)}
             />
             <AntInput
+              require
               labelName="No Telp"
               name="phone"
               onChange={(e) => handleInputChange(e, iPayload)}
             />
-            <AntUpload
+            {/* <Form.Item name="img"> */}
+            {/* </Form.Item> */}
+            <div>
+              <h2>Foto Peserta</h2>
+              <ImgUpload
+                name="img"
+                title="Foto Peserta"
+                className="w-full"
+                file={blob[iPayload].img}
+                onChange={(e) => handlePicture(e, iPayload)}
+              />
+            </div>
+            <div>
+              <h2>Foto Kartu Pelajar / Surat Rekomendasi</h2>
+              <ImgUpload
+                name="attachments"
+                title="Foto Kartu Pelajar / Surat Rekomendasi"
+                className="w-full"
+                file={blob[iPayload].attachment}
+                onChange={(e) => handleAttachment(e, iPayload)}
+              />
+            </div>
+
+            {/* <AntUpload
               labelName="Foto Peserta"
               name="img"
               file={payload[iPayload].img}
               onChange={(e) => handlePicture(e, iPayload)}
-            />
-            <AntUpload
+            /> */}
+            {/* <AntUpload
               labelName="Foto Kartu Pelajar / Surat Rekomendasi"
               file={payload[iPayload].attachment}
               name="attachment"
               onChange={(e) => handleAttachment(e, iPayload)}
-            />
+            /> */}
           </div>
+          <button ref={submitRef} className="hidden">
+            Submit
+          </button>
         </Form>
 
         {/* )} */}

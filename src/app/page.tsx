@@ -5,7 +5,7 @@ import AppImage from "@/components/AppImage";
 import { Form } from "antd";
 import Button from "@/components/button/Button";
 import Link from "next/link";
-import { ROUTES } from "@/prefix/route.constant";
+import { ROUTES } from "@/prefix/routes";
 import Wave from "@/assets/wave";
 import AntPass from "@/components/input/AntPass";
 import AntEmail from "@/components/input/AntEmail";

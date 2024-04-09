@@ -2,21 +2,35 @@ import api from "@/config/axiosConfig";
 import { useEffect, useState } from "react";
 
 interface IDashboard {
-  total_participant_success: string;
-  total_participant_cancel: string;
-  payment_pending_lists: any[];
+  succesParticipant: string;
+  cancelParticipant: string;
+  pendingPayment: any[];
+  eventName: string;
+  eventStart: string;
+  eventEnd: string;
 }
 
 const useUser = () => {
   const [dashboard, setDashboard] = useState<IDashboard>({
-    total_participant_success: "0",
-    total_participant_cancel: "0",
-    payment_pending_lists: [],
+    succesParticipant: "0",
+    cancelParticipant: "0",
+    pendingPayment: [],
+    eventName: "",
+    eventStart: "",
+    eventEnd: "",
   });
 
   async function getDasboardData() {
     await api.get("/dashboard").then((res) => {
-      setDashboard(res.data);
+      setDashboard({
+        ...dashboard,
+        succesParticipant: res.data.total_participant_success,
+        cancelParticipant: res.data.total_participant_cancel,
+        pendingPayment: res.data.payment_pending_lists,
+        eventName: res.data.event_setting[0].name,
+        eventStart: res.data.event_setting[0].start,
+        eventEnd: res.data.event_setting[0].end,
+      });
     });
   }
 

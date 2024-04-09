@@ -2,22 +2,26 @@ import api from "@/config/axiosConfig";
 import { useLayout } from "@/hooks/zustand/layout";
 import { useAdminProfile } from "@/hooks/zustand/useAdminProfile";
 import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
-import { useParticipantPay } from "@/hooks/zustand/useParticipantPay";
+import { IEventSetting } from "@/interfaces/IEventSetting";
 import { IParticipant } from "@/interfaces/IParticipant";
-import { ROUTES } from "@/prefix/route.constant";
+import { ROUTES } from "@/prefix/routes";
+import { encryptString } from "@/utils/encrypt";
 import { useForm } from "antd/es/form/Form";
-import { UploadFile } from "antd/es/upload/interface";
-import { UploadChangeParam } from "antd/lib/upload";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+
+export interface IBlob {
+  img: string | undefined;
+  attachment: string | undefined;
+}
 
 export function useDaftar() {
   const router = useRouter();
+  const submitButton = useRef<any>(null);
   const { schoolId, registerPrice } = useAdminProfile();
   const { setIsButtonLoading } = useButtonLoading();
-  const {} = useLayout();
-  const { setPayData } = useParticipantPay();
+  const { setIsSuccess, setError } = useLayout();
   const [payload, setPayload] = useState<IParticipant[]>([
     {
       payment_id: 0,
@@ -27,8 +31,8 @@ export function useDaftar() {
       phone: "",
       email: "",
       birth: "",
-      img: [],
-      attachment: [],
+      img: undefined,
+      attachment: undefined,
     },
   ]);
   const [iPayload, setIPayload] = useState<number>(0);
@@ -38,7 +42,18 @@ export function useDaftar() {
     { label: "Perempuan", value: "P" },
   ];
 
-  console.log(payload);
+  const [blob, setBlob] = useState<IBlob[]>([
+    {
+      img: undefined,
+      attachment: undefined,
+    },
+  ]);
+
+  const [eventSetting, setEventSetting] = useState<IEventSetting>({
+    amount: 0,
+    free: 0,
+  });
+  console.log(eventSetting);
 
   const defaultValue: IParticipant = {
     payment_id: 0,
@@ -48,18 +63,27 @@ export function useDaftar() {
     phone: "",
     email: "",
     birth: `${dayjs().year(2000)}`,
-    img: [],
-    attachment: [],
+    img: undefined,
+    attachment: undefined,
   };
 
-  // const birth = dayjs(payload).format("DD-MM-YYYY");
+  async function getEventSetting() {
+    await api.get(`/event-setting`).then((res) => {
+      console.log(res.data);
+      setEventSetting({
+        amount: res.data[0].amount,
+        free: res.data[0].free,
+      });
+    });
+  }
+
   async function postParticipant() {
     const dataPost = Object.values(payload).map((data) => ({
       name: data.name,
       gender: data.gender,
       phone: data.phone,
       email: data.email,
-      birth: dayjs(data.birth).format("DD-MM-YYYY"),
+      birth: data.birth,
     }));
 
     const filePost = Object.values(payload).map((file) => ({
@@ -73,11 +97,12 @@ export function useDaftar() {
       dataPost.map((participat) => {
         payloadForm.append("participants", JSON.stringify(participat));
       });
+
       payloadForm.append("school_id", `${schoolId}`);
       payloadForm.append("payment_code", "QRIS");
       filePost.forEach((file) => {
-        payloadForm.append("imgs", file.imgs[0].originFileObj);
-        payloadForm.append("attachments", file.attachmets[0].originFileObj);
+        payloadForm.append("imgs", file.imgs);
+        payloadForm.append("attachments", file.attachmets);
       });
 
       await api
@@ -87,17 +112,16 @@ export function useDaftar() {
           },
         })
         .then((res) => {
-          setPayData({
-            invoice: res.data.payment.invoice,
-            qrString: res.data.payment.action.qr_string,
-            participantAmount: res.data.payment.participant_amounts,
-            payAmount: res.data.payment.amount,
-            value: res.data.participants,
-            expired: res.data.payment.expired_at,
-          });
-        })
-        .then(() => router.push(ROUTES.PAYMENT));
-    } catch (error) {}
+          setIsSuccess(true, "Pendaftaran Berhasil");
+          router.push(
+            ROUTES.TRANSACTION + "/" + encryptString(`${res.data.payment.id}`)
+          );
+        });
+    } catch (error: any) {
+      if (error?.response?.data?.errors?.message) {
+        setError(true, `${error.response.data.errors.message}`);
+      }
+    }
   }
 
   function handleInputChange(
@@ -126,34 +150,53 @@ export function useDaftar() {
   }
 
   function handleBirthday(e: any, i: number) {
+    const date = dayjs(e).toISOString();
+    console.log(date);
     setPayload((prev) => {
       const updateBirthday = [...prev];
       updateBirthday[i] = {
         ...updateBirthday[i],
-        birth: e,
+        birth: date,
       };
       return updateBirthday;
     });
   }
 
-  function handlePicture(e: UploadChangeParam<UploadFile>, i: number) {
-    console.log("cok", e);
+  function handlePicture(e: any, i: number) {
+    const blob = URL.createObjectURL(e);
+    setBlob((prev) => {
+      const updateImage = [...prev];
+      updateImage[i] = {
+        ...updateImage[i],
+        img: blob,
+      };
+      return updateImage;
+    });
     setPayload((prev) => {
       const updateImage = [...prev];
       updateImage[i] = {
         ...updateImage[i],
-        img: e.fileList,
+        img: e,
       };
       return updateImage;
     });
   }
 
-  function handleAttachment(e: UploadChangeParam<UploadFile>, i: number) {
+  function handleAttachment(e: any, i: number) {
+    const blob = URL.createObjectURL(e);
+    setBlob((prev) => {
+      const updataAttachment = [...prev];
+      updataAttachment[i] = {
+        ...updataAttachment[i],
+        attachment: blob,
+      };
+      return updataAttachment;
+    });
     setPayload((prev) => {
       const updataAttachment = [...prev];
       updataAttachment[i] = {
         ...updataAttachment[i],
-        attachment: e.fileList,
+        attachment: e,
       };
       return updataAttachment;
     });
@@ -172,11 +215,18 @@ export function useDaftar() {
     setPayload((prev) => [...prev, defaultValue]);
     setIPayload(iPayload + 1);
     form.resetFields();
+    setBlob((prev) => [
+      ...prev,
+      {
+        img: undefined,
+        attachment: undefined,
+      },
+    ]);
   }
 
   function handlePayment() {
-    postParticipant();
-    // setParticipantDataPay({ value: payload });
+    submitButton.current.click();
+    setIsButtonLoading(true);
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -196,10 +246,11 @@ export function useDaftar() {
   }
 
   useEffect(() => {
-    // postParticipant();
+    getEventSetting();
   }, []);
 
   return {
+    blob,
     form,
     payload,
     genderOption,
@@ -207,6 +258,9 @@ export function useDaftar() {
     isModalOpen,
     defaultValue,
     registerPrice,
+    submitButton,
+    eventSetting,
+    postParticipant,
     setIsModalOpen,
     handleSelect,
     setPayload,

@@ -1,8 +1,14 @@
 import api from "@/config/axiosConfig";
-import { usePathname } from "next/navigation";
+import { decryptString } from "@/utils/encrypt";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface IPaymentData {
+interface IParticipant {
+  name: string;
+  gender: string;
+  birth: string;
+}
+export interface IPaymentData {
   invoice: string;
   code: string;
   paymentId: string;
@@ -13,10 +19,13 @@ interface IPaymentData {
   totalAmount: number;
   expiredDate: string;
   status: string;
+  participants: IParticipant[];
 }
 
 const usePayment = () => {
-  const slug = usePathname().split("/")[3];
+  const params = useParams().slug.toString();
+  const decodedSlug = decodeURIComponent(params);
+  const paymentId = decryptString(decodedSlug);
 
   const [paymentData, setPaymentData] = useState<IPaymentData>({
     invoice: "",
@@ -29,11 +38,11 @@ const usePayment = () => {
     totalAmount: 0,
     expiredDate: "",
     status: "",
+    participants: [],
   });
-  console.log(paymentData);
 
   async function getPaymentById() {
-    await api.get(`/payment/${slug}`).then((res) => {
+    await api.get(`/payment/${paymentId}`).then((res) => {
       const resData = {
         invoice: res.data.invoice,
         code: res.data.code,
@@ -45,6 +54,7 @@ const usePayment = () => {
         totalAmount: res.data.total_amount,
         expiredDate: res.data.expired_at,
         status: res.data.status,
+        participants: res.data.participants,
       };
       setPaymentData(resData);
     });

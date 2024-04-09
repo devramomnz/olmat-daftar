@@ -1,51 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Lottie from "lottie-react";
 import otpMail from "@/assets/lottie/otpMail.json";
 import otpWaiting from "@/assets/lottie/otpWaiting.json";
 import AuthCode from "react-auth-code-input";
 import useAuthConfirm from "./useAuthConfirm";
-import Button from "@/components/button/Button";
-import Countdown from "react-countdown";
+import { Form } from "antd";
 
 export default function Auth() {
-  // const router = useRouter();
-
-  // const token = getCookie("_CToken");
-  // if (token) {
-  //   api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  // }
-  // const { setAdminProfile } = useAdminProfile();
-
-  // const getMe = async () => {
-  //   try {
-  //     const res = await api.get(`/auth/user/me`);
-  //     setAdminProfile({
-  //       name: res.data.data.name,
-  //       email: res.data.data.email,
-  //       phone: res.data.data.phone,
-  //       schoolName: res.data.data.school.name,
-  //       schoolId: res.data.data.school.id,
-  //       degreeId: res.data.data.school.degree.id,
-  //       degreeName: res.data.data.school.degree.name,
-  //     });
-  //     router.push("/user");
-  //   } catch (error) {
-  //     deleteCookie("_CToken");
-  //     router.push("/");
-  //   }
-  // };
-
   const { authEmail, handleInputAuth, handleResendOtp, handleSubmitAuth } =
     useAuthConfirm();
   const [show, setShow] = useState(false);
-  const [resetCount, setResetCount] = useState(0);
+  const [isCountdown, setIsCountdown] = useState(60);
+  const timeId: any = useRef();
 
-  function handleResetCount() {
-    setResetCount(resetCount + 1);
-  }
-
+  useEffect(() => {
+    timeId.current = setInterval(() => {
+      setIsCountdown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timeId.current);
+  }, []);
   useEffect(() => {
     // getMe();
     const timer = setTimeout(() => {
@@ -67,7 +42,7 @@ export default function Auth() {
           <Lottie animationData={otpWaiting} autoPlay loop className="h-32" />
           <div className="flex flex-col gap-3">
             <h2>Masukkan kode OTP</h2>
-            <form action="">
+            <Form onFinish={handleSubmitAuth}>
               <div className="relativ flex justify-center h-10">
                 <AuthCode
                   length={6}
@@ -79,13 +54,30 @@ export default function Auth() {
                 />
               </div>
               <div className="w-full flex justify-center">
-                <Button onClick={handleSubmitAuth} className="mt-8 w-52">
+                <button className="mt-8 w-52 px-5 bg-brand py-1 rounded-xl drop-shadow font-bold">
                   Submit
-                </Button>
+                </button>
               </div>
-            </form>
-            <div>
-              <Countdown key={resetCount} date={Date.now() + 60000}>
+            </Form>
+            <div className="mt-3">
+              {isCountdown <= 0 ? (
+                <span
+                  className="text-sm cursor-pointer font-bold transition-all duration-300 hover:text-brand"
+                  onClick={() => {
+                    handleResendOtp();
+                    setIsCountdown(60);
+                  }}
+                >
+                  Kirim Ulang Kode
+                </span>
+              ) : (
+                <p>
+                  <span className="mx-1 font-bold">
+                    {isCountdown} {" Detik"}
+                  </span>
+                </p>
+              )}
+              {/* <Countdown key={resetCount} date={Date.now() + 60000}>
                 <span
                   onClick={() => {
                     handleResendOtp(), handleResetCount();
@@ -94,7 +86,7 @@ export default function Auth() {
                 >
                   Kirim ulang kode
                 </span>
-              </Countdown>
+              </Countdown> */}
             </div>
           </div>
         </div>

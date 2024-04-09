@@ -1,3 +1,4 @@
+import Button from "@/components/button/Button";
 import { convertRupiah } from "@/helper/common";
 import { IParticipant } from "@/interfaces/IParticipant";
 import React, { useEffect, useState } from "react";
@@ -5,25 +6,26 @@ import React, { useEffect, useState } from "react";
 interface IProps {
   payload: IParticipant[];
   price: number;
+  amount: number;
   freeInterval: number;
   handlePay: () => void;
-  defaultValue: IParticipant;
 }
 
 export default function PriceDaftar(props: IProps) {
-  const { payload, defaultValue, price, freeInterval, handlePay } = props;
+  const { payload, price, amount, freeInterval, handlePay } = props;
   const [free, setFree] = useState<number>(0);
 
-  const disabled =
-    payload[0].attachment === defaultValue.attachment ||
-    payload[0].img === defaultValue.img;
+  console.log(amount, freeInterval);
+  console.log(payload.length / (amount + freeInterval));
+  console.log(payload.length);
 
   useEffect(() => {
     if (
-      payload.length > freeInterval &&
-      payload.length % (freeInterval + 1) === 0
+      payload.length > amount &&
+      payload.length % (amount + freeInterval) === 0
     ) {
-      setFree(payload.length / (freeInterval + 1));
+      setFree(payload.length / (amount + freeInterval));
+      // setFree(freeInterval);
     }
   }, [payload]);
 
@@ -51,16 +53,13 @@ export default function PriceDaftar(props: IProps) {
         </div>
       </div>
       <div className="flex  justify-center m-4">
-        <button
-          type="submit"
-          disabled={disabled ? true : false}
+        <Button
+          // type="submit"
           onClick={() => handlePay()}
-          className={`${
-            disabled && "opacity-20 duration-500"
-          } px-9 py-1 rounded-full bg-brand-dark duration-500 text-white font-black`}
+          className={`px-9 py-1 rounded-full bg-brand duration-500 text-white font-black`}
         >
           Bayar
-        </button>
+        </Button>
       </div>
     </div>
   );

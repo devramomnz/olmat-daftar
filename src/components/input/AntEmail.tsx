@@ -10,12 +10,21 @@ interface IEmailInputProps {
   defaultValue?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   className?: string;
+  disabled?: boolean;
   require?: boolean;
 }
 
 export function AntEmail(props: IEmailInputProps) {
-  const { name, labelName, value, onChange, require, placeholder, className } =
-    props;
+  const {
+    name,
+    disabled,
+    labelName,
+    value,
+    onChange,
+    require,
+    placeholder,
+    className,
+  } = props;
   const emailValidator: Rule[] = [
     {
       pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
@@ -34,11 +43,17 @@ export function AntEmail(props: IEmailInputProps) {
         <Input
           value={value}
           name={name}
+          disabled={disabled}
           variant="borderless"
           onChange={onChange}
           placeholder={labelName ? `masukkan ${labelName}` : placeholder}
           // className={`${className} text-sm hover:border-brand-muted focus:border-brand`}
-          className={`${className} active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full `}
+          // className={`${className} active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full `}
+          className={`${className} ${
+            disabled
+              ? "text-black bg-white"
+              : "active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full"
+          } `}
         />
       </Form.Item>
     </div>

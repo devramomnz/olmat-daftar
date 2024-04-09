@@ -1,33 +1,37 @@
 import api from "@/config/axiosConfig";
 import { usePaginationProduct } from "@/hooks/pagination/usePagination";
-import { IParticipant } from "@/interfaces/IParticipant";
+import { IPayment } from "@/interfaces/IPayments";
 import { useEffect, useState } from "react";
 
-const useParticipant = () => {
+const useTransaction = () => {
   const { paginationOptions, metaData, setMetaData, setPaginationOptions } =
     usePaginationProduct();
 
-  const [participant, setParticipant] = useState<IParticipant[]>([
-    {
-      name: "",
-      gender: "",
-      birth: "",
-      status: "",
-      img: [],
-      attachment: [],
-    },
-  ]);
+  const [payments, setPayments] = useState<IPayment[]>([]);
 
-  async function getParticipants() {
+  async function getPayments() {
     await api
       .get(
-        `/participant?page=${paginationOptions.curentPage}&limit=${paginationOptions.pageSize}`
+        `/payment?page=${paginationOptions.curentPage}&limit=${paginationOptions.pageSize}`
       )
       .then((res) => {
-        setParticipant(res.data.data);
+        const dataPayments = res.data.data.map((payments: any) => ({
+          id: payments.id,
+          invoice: payments.invoice,
+          code: payments.code,
+          amount: payments.amount,
+          totalAmount: payments.total_amount,
+          participantAmount: payments.participant_amounts,
+          status: payments.status,
+        }));
+        setPayments(dataPayments);
         setMetaData(res.data.metadata);
       });
   }
+
+  /**
+   * HANDLE CHANGE
+   */
 
   function handleChangePageSize(pageSizeParam: number) {
     if (pageSizeParam != paginationOptions.pageSize) {
@@ -45,16 +49,15 @@ const useParticipant = () => {
   }
 
   useEffect(() => {
-    getParticipants();
+    getPayments();
   }, []);
 
   return {
-    metaData,
     paginationOptions,
-    participant,
+    metaData,
+    payments,
     handleChangeCurentPage,
     handleChangePageSize,
   };
 };
-
-export default useParticipant;
+export default useTransaction;
