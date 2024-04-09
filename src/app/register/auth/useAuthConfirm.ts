@@ -37,7 +37,6 @@ const useAuthConfirm = () => {
 
   async function resendOtp() {
     setIsButtonLoading(true);
-    console.log("here");
     await api
       .post("auth/user/resend/otp", payload)
       .then(() => {

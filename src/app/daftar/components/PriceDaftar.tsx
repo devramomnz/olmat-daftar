@@ -15,10 +15,6 @@ export default function PriceDaftar(props: IProps) {
   const { payload, price, amount, freeInterval, handlePay } = props;
   const [free, setFree] = useState<number>(0);
 
-  console.log(amount, freeInterval);
-  console.log(payload.length / (amount + freeInterval));
-  console.log(payload.length);
-
   useEffect(() => {
     if (
       payload.length > amount &&

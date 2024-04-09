@@ -53,7 +53,6 @@ export function useDaftar() {
     amount: 0,
     free: 0,
   });
-  console.log(eventSetting);
 
   const defaultValue: IParticipant = {
     payment_id: 0,
@@ -69,7 +68,6 @@ export function useDaftar() {
 
   async function getEventSetting() {
     await api.get(`/event-setting`).then((res) => {
-      console.log(res.data);
       setEventSetting({
         amount: res.data[0].amount,
         free: res.data[0].free,
@@ -78,6 +76,7 @@ export function useDaftar() {
   }
 
   async function postParticipant() {
+    setIsButtonLoading(true);
     const dataPost = Object.values(payload).map((data) => ({
       name: data.name,
       gender: data.gender,
@@ -90,8 +89,6 @@ export function useDaftar() {
       imgs: file.img,
       attachmets: file.attachment,
     }));
-
-    setIsButtonLoading(true);
     try {
       const payloadForm = new FormData();
       dataPost.map((participat) => {
@@ -151,7 +148,6 @@ export function useDaftar() {
 
   function handleBirthday(e: any, i: number) {
     const date = dayjs(e).toISOString();
-    console.log(date);
     setPayload((prev) => {
       const updateBirthday = [...prev];
       updateBirthday[i] = {
@@ -226,7 +222,6 @@ export function useDaftar() {
 
   function handlePayment() {
     submitButton.current.click();
-    setIsButtonLoading(true);
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false);
