@@ -24,6 +24,7 @@ const config: Config = {
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
+        university: ["University", "sans-serif"],
       },
     },
   },
