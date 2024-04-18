@@ -1,6 +1,7 @@
 import { PaymentStatus } from "@/enum/payment.enum";
 import { convertBirth } from "@/helper/common";
 import { IParticipant } from "@/interfaces/IParticipant";
+import { ROUTES } from "@/prefix/routes";
 import {
   Chip,
   Table,
@@ -10,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
+import Link from "next/link";
 import React from "react";
 import { TbCloudDownload } from "react-icons/tb";
 
@@ -60,7 +62,7 @@ export default function TablePeserta(props: IProps) {
           <TableColumn align="center" scope="col">
             Tanggal Lahir
           </TableColumn>
-          <TableColumn align="center" scope="col">
+          <TableColumn className="text-center" align="center" scope="col">
             Status
           </TableColumn>
           <TableColumn align="center" scope="col">
@@ -69,7 +71,7 @@ export default function TablePeserta(props: IProps) {
         </TableHeader>
         <TableBody className="">
           {tableData?.map((data: any, i: number) => (
-            <TableRow key={i}>
+            <TableRow key={i} className="">
               <TableCell className="text-xs" data-label="No">
                 {i + 1}
               </TableCell>
@@ -82,7 +84,10 @@ export default function TablePeserta(props: IProps) {
               <TableCell className="text-xs" data-label="birth">
                 {convertBirth(data.birth)}
               </TableCell>
-              <TableCell className="text-xs" data-label="status">
+              <TableCell
+                className="text-xs flex justify-center"
+                data-label="status"
+              >
                 <Chip
                   variant="flat"
                   size="sm"
@@ -94,18 +99,14 @@ export default function TablePeserta(props: IProps) {
                   <p className="font-black text-xs">{data.status}</p>
                 </Chip>
               </TableCell>
-              <TableCell
-                className="text-xs"
-                data-label="Actions"
-                // className="flex items-center justify-center"
-              >
-                <button
-                  type="button"
-                  className="p-1 mb-2 mr-2 flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+              <TableCell data-label="Actions" className="text-xs">
+                <Link
+                  href={ROUTES.PESERTA + `/${data.id}`}
+                  className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
                 >
                   <TbCloudDownload />
-                  Download
-                </button>
+                  Kartu Peserta
+                </Link>
               </TableCell>
             </TableRow>
           ))}

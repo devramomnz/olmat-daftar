@@ -51,7 +51,7 @@ export default function PriceDaftar(props: IProps) {
       <div className="flex  justify-center m-4">
         <Button
           // type="submit"
-          onClick={() => handlePay()}
+          onClick={handlePay}
           className={`px-9 py-1 rounded-full bg-brand duration-500 text-white font-black`}
         >
           Bayar
