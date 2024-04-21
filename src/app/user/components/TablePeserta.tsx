@@ -14,6 +14,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { TbCloudDownload } from "react-icons/tb";
 import jsPDF from "jspdf";
 import IdCard from "../peserta/IdCard";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   tableData: IParticipant[];
@@ -21,10 +22,10 @@ interface IProps {
 
 export default function TablePeserta(props: IProps) {
   const { tableData } = props;
+  const router = useRouter();
   const idCardPdf = useRef<any>();
   const [card, setCard] = useState<IParticipant>();
   const [isStep, setIsStep] = useState(0);
-  console.log(isStep);
 
   function downloadPdfBtn(i: number) {
     setCard(tableData[i]);
@@ -51,7 +52,7 @@ export default function TablePeserta(props: IProps) {
         },
         html2canvas: {
           scale: 1.183,
-          // width: 475,
+          width: 475,
           // height: 665,
         },
       });
@@ -78,10 +79,16 @@ export default function TablePeserta(props: IProps) {
 
   useEffect(() => {
     downloadPdf();
+    router.push("/user/peserta");
   }, [isStep]);
 
   return (
     <div>
+      <div className="h-0 absolute overflow-hidden">
+        <div ref={idCardPdf} className="h-fit">
+          <IdCard card={card} />
+        </div>
+      </div>
       <Table
         aria-label="Peserta Terdaftar"
         isStriped
@@ -140,11 +147,6 @@ export default function TablePeserta(props: IProps) {
                 </Chip>
               </TableCell>
               <TableCell data-label="Actions" className="text-xs">
-                <div>
-                  <div ref={idCardPdf} className="h-fit">
-                    <IdCard card={card} />
-                  </div>
-                </div>
                 <button
                   // href={ROUTES.PESERTA + `/${data.id}`}
                   className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "

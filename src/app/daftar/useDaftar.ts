@@ -42,8 +42,6 @@ export function useDaftar() {
     { label: "Perempuan", value: "P" },
   ];
 
-  console.log(payload);
-
   const [blob, setBlob] = useState<IBlob[]>([
     {
       img: undefined,

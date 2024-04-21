@@ -10,11 +10,20 @@ interface IProps {
 
 export default function IdCard(props: IProps) {
   const { card } = props;
-  console.log(card);
 
   return (
     <>
       <div className="rounded-md border-1 object-fill overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex justify-center">
+        {/* <div className="relative w-[220px] h-[315px]"> */}
+        <Image
+          src={"/idcard.png"}
+          alt="idCard Olmat"
+          width={475}
+          height={0}
+          // fill
+          className="object-contain"
+        />
+        {/* </div> */}
         {/* <Image
           src={"/idcard.png"}
           width={475}
@@ -23,15 +32,7 @@ export default function IdCard(props: IProps) {
           // fill
           className="object-contain"
         /> */}
-        <div>
-          <Image
-            src={"/idcard.png"}
-            alt="idCard Olmat"
-            // width={475} height={100}
-            fill
-            objectFit="center"
-          />
-        </div>
+
         <h2 className="absolute top-[157px] left-[45px]">{card?.name}</h2>
         <h2 className="absolute top-[193px] left-[45px]">{card?.id}</h2>
         <h2 className="absolute top-[231.5px] text-[6px] left-[45px]">

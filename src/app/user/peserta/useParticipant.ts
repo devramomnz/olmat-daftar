@@ -26,7 +26,6 @@ const useParticipant = () => {
         `/participant/admin?page=${paginationOptions.curentPage}&limit=${paginationOptions.pageSize}`
       )
       .then((res) => {
-        console.log(res.data.data);
         const participants = res.data.data.map((data: any) => ({
           img: data.img,
           name: data.name,
@@ -37,7 +36,6 @@ const useParticipant = () => {
           school_name: data.school.name,
           region: data.school.city.region.name,
         }));
-        console.log(participants);
         setParticipant(participants);
         setMetaData(res.data.metadata);
       });

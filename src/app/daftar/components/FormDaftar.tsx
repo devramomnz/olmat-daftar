@@ -48,7 +48,6 @@ export default function FormDaftar(props: IProps) {
     handlePicture,
     handleGenderSelect,
   } = props;
-  console.log(blob);
 
   return (
     <>
