@@ -1,7 +1,6 @@
 import { PaymentStatus } from "@/enum/payment.enum";
 import { convertBirth } from "@/helper/common";
 import { IParticipant } from "@/interfaces/IParticipant";
-import { ROUTES } from "@/prefix/routes";
 import {
   Chip,
   Table,
@@ -11,9 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { TbCloudDownload } from "react-icons/tb";
+import jsPDF from "jspdf";
+import IdCard from "../peserta/IdCard";
 
 interface IProps {
   tableData: IParticipant[];
@@ -21,6 +21,42 @@ interface IProps {
 
 export default function TablePeserta(props: IProps) {
   const { tableData } = props;
+  const idCardPdf = useRef<any>();
+  const [card, setCard] = useState<IParticipant>();
+  const [isStep, setIsStep] = useState(0);
+  console.log(isStep);
+
+  function downloadPdfBtn(i: number) {
+    setCard(tableData[i]);
+    setIsStep(isStep + 1);
+  }
+
+  async function downloadPdf() {
+    const element = idCardPdf.current;
+    if (!element) {
+      console.error("Element not found");
+      return;
+    }
+
+    if (card) {
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        format: "b6",
+        unit: "px",
+      });
+
+      pdf.html(element, {
+        callback: () => {
+          pdf.save(`Olmat-id-${card.name}.pdf`);
+        },
+        html2canvas: {
+          scale: 1.183,
+          // width: 475,
+          // height: 665,
+        },
+      });
+    }
+  }
 
   function statusColor(data: string) {
     if (data === "active") {
@@ -40,8 +76,12 @@ export default function TablePeserta(props: IProps) {
     }
   }
 
+  useEffect(() => {
+    downloadPdf();
+  }, [isStep]);
+
   return (
-    <>
+    <div>
       <Table
         aria-label="Peserta Terdaftar"
         isStriped
@@ -100,13 +140,19 @@ export default function TablePeserta(props: IProps) {
                 </Chip>
               </TableCell>
               <TableCell data-label="Actions" className="text-xs">
-                <Link
-                  href={ROUTES.PESERTA + `/${data.id}`}
+                <div>
+                  <div ref={idCardPdf} className="h-fit">
+                    <IdCard card={card} />
+                  </div>
+                </div>
+                <button
+                  // href={ROUTES.PESERTA + `/${data.id}`}
                   className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+                  onClick={() => downloadPdfBtn(i)}
                 >
                   <TbCloudDownload />
                   Kartu Peserta
-                </Link>
+                </button>
               </TableCell>
             </TableRow>
           ))}
@@ -117,6 +163,6 @@ export default function TablePeserta(props: IProps) {
           Tidak ada data
         </h1>
       )}
-    </>
+    </div>
   );
 }

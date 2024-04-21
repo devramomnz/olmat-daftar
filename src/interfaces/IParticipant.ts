@@ -1,7 +1,9 @@
 export interface IParticipant {
-  id?: number;
+  id?: string;
   payment_id?: number;
   school_id?: number;
+  school_name?: string;
+  region?: string;
   name: string;
   gender: string;
   birth: string;

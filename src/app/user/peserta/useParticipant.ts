@@ -13,6 +13,8 @@ const useParticipant = () => {
       gender: "",
       birth: "",
       status: "",
+      school_name: "",
+      region: "",
       img: [],
       attachment: [],
     },
@@ -21,10 +23,22 @@ const useParticipant = () => {
   async function getParticipants() {
     await api
       .get(
-        `/participant?page=${paginationOptions.curentPage}&limit=${paginationOptions.pageSize}`
+        `/participant/admin?page=${paginationOptions.curentPage}&limit=${paginationOptions.pageSize}`
       )
       .then((res) => {
-        setParticipant(res.data.data);
+        console.log(res.data.data);
+        const participants = res.data.data.map((data: any) => ({
+          img: data.img,
+          name: data.name,
+          gender: data.gender,
+          birth: data.birth,
+          status: data.status,
+          id: data.id,
+          school_name: data.school.name,
+          region: data.school.city.region.name,
+        }));
+        console.log(participants);
+        setParticipant(participants);
         setMetaData(res.data.metadata);
       });
   }

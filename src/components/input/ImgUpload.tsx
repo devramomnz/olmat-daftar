@@ -123,7 +123,7 @@ export default function ImgUpload(props: IProps) {
         name={name}
         rules={[
           {
-            required: true,
+            // required: true,
             message: `Please input ${title}`,
           },
         ]}
