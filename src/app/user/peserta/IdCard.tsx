@@ -13,7 +13,7 @@ export default function IdCard(props: IProps) {
 
   return (
     <>
-      <div className="rounded-md border-1 object-fill overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex justify-center">
+      <div className="rounded-md border-1 object-fill overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
         {/* <div className="relative w-[220px] h-[315px]"> */}
         <Image
           src={"/idcard.png"}
@@ -40,12 +40,15 @@ export default function IdCard(props: IProps) {
         </h2>
         <h2 className="absolute top-[264px] left-[45px]">{card?.region}</h2>
         {/* </div> */}
-        <div className="absolute top-[70.5px] z-50">
-          <div className="relative w-[48px] h-[75px] bg-black">
+        <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
+          <div className="relative aspect-[48/71] flex items-center justify-center">
             <Image
               src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
-              alt="idCard s"
-              fill
+              alt="idCard"
+              width={50}
+              height={300}
+              // fill
+              className="object-contain"
             />
           </div>
         </div>
