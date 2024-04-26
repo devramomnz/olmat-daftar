@@ -36,16 +36,29 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const getMe = async () => {
     try {
       const res = await api.get(`/auth/user/me`);
-      setAdminProfile({
-        name: res.data.data.name,
-        email: res.data.data.email,
-        phone: res.data.data.phone,
-        schoolName: res.data.data.school.name,
-        schoolId: res.data.data.school.id,
-        degreeId: res.data.data.school.degree.id,
-        registerPrice: res.data.data.school.degree.register_price,
-        degreeName: res.data.data.school.degree.name,
-      });
+      if (res.data.data.type === "Admin") {
+        setAdminProfile({
+          name: res.data.data.name,
+          email: res.data.data.email,
+          phone: res.data.data.phone,
+          type: res.data.data.type,
+          regionId: res.data.data.region.id,
+        });
+      }
+      if (res.data.data.type === "user") {
+        setAdminProfile({
+          name: res.data.data.name,
+          email: res.data.data.email,
+          phone: res.data.data.phone,
+          type: res.data.data.type,
+          schoolName: res.data.data.school.name,
+          schoolId: res.data.data.school.id,
+          degreeId: res.data.data.school.degree.id,
+          registerPrice: res.data.data.school.degree.register_price,
+          degreeName: res.data.data.school.degree.name,
+        });
+      }
+
       if (path === "/") {
         router.push("/user");
       }

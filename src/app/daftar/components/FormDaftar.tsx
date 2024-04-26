@@ -95,7 +95,7 @@ export default function FormDaftar(props: IProps) {
             {/* <Form.Item name="img"> */}
             {/* </Form.Item> */}
             <div>
-              <h2>Foto Peserta</h2>
+              <h2>Foto Peserta Ukuran 4x6</h2>
               <ImgUpload
                 name="img"
                 title="Foto Peserta"

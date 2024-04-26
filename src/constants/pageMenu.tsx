@@ -10,6 +10,7 @@ export const PAGEMENU = [
     icon: <AiFillDashboard />,
     url: ROUTES.USER,
     name: "Dashboard",
+    access: ["user", "Admin"],
   },
   // {
   //   icon: <FaListCheck />,
@@ -20,15 +21,19 @@ export const PAGEMENU = [
     icon: <PiUserListFill />,
     url: ROUTES.PESERTA,
     name: "Data Peserta",
+    access: ["user", "Admin"],
   },
   {
     icon: <GiTakeMyMoney />,
     url: ROUTES.TRANSACTION,
     name: "Transaksi",
+    access: ["user", "Admin"],
   },
   {
     icon: <MdAccountCircle />,
     url: ROUTES.ACCOUNT,
     name: "Pengaturan Akun",
+    admin: false,
+    access: ["user"],
   },
 ];

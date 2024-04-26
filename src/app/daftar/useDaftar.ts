@@ -16,12 +16,32 @@ export interface IBlob {
   attachment: string | undefined;
 }
 
+export interface IOptionsReg {
+  city: { label: string; value: string }[];
+  subdistrict: { label: string; value: string }[];
+  school: { label: string; value: string }[];
+}
+
 export function useDaftar() {
   const router = useRouter();
   const submitButton = useRef<any>(null);
-  const { schoolId, registerPrice } = useAdminProfile();
+  const {
+    type,
+    schoolId,
+    regionId,
+    schoolName,
+    registerPrice,
+    setAdminProfile,
+  } = useAdminProfile();
   const { setIsButtonLoading } = useButtonLoading();
   const { setIsSuccess, setError } = useLayout();
+
+  /**
+   * STATE
+   */
+
+  const [isModalAdmin, setIsModalAdmin] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [payload, setPayload] = useState<IParticipant[]>([
     {
       payment_id: 0,
@@ -41,6 +61,11 @@ export function useDaftar() {
     { label: "Laki-laki", value: "L" },
     { label: "Perempuan", value: "P" },
   ];
+  const [option, setOption] = useState<IOptionsReg>({
+    city: [{ label: "", value: "" }],
+    subdistrict: [{ label: "", value: "" }],
+    school: [{ label: "", value: "" }],
+  });
 
   const [blob, setBlob] = useState<IBlob[]>([
     {
@@ -65,6 +90,47 @@ export function useDaftar() {
     img: undefined,
     attachment: undefined,
   };
+
+  /**
+   * API
+   */
+
+  async function getCity() {
+    await api.get(`/location-api/cities/${regionId}`).then((res) => {
+      const Options = res.data.map((city: any) => ({
+        value: `${city.id}`,
+        label: city.name,
+      }));
+      setOption({ ...option, city: Options });
+    });
+  }
+  async function getSubdistrict(e: number) {
+    await api.get(`/location-api/subdistrict/${e}`).then((res) => {
+      const Options = res.data.map((sub: any) => ({
+        value: `${sub.id}`,
+        label: sub.name,
+      }));
+      setOption({ ...option, subdistrict: Options });
+    });
+  }
+  async function getSchool(e: number) {
+    await api.get(`/location-api/school/${e}`).then((res) => {
+      const Options = res.data.map((school: any) => ({
+        value: `${school.id}`,
+        label: school.name,
+      }));
+      setOption({ ...option, school: Options });
+    });
+  }
+  async function getSchoolById(e: number) {
+    await api.get(`/school/${e}`).then((res) => {
+      setAdminProfile({
+        schoolName: res.data.name,
+        schoolId: res.data.id,
+        registerPrice: res.data.degree.register_price,
+      });
+    });
+  }
 
   async function getEventSetting() {
     await api.get(`/event-setting`).then((res) => {
@@ -121,6 +187,22 @@ export function useDaftar() {
     }
   }
 
+  /**
+   *  HANDLE CHANGE
+   */
+  function handleOptionSelect(name: string, e: any) {
+    if (name === "city") {
+      getSubdistrict(e);
+    }
+    if (name === "subdistrict") {
+      getSchool(e);
+    }
+    if (name === "school") {
+      setAdminProfile({ schoolId: e });
+      getSchoolById(e);
+      setIsModalAdmin(false);
+    }
+  }
   function handleInputChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     i: number
@@ -198,6 +280,15 @@ export function useDaftar() {
     });
   }
 
+  /**
+   * HANDLE SUBMIT ETC
+   */
+
+  function handleSchoolBtn() {
+    getCity();
+    setIsModalAdmin(true);
+  }
+
   function handleSelect(i: number) {
     setIPayload(i);
     form.setFieldValue("name", payload[i].name);
@@ -224,7 +315,6 @@ export function useDaftar() {
     submitButton.current.click();
   }
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   function handleDelete(i: number) {
     handleSelect(i);
     setIsModalOpen(true);
@@ -245,18 +335,26 @@ export function useDaftar() {
   }, []);
 
   return {
+    type,
     blob,
     form,
     payload,
     genderOption,
     iPayload,
+    option,
+    isModalAdmin,
     isModalOpen,
     defaultValue,
     registerPrice,
     submitButton,
     eventSetting,
+    schoolName,
+    schoolId,
+    handleSchoolBtn,
+    handleOptionSelect,
     postParticipant,
     setIsModalOpen,
+    setIsModalAdmin,
     handleSelect,
     setPayload,
     setIPayload,

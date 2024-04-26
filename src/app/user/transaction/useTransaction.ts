@@ -1,11 +1,13 @@
 import api from "@/config/axiosConfig";
 import { usePaginationProduct } from "@/hooks/pagination/usePagination";
+import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { IPayment } from "@/interfaces/IPayments";
 import { useEffect, useState } from "react";
 
 const useTransaction = () => {
   const { paginationOptions, metaData, setMetaData, setPaginationOptions } =
     usePaginationProduct();
+  const { setIsButtonLoading } = useButtonLoading();
 
   const [payments, setPayments] = useState<IPayment[]>([]);
 
@@ -50,6 +52,7 @@ const useTransaction = () => {
 
   useEffect(() => {
     getPayments();
+    setIsButtonLoading(false);
   }, []);
 
   return {
