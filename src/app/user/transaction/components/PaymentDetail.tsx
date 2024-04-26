@@ -46,7 +46,7 @@ export default function PaymentDetail(props: IProps) {
         </div>
         <div className="flex flex-col items-center">
           {(paymentData.status === PaymentStatus.PENDING && (
-            <QRCode value={paymentData.invoice} size={250} />
+            <QRCode value={paymentData.qrString} size={250} />
           )) ||
             (paymentData.status === PaymentStatus.PAID && (
               <div className="flex flex-col items-center gap-3">
