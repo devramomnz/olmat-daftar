@@ -10,9 +10,11 @@ import { PiStudentBold } from "react-icons/pi";
 import useUser from "./useUser";
 import { convertDate } from "@/helper/common";
 import dayjs from "dayjs";
+import { FaTelegramPlane } from "react-icons/fa";
+import { GROUPCHAT } from "@/constants/groupChat";
 
 export default function Home() {
-  const { name, degreeName, schoolName } = useAdminProfile();
+  const { name, degreeName, schoolName, regionId } = useAdminProfile();
   const { dashboard } = useUser();
   const now = dayjs(new Date());
   const startDate = dayjs(dashboard.eventStart);
@@ -112,6 +114,30 @@ export default function Home() {
             {dashboard?.succesParticipant} peserta telah terdaftar
           </Link>
         </div>
+        {+dashboard.succesParticipant >= 1 && (
+          <div className="w-full items-start bg-white mt-5 p-3 overflow-hidden rounded-md drop-shadow-md">
+            {GROUPCHAT.map((data, i) => {
+              if (data.code === regionId) {
+                return (
+                  <>
+                    <h2 className="font-bold border-b w-full text-start flex items-center gap-2 mb-4">
+                      <FaTelegramPlane />
+                      Group Telegram Rayon {data.name}
+                    </h2>
+                    <Link
+                      href={data.link}
+                      className="py-1 flex gap-2 items-center justify-center text-white font-bold px-3 rounded-md bg-brand-dark"
+                      key={i}
+                    >
+                      <FaTelegramPlane />
+                      Gabung Sekarang
+                    </Link>
+                  </>
+                );
+              }
+            })}
+          </div>
+        )}
       </div>
     </>
   );

@@ -51,6 +51,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           email: res.data.data.email,
           phone: res.data.data.phone,
           type: res.data.data.type,
+          regionId: res.data.data.region.id,
           schoolName: res.data.data.school.name,
           schoolId: res.data.data.school.id,
           degreeId: res.data.data.school.degree.id,
