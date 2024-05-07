@@ -1,10 +1,10 @@
 module.exports = {
   apps: [
     {
-      name: "prod-olim-daftar",
+      name: "prod-olmat-daftar",
       script: "yarn",
       args: "start",
-      cwd: "/var/www/olim-register",
+      cwd: "/var/www/olmat-daftar",
       instances: 1,
       autorestart: true,
       watch: false,
