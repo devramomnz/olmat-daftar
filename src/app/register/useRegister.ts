@@ -27,6 +27,8 @@ const useRegister = () => {
     school_id: 0,
   });
 
+  console.log(payload);
+
   const { setAuth } = useAuthVerif();
 
   const [option, setOption] = useState<IOptions>({
