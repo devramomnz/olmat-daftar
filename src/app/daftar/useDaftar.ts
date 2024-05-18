@@ -176,12 +176,14 @@ export function useDaftar() {
         })
         .then((res) => {
           setIsSuccess(true, "Pendaftaran Berhasil");
+          setIsButtonLoading(false);
           router.push(
             ROUTES.TRANSACTION + "/" + encryptString(`${res.data.payment.id}`)
           );
         });
     } catch (error: any) {
       if (error?.response?.data?.errors?.message) {
+        setIsButtonLoading(false);
         setError(true, `${error.response.data.errors.message}`);
       }
     }
