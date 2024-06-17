@@ -39,46 +39,56 @@ export default function TablePaymentParticipant(props: IProps) {
           Daftar Peserta
         </label>
       </div>
-      <Table
-        isCompact
-        removeWrapper
-        aria-label="Example table with custom cells, pagination and sorting"
-      >
-        <TableHeader>
-          <TableColumn
-            align="center"
-            scope="col"
-            className="w-[40px] text-center"
-          >
-            No.
-          </TableColumn>
-          <TableColumn align="start" scope="col" className="text-center ">
-            Nama
-          </TableColumn>
-          <TableColumn align="center" scope="col" className="w-36 text-center">
-            Gender
-          </TableColumn>
-          <TableColumn align="center" scope="col" className="w-36 text-center">
-            Tanggal Lahir
-          </TableColumn>
-        </TableHeader>
-        <TableBody>
-          {tableData.map((data, i) => (
-            <TableRow key={i}>
-              <TableCell data-label="No">{i + 1}</TableCell>
-              <TableCell data-label="name" className="text-start">
-                {data.name}
-              </TableCell>
-              <TableCell data-label="gender">
-                {genderLabel(data.gender)}
-              </TableCell>
-              <TableCell data-label="birth">
-                {convertBirth(data.birth)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="overflow-y-scroll no-scrollbar">
+        <Table
+          isCompact
+          removeWrapper
+          aria-label="Example table with custom cells, pagination and sorting"
+        >
+          <TableHeader>
+            <TableColumn
+              align="center"
+              scope="col"
+              className="w-[40px] text-center"
+            >
+              No.
+            </TableColumn>
+            <TableColumn align="start" scope="col" className="text-center ">
+              Nama
+            </TableColumn>
+            <TableColumn
+              align="center"
+              scope="col"
+              className="w-36 text-center"
+            >
+              Gender
+            </TableColumn>
+            <TableColumn
+              align="center"
+              scope="col"
+              className="w-36 text-center"
+            >
+              Tanggal Lahir
+            </TableColumn>
+          </TableHeader>
+          <TableBody>
+            {tableData.map((data, i) => (
+              <TableRow key={i}>
+                <TableCell data-label="No">{i + 1}</TableCell>
+                <TableCell data-label="name" className="text-start">
+                  {data.name}
+                </TableCell>
+                <TableCell data-label="gender">
+                  {genderLabel(data.gender)}
+                </TableCell>
+                <TableCell data-label="birth">
+                  {convertBirth(data.birth)}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </>
   );
 }

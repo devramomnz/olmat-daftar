@@ -12,15 +12,15 @@ export default function IdCard(props: IProps) {
   const { card } = props;
 
   return (
-    <>
-      <div className="rounded-md border-1 object-fill overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
-        {/* <div className="relative w-[220px] h-[315px]"> */}
+    <div className="absolute md:w-56">
+      <div className="rounded-md border-1 overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
+        {/* <div className="relative w-[475px]"> */}
         <Image
           src={"/idcard.png"}
           alt="idCard Olmat"
-          width={475}
-          height={0}
-          // fill
+          // width={475}
+          // height={0}
+          fill
           className="object-contain"
         />
         {/* </div> */}
@@ -53,6 +53,6 @@ export default function IdCard(props: IProps) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
