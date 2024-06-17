@@ -10,11 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
-import { useRouter } from "next/navigation";
 import { TbCloudDownload } from "react-icons/tb";
-import IdCard from "../peserta/IdCard";
+import Image from "next/image";
+import html2canvas from "html2canvas";
 
 interface IProps {
   tableData: IParticipant[];
@@ -22,8 +22,6 @@ interface IProps {
 
 export default function TablePeserta(props: IProps) {
   const { tableData } = props;
-  const router = useRouter();
-  const idCardPdf = useRef<any>();
   const [card, setCard] = useState<IParticipant>();
   const [isStep, setIsStep] = useState(0);
 
@@ -32,30 +30,35 @@ export default function TablePeserta(props: IProps) {
     setIsStep(isStep + 1);
   }
 
-  async function downloadPdf() {
-    const element = idCardPdf.current;
-    if (!element) {
-      console.error("Element not found");
-      return;
-    }
-
+  async function printDocument() {
     if (card) {
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        format: "b6",
-        unit: "px",
-      });
-
-      pdf.html(element, {
-        callback: () => {
-          pdf.save(`Olmat-id-${card.name}.pdf`);
-        },
-        html2canvas: {
-          scale: 1.183,
-          width: 475,
-          // height: 665,
-        },
-      });
+      const input = document.getElementById("idCardElement");
+      if (input) {
+        html2canvas(input, { scale: 4 }).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: [105, 148], // size in mm (width, height)
+          });
+          const imgWidth = 105; // width in mm
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          pdf.addImage(
+            imgData,
+            "JPEG",
+            0,
+            0,
+            imgWidth,
+            imgHeight,
+            undefined,
+            "FAST"
+          );
+          pdf.save(`ID-Card-${card?.name}-OLMAT 2024.pdf`);
+        });
+        setIsStep(0);
+      } else {
+        console.error("Element not found");
+      }
     }
   }
 
@@ -78,21 +81,54 @@ export default function TablePeserta(props: IProps) {
   }
 
   useEffect(() => {
-    downloadPdf();
-    router.push("/user/peserta");
+    if (isStep !== 0) {
+      setTimeout(() => {
+        printDocument();
+      }, 2000);
+    }
   }, [isStep]);
-
-  useEffect(() => {
-    router.push("/user/peserta");
-  }, []);
 
   return (
     <>
-      <div className="absolute overflow-hidden">
-        <div ref={idCardPdf} className="h-fit">
-          <IdCard card={card} />
+      <div className="absolute w-0 h-0 overflow-hidden">
+        <div className="md:w-56" id="idCardElement">
+          <div className="rounded-md border-1 overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
+            <Image
+              src={"/idcard.png"}
+              alt="idCard Olmat"
+              fill
+              className="object-contain"
+            />
+            <h2 className="absolute top-[157px] left-[45px]">{card?.name}</h2>
+            <h2 className="absolute top-[193px] left-[45px]">{card?.id}</h2>
+            <h2 className="absolute top-[231.5px] text-[6px] left-[45px]">
+              {card?.school_name}
+            </h2>
+            <h2 className="absolute top-[264px] left-[45px]">{card?.region}</h2>
+            {/* </div> */}
+            <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
+              <div className="relative aspect-[48/71] flex items-center justify-center">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
+                  alt="idCard"
+                  width={50}
+                  height={300}
+                  // fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <button
+        className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+        onClick={() => printDocument()}
+      >
+        <TbCloudDownload />
+        Kartu Peserta
+      </button>
+
       <Table
         aria-label="Peserta Terdaftar"
         isStriped
@@ -153,7 +189,6 @@ export default function TablePeserta(props: IProps) {
               <TableCell data-label="Actions" className="text-xs text-center">
                 {data.status === "active" ? (
                   <button
-                    // href={ROUTES.PESERTA + `/${data.id}`}
                     className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
                     onClick={() => downloadPdfBtn(i)}
                   >

@@ -50,7 +50,6 @@ const useRegister = () => {
       })
       .catch((err: any) => {
         setIsButtonLoading(false);
-        console.log(err);
         if (err.response.data.errors.email) {
           setError(true, "Alamat Email sudah terdaftar");
         }
