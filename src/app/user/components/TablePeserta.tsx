@@ -15,6 +15,7 @@ import { TbCloudDownload } from "react-icons/tb";
 import Image from "next/image";
 import html2canvas from "html2canvas";
 
+
 interface IProps {
   tableData: IParticipant[];
 }
@@ -23,6 +24,7 @@ export default function TablePeserta(props: IProps) {
   const { tableData } = props;
   const [card, setCard] = useState<IParticipant>();
   const [isStep, setIsStep] = useState(0);
+
 
   function downloadPdfBtn(i: number) {
     setCard(tableData[i]);
@@ -50,6 +52,7 @@ export default function TablePeserta(props: IProps) {
       }
     }
   }
+
 
   // async function printDocument() {
   //   if (card) {
@@ -102,13 +105,15 @@ export default function TablePeserta(props: IProps) {
     }
   }
 
-  useEffect(() => {
-    if (isStep !== 0) {
-      setTimeout(() => {
-        printDocument();
-      }, 2000);
-    }
-  }, [isStep]);
+  console.log(tableData);
+
+  // useEffect(() => {
+  //   if (isStep !== 0) {
+  //     setTimeout(() => {
+  //       printDocument();
+  //     }, 2000);
+  //   }
+  // }, [isStep]);
 
   // aspect-[472/665]
   return (
@@ -161,6 +166,7 @@ export default function TablePeserta(props: IProps) {
         <TbCloudDownload />
         Kartu Peserta
       </button> */}
+
 
       <Table
         aria-label="Peserta Terdaftar"
@@ -219,6 +225,7 @@ export default function TablePeserta(props: IProps) {
                   <p className="font-black text-xs">{data.status}</p>
                 </Chip>
               </TableCell>
+
               <TableCell data-label="Actions" className="text-xs text-center">
                 <div className="flex justify-center">
                   {data.status === "active" ? (
