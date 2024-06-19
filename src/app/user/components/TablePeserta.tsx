@@ -148,12 +148,12 @@ export default function TablePeserta(props: IProps) {
               </h2>
               {/* </div> */}
               <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
-                <div className="relative aspect-[48/71] flex items-center justify-center">
+                <div className="relative object-contain aspect-[48/71] flex items-center justify-center">
                   <Image
                     src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
                     alt="idCard"
                     width={50}
-                    quality={100}
+                    // quality={100}
                     height={300}
                     // fill
                     className="object-contain"
