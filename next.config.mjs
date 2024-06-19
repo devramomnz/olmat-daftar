@@ -1,24 +1,29 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["localhost"], // Add the localhost domain here
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost:8000",
-        port: "",
-      },
-      {
-        protocol: "https",
-        hostname: "cathabot.com",
-        port: "",
-      },
-      {
-        protocol: "https",
-        hostname: "www.xendit.co",
-        port: "",
-      },
-    ],
+    domains: ["localhost", "api-prod.olmatuinsa.online", "xendit.com"], // Add the localhost domain here
+    // remotePatterns: [
+    //   {
+    //     protocol: "https",
+    //     hostname: "api-prod.olmatuinsa.online",
+    //     port: "",
+    //   },
+    //   {
+    //     protocol: "http",
+    //     hostname: "localhost:8000",
+    //     port: "",
+    //   },
+    //   {
+    //     protocol: "https",
+    //     hostname: "cathabot.com",
+    //     port: "",
+    //   },
+    //   {
+    //     protocol: "https",
+    //     hostname: "www.xendit.co",
+    //     port: "",
+    //   },
+    // ],
   },
 };
 

@@ -88,11 +88,13 @@ export default function TablePeserta(props: IProps) {
     }
   }, [isStep]);
 
+  // aspect-[472/665]
   return (
     <>
       <div className="absolute w-0 h-0 overflow-hidden">
-        <div className="md:w-56" id="idCardElement">
-          <div className="rounded-md border-1 overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
+        {/* <div className="absolute"> */}
+        <div className="w-56" id="idCardElement">
+          <div className="rounded-md border-1 text-[8px] object-contain font-bold font-montserrat h-full aspect-[105/148] relative flex">
             <Image
               src={"/idcard.png"}
               alt="idCard Olmat"
@@ -121,13 +123,13 @@ export default function TablePeserta(props: IProps) {
           </div>
         </div>
       </div>
-      <button
+      {/* <button
         className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
         onClick={() => printDocument()}
       >
         <TbCloudDownload />
         Kartu Peserta
-      </button>
+      </button> */}
 
       <Table
         aria-label="Peserta Terdaftar"
@@ -187,19 +189,21 @@ export default function TablePeserta(props: IProps) {
                 </Chip>
               </TableCell>
               <TableCell data-label="Actions" className="text-xs text-center">
-                {data.status === "active" ? (
-                  <button
-                    className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
-                    onClick={() => downloadPdfBtn(i)}
-                  >
-                    <TbCloudDownload />
-                    Kartu Peserta
-                  </button>
-                ) : (
-                  <p className="text-xs">
-                    Pembayaran Belum Tuntas {data.status}
-                  </p>
-                )}
+                <div className="flex justify-center">
+                  {data.status === "active" ? (
+                    <button
+                      className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+                      onClick={() => downloadPdfBtn(i)}
+                    >
+                      <TbCloudDownload />
+                      Kartu Peserta
+                    </button>
+                  ) : (
+                    <p className="text-xs">
+                      Pembayaran Belum Tuntas {data.status}
+                    </p>
+                  )}
+                </div>
               </TableCell>
             </TableRow>
           ))}
