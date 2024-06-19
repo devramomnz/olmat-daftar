@@ -57,6 +57,8 @@ export default function Login() {
                 e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
               ) => handleChange(e)}
               name="password"
+              hideTitle
+              labelName="password"
               placeholder="Masukkan Password"
               className="text-lg bg-white"
               // onChange={onChange}
