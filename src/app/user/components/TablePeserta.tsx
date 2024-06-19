@@ -10,11 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-import jsPDF from "jspdf";
-import { TbCloudDownload } from "react-icons/tb";
-import Image from "next/image";
-import html2canvas from "html2canvas";
+import React from "react";
+// import jsPDF from "jspdf";
+// import { TbCloudDownload } from "react-icons/tb";
+// import Image from "next/image";
+// import html2canvas from "html2canvas";
 
 interface IProps {
   tableData: IParticipant[];
@@ -22,45 +22,45 @@ interface IProps {
 
 export default function TablePeserta(props: IProps) {
   const { tableData } = props;
-  const [card, setCard] = useState<IParticipant>();
-  const [isStep, setIsStep] = useState(0);
+  // const [card, setCard] = useState<IParticipant>();
+  // const [isStep, setIsStep] = useState(0);
 
-  function downloadPdfBtn(i: number) {
-    setCard(tableData[i]);
-    setIsStep(isStep + 1);
-  }
+  // function downloadPdfBtn(i: number) {
+  //   setCard(tableData[i]);
+  //   setIsStep(isStep + 1);
+  // }
 
-  async function printDocument() {
-    if (card) {
-      const input = document.getElementById("idCardElement");
-      if (input) {
-        html2canvas(input, { scale: 4 }).then((canvas) => {
-          const imgData = canvas.toDataURL("image/png");
-          const pdf = new jsPDF({
-            orientation: "portrait",
-            unit: "mm",
-            format: [105, 148], // size in mm (width, height)
-          });
-          const imgWidth = 105; // width in mm
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          pdf.addImage(
-            imgData,
-            "JPEG",
-            0,
-            0,
-            imgWidth,
-            imgHeight,
-            undefined,
-            "FAST"
-          );
-          pdf.save(`ID-Card-${card?.name}-OLMAT 2024.pdf`);
-        });
-        setIsStep(0);
-      } else {
-        console.error("Element not found");
-      }
-    }
-  }
+  // async function printDocument() {
+  //   if (card) {
+  //     const input = document.getElementById("idCardElement");
+  //     if (input) {
+  //       html2canvas(input, { scale: 4 }).then((canvas) => {
+  //         const imgData = canvas.toDataURL("image/png");
+  //         const pdf = new jsPDF({
+  //           orientation: "portrait",
+  //           unit: "mm",
+  //           format: [105, 148], // size in mm (width, height)
+  //         });
+  //         const imgWidth = 105; // width in mm
+  //         const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  //         pdf.addImage(
+  //           imgData,
+  //           "JPEG",
+  //           0,
+  //           0,
+  //           imgWidth,
+  //           imgHeight,
+  //           undefined,
+  //           "FAST"
+  //         );
+  //         pdf.save(`ID-Card-${card?.name}-OLMAT 2024.pdf`);
+  //       });
+  //       setIsStep(0);
+  //     } else {
+  //       console.error("Element not found");
+  //     }
+  //   }
+  // }
 
   function statusColor(data: string) {
     if (data === "active") {
@@ -80,48 +80,16 @@ export default function TablePeserta(props: IProps) {
     }
   }
 
-  useEffect(() => {
-    if (isStep !== 0) {
-      setTimeout(() => {
-        printDocument();
-      }, 2000);
-    }
-  }, [isStep]);
+  // useEffect(() => {
+  //   if (isStep !== 0) {
+  //     setTimeout(() => {
+  //       printDocument();
+  //     }, 2000);
+  //   }
+  // }, [isStep]);
 
   return (
     <>
-      <div className="absolute w-0 h-0 overflow-hidden">
-        <div className="md:w-56" id="idCardElement">
-          <div className="rounded-md border-1 overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
-            <Image
-              src={"/idcard.png"}
-              alt="idCard Olmat"
-              fill
-              className="object-contain"
-            />
-            <h2 className="absolute top-[157px] left-[45px]">{card?.name}</h2>
-            <h2 className="absolute top-[193px] left-[45px]">{card?.id}</h2>
-            <h2 className="absolute top-[231.5px] text-[6px] left-[45px]">
-              {card?.school_name}
-            </h2>
-            <h2 className="absolute top-[264px] left-[45px]">{card?.region}</h2>
-            {/* </div> */}
-            <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
-              <div className="relative aspect-[48/71] flex items-center justify-center">
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
-                  alt="idCard"
-                  width={50}
-                  height={300}
-                  // fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <Table
         aria-label="Peserta Terdaftar"
         isStriped
@@ -145,9 +113,9 @@ export default function TablePeserta(props: IProps) {
           <TableColumn className="text-center" align="center" scope="col">
             Status
           </TableColumn>
-          <TableColumn align="center" className="text-center" scope="col">
+          {/* <TableColumn align="center" className="text-center" scope="col">
             Kartu Peserta
-          </TableColumn>
+          </TableColumn> */}
         </TableHeader>
         <TableBody className="">
           {tableData?.map((data: any, i: number) => (
@@ -179,7 +147,7 @@ export default function TablePeserta(props: IProps) {
                   <p className="font-black text-xs">{data.status}</p>
                 </Chip>
               </TableCell>
-              <TableCell data-label="Actions" className="text-xs text-center">
+              {/* <TableCell data-label="Actions" className="text-xs text-center">
                 {data.status === "active" ? (
                   <button
                     className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
@@ -193,7 +161,7 @@ export default function TablePeserta(props: IProps) {
                     Pembayaran Belum Tuntas {data.status}
                   </p>
                 )}
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>
