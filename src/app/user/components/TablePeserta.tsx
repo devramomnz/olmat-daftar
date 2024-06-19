@@ -80,6 +80,8 @@ export default function TablePeserta(props: IProps) {
     }
   }
 
+  console.log(tableData);
+
   // useEffect(() => {
   //   if (isStep !== 0) {
   //     setTimeout(() => {
