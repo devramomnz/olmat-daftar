@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import jsPDF from "jspdf";
 import { TbCloudDownload } from "react-icons/tb";
 import Image from "next/image";
 import html2canvas from "html2canvas";
@@ -29,31 +28,21 @@ export default function TablePeserta(props: IProps) {
     setCard(tableData[i]);
     setIsStep(isStep + 1);
   }
-
   async function printDocument() {
     if (card) {
       const input = document.getElementById("idCardElement");
       if (input) {
         html2canvas(input, { scale: 4 }).then((canvas) => {
-          const imgData = canvas.toDataURL("image/png");
-          const pdf = new jsPDF({
-            orientation: "portrait",
-            unit: "mm",
-            format: [105, 148], // size in mm (width, height)
-          });
-          const imgWidth = 105; // width in mm
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          pdf.addImage(
-            imgData,
-            "JPEG",
-            0,
-            0,
-            imgWidth,
-            imgHeight,
-            undefined,
-            "FAST"
-          );
-          pdf.save(`ID-Card-${card?.name}-OLMAT 2024.pdf`);
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const link = document.createElement("a");
+              link.href = URL.createObjectURL(blob);
+              link.download = `ID-Card-${card?.name}-OLMAT 2024.png`;
+              link.click();
+            } else {
+              console.error("Blob creation failed");
+            }
+          }, "image/png");
         });
         setIsStep(0);
       } else {
@@ -61,6 +50,39 @@ export default function TablePeserta(props: IProps) {
       }
     }
   }
+
+  // async function printDocument() {
+  //   if (card) {
+  //     const input = document.getElementById("idCardElement");
+  //     if (input) {
+  //       html2canvas(input, { scale: 4 }).then((canvas) => {
+  //         const imgData = canvas.toDataURL("image/png");
+
+  //         const pdf = new jsPDF({
+  //           orientation: "portrait",
+  //           unit: "mm",
+  //           format: [105, 148], // size in mm (width, height)
+  //         });
+  //         const imgWidth = 105; // width in mm
+  //         const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  //         pdf.addImage(
+  //           imgData,
+  //           "JPEG",
+  //           0,
+  //           0,
+  //           imgWidth,
+  //           imgHeight,
+  //           undefined,
+  //           "FAST"
+  //         );
+  //         pdf.save(`ID-Card-${card?.name}-OLMAT 2024.pdf`);
+  //       });
+  //       setIsStep(0);
+  //     } else {
+  //       console.error("Element not found");
+  //     }
+  //   }
+  // }
 
   function statusColor(data: string) {
     if (data === "active") {
@@ -92,32 +114,41 @@ export default function TablePeserta(props: IProps) {
   return (
     <>
       <div className="absolute w-0 h-0 overflow-hidden">
-        {/* <div className="absolute"> */}
-        <div className="w-56" id="idCardElement">
-          <div className="rounded-md border-1 text-[8px] object-contain font-bold font-montserrat h-full aspect-[105/148] relative flex">
-            <Image
-              src={"/idcard.png"}
-              alt="idCard Olmat"
-              fill
-              className="object-contain"
-            />
-            <h2 className="absolute top-[157px] left-[45px]">{card?.name}</h2>
-            <h2 className="absolute top-[193px] left-[45px]">{card?.id}</h2>
-            <h2 className="absolute top-[231.5px] text-[6px] left-[45px]">
-              {card?.school_name}
-            </h2>
-            <h2 className="absolute top-[264px] left-[45px]">{card?.region}</h2>
-            {/* </div> */}
-            <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
-              <div className="relative aspect-[48/71] flex items-center justify-center">
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
-                  alt="idCard"
-                  width={50}
-                  height={300}
-                  // fill
-                  className="object-contain"
-                />
+        <div className="">
+          <div
+            className=" relative sm:w-56 max-w-56  h-full rounded-md border-1 overflow-hidden aspect-[105/148]"
+            id="idCardElement"
+          >
+            {/* <div className="rounded-md border-1 text-[8px] w-56 font-bold overflow-hidden font-montserrat object-center object-cover h-full aspect-[105/148] flex"> */}
+            <div className=" text-[8px] font-bold font-montserrat flex">
+              <Image
+                src={"/idcard.png"}
+                alt="idCard Olmat"
+                // height={100}
+                // width={100}
+                fill
+                // className="object-fill"
+              />
+              <h2 className="absolute top-[157px] left-[45px]">{card?.name}</h2>
+              <h2 className="absolute top-[193px] left-[45px]">{card?.id}</h2>
+              <h2 className="absolute top-[232px] text-[6px] left-[45px]">
+                {card?.school_name}
+              </h2>
+              <h2 className="absolute top-[264px] left-[45px]">
+                {card?.region}
+              </h2>
+              {/* </div> */}
+              <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
+                <div className="relative aspect-[48/71] flex items-center justify-center">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
+                    alt="idCard"
+                    width={50}
+                    height={300}
+                    // fill
+                    className="object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>
