@@ -10,6 +10,7 @@ interface IAntInput {
   defaultValue?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   className?: string;
+  hideTitle?: boolean;
   require?: NodeRequire;
   form?: any;
   dependencies?: string[];
@@ -23,6 +24,7 @@ export default function AntPass(props: IAntInput) {
     value,
     defaultValue,
     onChange,
+    hideTitle,
     dependencies,
     placeholder,
     className,
@@ -50,8 +52,8 @@ export default function AntPass(props: IAntInput) {
   }
 
   return (
-    <div>
-      <label className="text-sm">{labelName}</label>
+    <>
+      <label className={`${hideTitle && "hidden"} text-sm`}>{labelName}</label>
       <Form.Item
         name={name}
         dependencies={dependencies}
@@ -71,6 +73,6 @@ export default function AntPass(props: IAntInput) {
           className={`${className} active:bg-gray-100 focus:bg-gray-100 hover:bg-gray-100 bg-gray-100 rounded-full `}
         />
       </Form.Item>
-    </div>
+    </>
   );
 }

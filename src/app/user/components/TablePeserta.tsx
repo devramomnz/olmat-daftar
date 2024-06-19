@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { TbCloudDownload } from "react-icons/tb";
 import Image from "next/image";
 import html2canvas from "html2canvas";
+import { Modal } from "antd";
 
 interface IProps {
   tableData: IParticipant[];
@@ -23,16 +24,18 @@ export default function TablePeserta(props: IProps) {
   const { tableData } = props;
   const [card, setCard] = useState<IParticipant>();
   const [isStep, setIsStep] = useState(0);
+  const [isModal, setIsModal] = useState(false);
 
   function downloadPdfBtn(i: number) {
     setCard(tableData[i]);
-    setIsStep(isStep + 1);
+    // setIsStep(isStep + 1);
+    setIsModal(true);
   }
   async function printDocument() {
     if (card) {
       const input = document.getElementById("idCardElement");
       if (input) {
-        html2canvas(input, { scale: 4 }).then((canvas) => {
+        html2canvas(input, { scale: 5 }).then((canvas) => {
           canvas.toBlob((blob) => {
             if (blob) {
               const link = document.createElement("a");
@@ -113,10 +116,16 @@ export default function TablePeserta(props: IProps) {
   // aspect-[472/665]
   return (
     <>
-      <div className="absolute w-0 h-0 overflow-hidden">
-        <div className="">
+      <Modal
+        open={isModal}
+        onCancel={() => setIsModal(false)}
+        className="flex flex-col justify-center items-center gap-2"
+        footer=""
+      >
+        {/* <div className="absolute w-0 h-0 overflow-hidden"> */}
+        <div className="w-fit pb-4">
           <div
-            className=" relative sm:w-56 max-w-56  h-full rounded-md border-1 overflow-hidden aspect-[105/148]"
+            className=" relative w-56 h-full rounded-md border-1 overflow-hidden aspect-[105/148]"
             id="idCardElement"
           >
             {/* <div className="rounded-md border-1 text-[8px] w-56 font-bold overflow-hidden font-montserrat object-center object-cover h-full aspect-[105/148] flex"> */}
@@ -127,7 +136,7 @@ export default function TablePeserta(props: IProps) {
                 // height={100}
                 // width={100}
                 fill
-                // className="object-fill"
+                className="object-fill"
               />
               <h2 className="absolute top-[157px] left-[45px]">{card?.name}</h2>
               <h2 className="absolute top-[193px] left-[45px]">{card?.id}</h2>
@@ -144,6 +153,7 @@ export default function TablePeserta(props: IProps) {
                     src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
                     alt="idCard"
                     width={50}
+                    quality={100}
                     height={300}
                     // fill
                     className="object-contain"
@@ -153,14 +163,56 @@ export default function TablePeserta(props: IProps) {
             </div>
           </div>
         </div>
-      </div>
-      {/* <button
-        className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
-        onClick={() => printDocument()}
-      >
-        <TbCloudDownload />
-        Kartu Peserta
-      </button> */}
+        {/* SHOWW */}
+        <div className="absolute z-20 top-5 w-fit pb-4">
+          <div
+            className=" relative w-56 h-full rounded-md border-1 overflow-hidden aspect-[105/148]"
+            // id="idCardElement"
+          >
+            {/* <div className="rounded-md border-1 text-[8px] w-56 font-bold overflow-hidden font-montserrat object-center object-cover h-full aspect-[105/148] flex"> */}
+            <div className=" text-[8px] font-bold font-montserrat flex">
+              <Image
+                src={"/idcard.png"}
+                alt="idCard Olmat"
+                // height={100}
+                // width={100}
+                fill
+                className="object-fill"
+              />
+              <h2 className="absolute top-[164px] left-[45px]">{card?.name}</h2>
+              <h2 className="absolute top-[199px] left-[45px]">{card?.id}</h2>
+              <h2 className="absolute top-[237px] text-[6px] left-[45px]">
+                {card?.school_name}
+              </h2>
+              <h2 className="absolute top-[270px] left-[45px]">
+                {card?.region}
+              </h2>
+              {/* </div> */}
+              <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
+                <div className="relative aspect-[48/71] flex items-center justify-center">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
+                    alt="idCard"
+                    width={50}
+                    quality={100}
+                    height={300}
+                    // fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* </div> */}
+        <button
+          className="p-1 mb-2 mr-2 w-full justify-center flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+          onClick={() => printDocument()}
+        >
+          <TbCloudDownload />
+          Download
+        </button>
+      </Modal>
 
       <Table
         aria-label="Peserta Terdaftar"
