@@ -153,7 +153,7 @@ export default function TablePeserta(props: IProps) {
                     src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
                     alt="idCard"
                     width={50}
-                    quality={100}
+                    // quality={100}
                     height={300}
                     // fill
                     className="object-contain"
