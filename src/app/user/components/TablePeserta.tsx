@@ -90,7 +90,7 @@ export default function TablePeserta(props: IProps) {
 
   return (
     <>
-      <div className="absolute ">
+      <div className="absolute w-0 h-0 overflow-hidden">
         <div className="md:w-56" id="idCardElement">
           <div className="rounded-md border-1 overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
             <Image
