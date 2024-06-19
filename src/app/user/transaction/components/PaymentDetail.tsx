@@ -11,6 +11,8 @@ import Image from "next/image";
 import { PaymentStatus } from "@/enum/payment.enum";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
+import { useLayout } from "@/hooks/zustand/layout";
+import { RiFileCopy2Line } from "react-icons/ri";
 
 dayjs.locale("id");
 
@@ -19,10 +21,23 @@ interface IProps {
 }
 
 export default function PaymentDetail(props: IProps) {
+  const { setIsSuccess, setError } = useLayout();
   const { paymentData } = props;
   const date = dayjs(paymentData.expiredDate)
     .locale("id")
     .format("dddd, D MMMM YYYY, [Pukul] HH.mm [WIB]");
+
+  const handleCopyInvoice = () => {
+    navigator.clipboard
+      .writeText(paymentData.invoice)
+      .then(() => {
+        setIsSuccess(true, "Invoice number copied to clipboard");
+      })
+      .catch(() => {
+        setError(true, "Failed to copy invoice number");
+      });
+  };
+
   return (
     <>
       <div className="flex flex-col text-white font-montserrat items-center">
@@ -68,9 +83,20 @@ export default function PaymentDetail(props: IProps) {
                 <h1 className="font-bold text-xl">EXPIRED</h1>
               </div>
             ))}
-          <div className="flex flex-col text-nowrap text-center justify-between w-full">
+          <div className="flex flex-col gap-1 text-center justify-between w-full">
             <h2 className="">No. Invoice</h2>
-            <h2 className="font-black">{paymentData.invoice}</h2>
+            <p className="font-black w-full break-words">
+              {paymentData.invoice}
+            </p>
+            <div className="flex justify-center">
+              <button
+                onClick={handleCopyInvoice}
+                className="flex items-center text-brand-semi"
+              >
+                <RiFileCopy2Line />
+                Salin
+              </button>
+            </div>
           </div>
         </div>
         <h2 className="text-start font-bold border-b-2">Rincian Pembayaran</h2>

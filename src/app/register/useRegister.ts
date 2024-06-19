@@ -27,8 +27,6 @@ const useRegister = () => {
     school_id: 0,
   });
 
-  console.log(payload);
-
   const { setAuth } = useAuthVerif();
 
   const [option, setOption] = useState<IOptions>({
@@ -51,13 +49,13 @@ const useRegister = () => {
         setIsButtonLoading(false);
       })
       .catch((err: any) => {
+        setIsButtonLoading(false);
         if (err.response.data.errors.email) {
           setError(true, "Alamat Email sudah terdaftar");
         }
         if (err.response.data.errors.phone) {
           setError(true, "No WhatsApp sudah terdaftar");
         }
-        setIsButtonLoading(false);
       });
   }
   async function getProvince() {
