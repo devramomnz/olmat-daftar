@@ -90,7 +90,7 @@ export default function TablePeserta(props: IProps) {
 
   return (
     <>
-      <div className="absolute w-0 h-0 overflow-hidden">
+      <div className="absolute ">
         <div className="md:w-56" id="idCardElement">
           <div className="rounded-md border-1 overflow-hidden text-[8px] font-bold font-montserrat w-56 h-full aspect-[472/665] relative flex">
             <Image
@@ -121,13 +121,6 @@ export default function TablePeserta(props: IProps) {
           </div>
         </div>
       </div>
-      <button
-        className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
-        onClick={() => printDocument()}
-      >
-        <TbCloudDownload />
-        Kartu Peserta
-      </button>
 
       <Table
         aria-label="Peserta Terdaftar"
