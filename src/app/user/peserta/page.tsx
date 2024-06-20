@@ -16,8 +16,10 @@ export default function Peserta() {
   return (
     <>
       <label className="font-bold">Data Peserta</label>
-      <div className="w-full p-2 bg-white mt-5 rounded-md drop-shadow-md no-scrollbar overflow-x-scroll">
-        <TablePeserta tableData={participant} />
+      <div className="w-full p-2 bg-white mt-5 rounded-md drop-shadow-md ">
+        <div className="no-scrollbar overflow-x-scroll">
+          <TablePeserta tableData={participant} />
+        </div>
         <PagintaionV1
           curentPage={paginationOptions.curentPage}
           metaData={metaData}
