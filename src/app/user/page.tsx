@@ -119,7 +119,7 @@ export default function Home() {
             {GROUPCHAT.map((data, i) => {
               if (data.code === regionId) {
                 return (
-                  <>
+                  <div key={i}>
                     <h2 className="font-bold border-b w-full text-start flex items-center gap-2 mb-4">
                       <FaTelegramPlane />
                       Group Telegram Rayon {data.name}
@@ -132,7 +132,7 @@ export default function Home() {
                       <FaTelegramPlane />
                       Gabung Sekarang
                     </Link>
-                  </>
+                  </div>
                 );
               }
             })}
