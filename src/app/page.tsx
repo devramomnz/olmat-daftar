@@ -38,7 +38,7 @@ export default function Login() {
             />
             <h1>OLMAT UINSA</h1>
           </div>
-          <h1 className="text-2xl">Masuk Akun</h1>
+          <h1 className="text-2xl mb-7">Masuk Akun</h1>
           <Form
             form={form}
             onFinish={handleSubmit}
@@ -63,7 +63,15 @@ export default function Login() {
               className="text-lg bg-white"
               // onChange={onChange}
             />
-            <div className="flex justify-center">
+            <div className="flex w-full">
+              <Link
+                href={ROUTES.FORGOT_PASS}
+                className="text-xs text-white font-semibold"
+              >
+                Lupa password?
+              </Link>
+            </div>
+            <div className="flex mt-7 justify-center">
               <Button className="w-32  text-brand-dark">Masuk</Button>
             </div>
           </Form>
