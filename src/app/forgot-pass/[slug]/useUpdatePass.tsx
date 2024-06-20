@@ -35,6 +35,7 @@ const useUpdatePass = () => {
       .then(() => {
         setIsSuccess(true, "Berhasil update password");
         route.push("/");
+        deleteCookie("_CTokenForgot");
       })
       .catch((err) => {
         setError(true, "Gagal update password");
