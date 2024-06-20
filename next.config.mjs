@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["localhost", "api-prod.olmatuinsa.online", "xendit.com"], // Add the localhost domain here
+    domains: ["localhost", "api-prod.olmatuinsa.online", "xendit.co"], // Add the localhost domain here
     // remotePatterns: [
     //   {
     //     protocol: "https",
