@@ -123,13 +123,13 @@ export default function TablePeserta(props: IProps) {
         footer=""
       >
         {/* <div className="absolute w-0 h-0 overflow-hidden"> */}
-        <div className="w-fit pb-4">
+        <div className="w-56 pb-4">
           <div
-            className=" relative w-56 h-full rounded-md border-1 overflow-hidden aspect-[105/148]"
+            className="relative w-56 h-full rounded-md border-1 overflow-hidden aspect-[105/148]"
             id="idCardElement"
           >
             {/* <div className="rounded-md border-1 text-[8px] w-56 font-bold overflow-hidden font-montserrat object-center object-cover h-full aspect-[105/148] flex"> */}
-            <div className=" text-[8px] font-bold font-montserrat flex">
+            <div className="text-[8px] font-bold justify-center font-montserrat flex">
               <Image
                 src={"/idcard.png"}
                 alt="idCard Olmat"
@@ -147,35 +147,29 @@ export default function TablePeserta(props: IProps) {
                 {card?.region}
               </h2>
               {/* </div> */}
-              <div className="absolute w-full top-[67px] z-50 flex items-center justify-center">
-                <div className="relative object-contain aspect-[48/71] flex items-center justify-center">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
-                    alt="idCard"
-                    width={50}
-                    // quality={100}
-                    height={300}
-                    // fill
-                    className="object-contain"
-                  />
-                </div>
+              {/* <div className="absolute w-full top-[67px] z-50 flex items-center justify-center"> */}
+              <div className="relative aspect-[48/71] h-full object-center object-cover w-[50px] mt-[67px] flex items-center justify-center">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
+                  alt="idCard"
+                  // width={49}
+                  // height={300}
+                  fill
+                  // quality={100}
+                  className="object-cover"
+                />
               </div>
+              {/* </div> */}
             </div>
           </div>
         </div>
         {/* SHOWW */}
         <div className="absolute z-20 top-5 w-fit pb-4">
-          <div
-            className=" relative w-56 h-full rounded-md border-1 overflow-hidden aspect-[105/148]"
-            // id="idCardElement"
-          >
-            {/* <div className="rounded-md border-1 text-[8px] w-56 font-bold overflow-hidden font-montserrat object-center object-cover h-full aspect-[105/148] flex"> */}
+          <div className=" relative w-56 h-full rounded-md border-1 overflow-hidden aspect-[105/148]">
             <div className=" text-[8px] font-bold font-montserrat flex">
               <Image
                 src={"/idcard.png"}
                 alt="idCard Olmat"
-                // height={100}
-                // width={100}
                 fill
                 className="object-fill"
               />
@@ -194,7 +188,6 @@ export default function TablePeserta(props: IProps) {
                     src={`${process.env.NEXT_PUBLIC_IMG_CDN}/imgs/${card?.img}`}
                     alt="idCard"
                     width={50}
-                    quality={100}
                     height={300}
                     // fill
                     className="object-contain"
@@ -204,7 +197,6 @@ export default function TablePeserta(props: IProps) {
             </div>
           </div>
         </div>
-        {/* </div> */}
         <button
           className="p-1 mb-2 mr-2 w-full justify-center flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
           onClick={() => printDocument()}
