@@ -1,6 +1,5 @@
 import { useLayout } from "@/hooks/zustand/layout";
-import { Form } from "antd";
-import Image from "next/image";
+import { Form, Image } from "antd";
 import React, { useRef, useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 
@@ -73,7 +72,7 @@ export default function ImgUpload(props: IProps) {
       onDragEnter={handleDrag}
       className={`${isStyle} ${
         className && className
-      } p-1 duration-300 w-32 h-32  group rounded-lg `}
+      } p-1 duration-300 w-32 h-full group rounded-lg `}
     >
       <div
         className={`relative grid ${
@@ -84,7 +83,7 @@ export default function ImgUpload(props: IProps) {
         onDragOver={handleDrag}
         onDrop={handleDrop}
       >
-        <div className="z-10 flex flex-col items-center justify-center w-full h-full">
+        <div className="z-10 flex flex-col items-center justify-center w-full h-fit">
           {file !== undefined && (
             <div
               // onClick={handleButton}
@@ -93,13 +92,13 @@ export default function ImgUpload(props: IProps) {
               <div className="absolute bottom-0 z-20 flex items-center gap-2">
                 <span
                   onClick={handleButton}
-                  className="p-1 duration-300 bg-white rounded-full cursor-pointer drop-shadow text-brand hover:text-white hover:bg-brand"
+                  className="p-1 duration-300 rounded-full cursor-pointer drop-shadow text-brand hover:text-white hover:bg-brand"
                 >
                   <FiEdit3 />
                 </span>
               </div>
-              <div className="relative aspect-square">
-                <Image alt="" src={file} fill />
+              <div className="relative w-32 aspect-square h-full">
+                <Image alt="" src={file} />
               </div>
             </div>
           )}
