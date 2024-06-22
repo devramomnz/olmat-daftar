@@ -68,7 +68,7 @@ export default function Login() {
                 href={ROUTES.FORGOT_PASS}
                 className="text-xs text-white font-semibold"
               >
-                Lupa password?
+                Lupa password ?
               </Link>
             </div>
             <div className="flex mt-7 justify-center">
