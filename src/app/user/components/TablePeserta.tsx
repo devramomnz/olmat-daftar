@@ -220,10 +220,10 @@ export default function TablePeserta(props: IProps) {
           <TableColumn align="center" scope="col">
             Nama Peserta
           </TableColumn>
-          <TableColumn align="center" className="" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Jenis Kelamin
           </TableColumn>
-          <TableColumn align="center" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Tanggal Lahir
           </TableColumn>
           <TableColumn className="text-center" align="center" scope="col">
@@ -235,40 +235,39 @@ export default function TablePeserta(props: IProps) {
         </TableHeader>
         <TableBody className="">
           {tableData?.map((data: any, i: number) => (
-            <TableRow key={i} className="">
-              <TableCell className="text-xs" data-label="No">
+            <TableRow key={i} className="h-10">
+              <TableCell className="text-sm" data-label="No">
                 {i + 1}
               </TableCell>
-              <TableCell className="text-xs text-start" data-label="name">
+              <TableCell className="text-sm text-start" data-label="name">
                 {data.name}
               </TableCell>
-              <TableCell className="text-xs" data-label="gender">
-                {genderLabel(data.gender)}
+              <TableCell className="text-sm" data-label="gender">
+                <p className="w-full text-center">{genderLabel(data.gender)}</p>
               </TableCell>
-              <TableCell className="text-xs" data-label="birth">
-                {convertBirth(data.birth)}
+              <TableCell className="text-sm" data-label="birth">
+                <p className="w-full text-center">{convertBirth(data.birth)}</p>
               </TableCell>
-              <TableCell
-                className="text-xs flex justify-center"
-                data-label="status"
-              >
-                <Chip
-                  variant="flat"
-                  size="sm"
-                  color={statusColor(data.status)}
-                  className={`${statusColor(
-                    data.status
-                  )} px-3 rounded-full font-black w-fit`}
-                >
-                  <p className="font-black text-xs">{data.status}</p>
-                </Chip>
+              <TableCell className="" data-label="status">
+                <div className="w-full flex items-center justify-center h-10">
+                  <Chip
+                    variant="flat"
+                    size="sm"
+                    color={statusColor(data.status)}
+                    className={`${statusColor(
+                      data.status
+                    )} px-3 rounded-full font-black w-fit`}
+                  >
+                    <p className="font-black">{data.status}</p>
+                  </Chip>
+                </div>
               </TableCell>
 
-              <TableCell data-label="Actions" className="text-xs text-center">
-                <div className="flex justify-center">
+              <TableCell data-label="Actions" className="text-sm text-center ">
+                <div className="grid place-items-center w-full h-10">
                   {data.status === "active" ? (
                     <button
-                      className="p-1 mb-2 mr-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+                      className="py-1 px-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
                       onClick={() => downloadPdfBtn(i)}
                     >
                       <TbCloudDownload />

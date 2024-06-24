@@ -47,59 +47,67 @@ export default function TablePayWaiting(props: IProps) {
           <TableColumn align="center" scope="col">
             No. Invoice
           </TableColumn>
-          <TableColumn align="center" className="" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Metode
           </TableColumn>
-          <TableColumn align="center" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Jumlah Peserta
           </TableColumn>
-          <TableColumn align="center" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Harga
           </TableColumn>
-          <TableColumn align="center" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Total Harga
           </TableColumn>
-          <TableColumn align="center" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Status
           </TableColumn>
-          <TableColumn align="center" scope="col">
+          <TableColumn align="center" className="text-center" scope="col">
             Aksi
           </TableColumn>
         </TableHeader>
         <TableBody className="">
           {tableData?.map((data, i) => (
-            <TableRow key={i}>
+            <TableRow key={i} className="h-10">
               <TableCell data-label="No">{i + 1}</TableCell>
               <TableCell data-label="invoice">{data.invoice}</TableCell>
-              <TableCell data-label="code">{data.code}</TableCell>
+              <TableCell data-label="code">
+                <p className="text-center">{data.code}</p>
+              </TableCell>
               <TableCell className="text-center" data-label="participantAmount">
-                {data.participantAmount}
+                <p className="text-center">{data.participantAmount}</p>
               </TableCell>
               <TableCell data-label="amount">
-                {convertRupiah(data.amount)}
+                <p className="text-center">{convertRupiah(data.amount)}</p>
               </TableCell>
               <TableCell data-label="totalAmount">
-                {convertRupiah(data.totalAmount)}
+                <p className="text-center">{convertRupiah(data.totalAmount)}</p>
               </TableCell>
               <TableCell data-label="status">
-                <Chip
-                  variant="flat"
-                  size="sm"
-                  color={statusColor(data.status)}
-                  className={`${statusColor(
-                    data.status
-                  )} px-3 rounded-full font-black w-fit`}
-                >
-                  <p className="font-black text-xs">{data.status}</p>
-                </Chip>
+                <div className="flex justify-center items-center">
+                  <Chip
+                    variant="flat"
+                    size="sm"
+                    color={statusColor(data.status)}
+                    className={`${statusColor(
+                      data.status
+                    )} px-3 rounded-full font-black w-fit`}
+                  >
+                    <p className="font-black text-xs">{data.status}</p>
+                  </Chip>
+                </div>
               </TableCell>
               <TableCell data-label="participantAmount">
-                <Link
-                  href={ROUTES.TRANSACTION + "/" + encryptString(`${data.id}`)}
-                  className="px-2 hover:bg-brand-semi duration-300 bg-brand-dark font-bold text-white rounded-lg py-1"
-                >
-                  Detail
-                </Link>
+                <div className="flex justify-center items-center">
+                  <Link
+                    href={
+                      ROUTES.TRANSACTION + "/" + encryptString(`${data.id}`)
+                    }
+                    className="px-2 hover:bg-brand-semi duration-300 bg-brand-dark font-bold text-white rounded-lg py-1"
+                  >
+                    Detail
+                  </Link>
+                </div>
               </TableCell>
             </TableRow>
           ))}

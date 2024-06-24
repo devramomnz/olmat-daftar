@@ -92,7 +92,7 @@ export default function ImgUpload(props: IProps) {
               <div className="absolute bottom-0 z-20 flex items-center gap-2">
                 <span
                   onClick={handleButton}
-                  className="p-1 duration-300 rounded-full cursor-pointer drop-shadow text-brand hover:text-white hover:bg-brand"
+                  className="p-2 duration-300 rounded-full cursor-pointer drop-shadow text-brand hover:text-white bg-white hover:bg-brand"
                 >
                   <FiEdit3 />
                 </span>
