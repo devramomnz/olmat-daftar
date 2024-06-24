@@ -24,10 +24,19 @@ const useUpdatePass = () => {
   const token = getCookie("_CTokenForgot");
   const slug = useParams().slug.toString();
   const [payload, setPayload] = useState<IPayload>();
+  const [isHash, setIsHash] = useState(true);
 
   /**
    * SERVER
    */
+
+  async function getHash() {
+    await api.get(`/auth/user/hash/${slug}`).then((res) => {
+      if (!res.data.data) {
+        setIsHash(false);
+      }
+    });
+  }
 
   async function postNewPass() {
     await api
@@ -81,11 +90,12 @@ const useUpdatePass = () => {
       decodeToken();
     }
     if (slug) {
+      getHash();
       setPayload((prevPayload) => ({ ...prevPayload, hash: slug }));
     }
   }, []);
 
-  return { form, handleChangeInput, handleSubmit };
+  return { form, isHash, handleChangeInput, handleSubmit };
 };
 
 export default useUpdatePass;

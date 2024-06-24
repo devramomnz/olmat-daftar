@@ -63,14 +63,14 @@ export default function Login() {
               className="text-lg bg-white"
               // onChange={onChange}
             />
-            {/* <div className="flex w-full">
+            <div className="flex w-full">
               <Link
                 href={ROUTES.FORGOT_PASS}
                 className="text-xs text-white font-semibold"
               >
-                Lupa password?
+                Lupa password ?
               </Link>
-            </div> */}
+            </div>
             <div className="flex mt-7 justify-center">
               <Button className="w-32  text-brand-dark">Masuk</Button>
             </div>

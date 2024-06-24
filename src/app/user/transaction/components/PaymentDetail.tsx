@@ -39,22 +39,24 @@ export default function PaymentDetail(props: IProps) {
   };
 
   return (
-    <>
-      <div className="flex flex-col text-white font-montserrat items-center">
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col text-white font-montserrat items-center border-brand-dark border-b-2 pb-3">
         <AppImage
           src={appSetting.logoEvent}
           className="w-16 h-16 "
           alt="olmat-logo"
         />
       </div>
-      <div className="border-t-2  border-brand-dark pt-4">
+      <div className="border-b-3 bg-gray-100 p-2 rounded-lg ">
         <h2 className="font-black text-lg text-center">
           Selesaikan Pembayaran Sebelum
         </h2>
         <p className="text-sm font-bold">{`${date}`}</p>
       </div>
 
-      <div className="flex flex-col gap-3 border-t-2 border-brand-dark pt-4">
+      <div className="border-t-2 border-brand-dark"></div>
+
+      <div className="flex flex-col gap-3 border-b-3 bg-gray-100 p-2 rounded-lg ">
         <div className="">
           <h2>Metode Pembayaran Otomatis</h2>
           <h2 className="font-black">{paymentData.code}</h2>
@@ -99,9 +101,11 @@ export default function PaymentDetail(props: IProps) {
             </div>
           </div>
         </div>
-        <h2 className="text-start font-bold border-b-2">Rincian Pembayaran</h2>
       </div>
-      <div className="flex font-bold flex-col gap-1 text-sm ">
+      <div className="flex font-bold flex-col gap-1 text-sm border-b-3 bg-gray-100 p-2 rounded-lg ">
+        <h2 className="text-start font-bold border-b-2 text-base pb-1 border-brand-semi/40">
+          Rincian Pembayaran
+        </h2>
         <div className="flex text-center justify-between w-full">
           <h2 className="flex items-center gap-2">
             <PiStudent /> Total Peserta
@@ -122,14 +126,14 @@ export default function PaymentDetail(props: IProps) {
           </h2>
           <h2 className="font-black">{convertRupiah(paymentData.fee)}</h2>
         </div>
-        <div className="flex text-center pt-2 border-t-2 border-t-brand-semi justify-between w-full">
+        <div className="flex text-center pt-2 border-t-2 border-t-brand-semi/40 justify-between w-full">
           <h2 className="flex items-center gap-2">Total Pembayaran</h2>
           <h2 className="font-black">
             {convertRupiah(paymentData.totalAmount)}
           </h2>
         </div>
       </div>
-      <div className="flex items-center text-xs font-bold justify-center gap-2 pt-4">
+      <div className="flex items-center text-xs font-bold justify-center gap-2 pt-4 border-t-2 border-brand-dark">
         <h2>Powered By</h2>
         <div className="relative w-20 aspect-[3/1]">
           <Image
@@ -141,6 +145,6 @@ export default function PaymentDetail(props: IProps) {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

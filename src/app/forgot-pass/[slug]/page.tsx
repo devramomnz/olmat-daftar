@@ -11,9 +11,11 @@ import { Form } from "antd";
 import Link from "next/link";
 import useUpdatePass from "./useUpdatePass";
 import AntPass from "@/components/input/AntPass";
+import Image from "next/image";
+import { ROUTES } from "@/prefix/routes";
 
 export default function ForgotPassword() {
-  const { form, handleChangeInput, handleSubmit } = useUpdatePass();
+  const { form, isHash, handleChangeInput, handleSubmit } = useUpdatePass();
   return (
     <div className="relative overflow-hidden bg-brand-semi text-white">
       <Wave
@@ -34,48 +36,77 @@ export default function ForgotPassword() {
         </div>
         <div className="min-h-screen flex justify-center items-center z-10">
           <div className="flex flex-col py-10 font-montserrat p-4 z-10 bg-white h-3/4 md:p-10 md:h-fit w-full mx-5 md:w-1/2 rounded-xl">
-            <div className="flex flex-col items-center text-2xl font-black  w-full gap-5 text-brand-dark ">
-              <Lottie animationData={passLock} autoPlay loop className="h-52" />
-              <h1 className="text-center w-full">Reset Password</h1>
-            </div>
-            <div className="grid md:max-w-1/2">
-              <Form
-                form={form}
-                onFinish={handleSubmit}
-                className="mt-5 flex flex-col gap-1"
-              >
-                <AntPass
-                  // onChange={handleChangeInput}
-                  name="password"
-                  labelName="Buat kata sandi baru"
-                />
-                <AntPass
-                  form={form}
-                  onChange={handleChangeInput}
-                  dependencies={["password"]}
-                  name="newPassword"
-                  labelName="Konfirmasi kata sandi baru"
-                />
-                {/* <AntEmail
+            {isHash ? (
+              <>
+                <div className="flex flex-col items-center text-2xl font-black  w-full gap-5 text-brand-dark ">
+                  <Lottie
+                    animationData={passLock}
+                    autoPlay
+                    loop
+                    className="h-52"
+                  />
+                  <h1 className="text-center w-full">Reset Password</h1>
+                </div>
+                <div className="grid md:max-w-1/2">
+                  <Form
+                    form={form}
+                    onFinish={handleSubmit}
+                    className="mt-5 flex flex-col gap-1"
+                  >
+                    <AntPass
+                      // onChange={handleChangeInput}
+                      name="password"
+                      labelName="Buat kata sandi baru"
+                    />
+                    <AntPass
+                      form={form}
+                      onChange={handleChangeInput}
+                      dependencies={["password"]}
+                      name="newPassword"
+                      labelName="Konfirmasi kata sandi baru"
+                    />
+                    {/* <AntEmail
                   name="email"
                   onChange={handleChange}
                   placeholder="Masukkan email"
                   className="text-center"
                 /> */}
-                <Button className="w-full text-xl">Simpan</Button>
-              </Form>
-            </div>
-            <div className="grid place-items-center mt-10">
-              <Link
-                href={
-                  "https://api.whatsapp.com/send/?phone=6285963106144&text=Hai+kak+Ummi%2C+saya+mau+bertanya+mengenai+akun+olmat+saya&type=phone_number&app_absent=0"
-                }
-                target="_blank"
-                className="text-black text-xs font-bold"
-              >
-                Butuh bantuan lanjutan ?
-              </Link>
-            </div>
+                    <Button className="w-full text-xl">Simpan</Button>
+                  </Form>
+                </div>
+                <div className="grid place-items-center mt-10">
+                  <Link
+                    href={
+                      "https://api.whatsapp.com/send/?phone=6285963106144&text=Hai+kak+Ummi%2C+saya+mau+bertanya+mengenai+akun+olmat+saya&type=phone_number&app_absent=0"
+                    }
+                    target="_blank"
+                    className="text-black text-xs font-bold"
+                  >
+                    Butuh bantuan lanjutan ?
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <div className="flex gap-5 justify-center flex-col items-center">
+                <h1 className="text-center text-brand-dark font-black text-2xl w-full">
+                  Reset Password
+                </h1>
+                <div className="relative w-28 aspect-square">
+                  <Image alt="Succes Cathabot" fill src={`/icons/failed.png`} />
+                </div>
+                <p className="text-brand-dark text-base text-center">
+                  Permintaan tidak ditemukan atau expired
+                </p>
+                <div className="grid place-items-center mt-5">
+                  <Link
+                    href={ROUTES.FORGOT_PASS}
+                    className="text-black text-xs font-bold"
+                  >
+                    Ajukan permintaan reset password
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

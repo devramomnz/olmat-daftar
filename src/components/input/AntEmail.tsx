@@ -36,7 +36,7 @@ export function AntEmail(props: IEmailInputProps) {
   ];
 
   return (
-    <>
+    <div>
       <label className={`${hideTittle && "hidden"} text-sm`}>{labelName}</label>
       <Form.Item name={name} rules={emailValidator}>
         <Input
@@ -56,7 +56,7 @@ export function AntEmail(props: IEmailInputProps) {
           } `}
         />
       </Form.Item>
-    </>
+    </div>
   );
 }
 

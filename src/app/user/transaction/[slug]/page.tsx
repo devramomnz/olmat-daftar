@@ -4,6 +4,7 @@ import React from "react";
 import usePayment from "./usePayment";
 import TablePaymentParticipant from "../components/TablePaymentParticipant";
 import PaymentDetail from "../components/PaymentDetail";
+import { PiStudent } from "react-icons/pi";
 
 export default function Payment() {
   const { paymentData } = usePayment();
@@ -14,7 +15,18 @@ export default function Payment() {
         <PaymentDetail paymentData={paymentData} />
       </div>
       <div className="bg-white py-4 col-span-2 text-center flex flex-col w-full px-4 rounded-xl drop-shadow-md ">
-        <TablePaymentParticipant tableData={paymentData.participants} />
+        <div className="flex pb-3 justify-center">
+          <label
+            className="flex gap-3 font-bold text-xl
+         items-center"
+          >
+            <PiStudent className="text-xl" />
+            Daftar Peserta
+          </label>
+        </div>
+        <div className="w-full overflow-x-scroll no-scrollbar">
+          <TablePaymentParticipant tableData={paymentData.participants} />
+        </div>
       </div>
     </div>
   );
