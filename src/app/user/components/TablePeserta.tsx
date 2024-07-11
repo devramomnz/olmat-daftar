@@ -274,9 +274,7 @@ export default function TablePeserta(props: IProps) {
                       Kartu Peserta
                     </button>
                   ) : (
-                    <p className="text-xs">
-                      Pembayaran Belum Tuntas {data.status}
-                    </p>
+                    <p className="text-xs">Pembayaran Belum Tuntas</p>
                   )}
                 </div>
               </TableCell>
