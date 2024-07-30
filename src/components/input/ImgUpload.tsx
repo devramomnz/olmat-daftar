@@ -24,7 +24,7 @@ export default function ImgUpload(props: IProps) {
     e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
       setIsDrag(true);
-      setIsStyle("scale-110 relative bg-black/50");
+      setIsStyle("scale-105 relative bg-black/50");
     } else if (e.type === "dragleave") {
       setIsDrag(false);
       setIsStyle("bg-gray-100");
@@ -48,6 +48,8 @@ export default function ImgUpload(props: IProps) {
             onChange(uploadedFile);
           } else {
             setError(true, "Maksimal ukuran file 200KB.");
+
+            setIsStyle("bg-gray-100");
           }
         } else {
           setIsStyle("bg-gray-100");
@@ -55,6 +57,7 @@ export default function ImgUpload(props: IProps) {
         }
       } else {
         setError(true, "Please upload a JPEG, JPG, or PNG file.");
+        setIsStyle("bg-gray-100");
       }
     }
   }

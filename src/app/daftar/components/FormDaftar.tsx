@@ -95,7 +95,10 @@ export default function FormDaftar(props: IProps) {
             {/* <Form.Item name="img"> */}
             {/* </Form.Item> */}
             <div>
-              <h2>Foto Peserta Ukuran 4x6</h2>
+              <h2>
+                Foto Peserta Ukuran 4x6 (
+                <span className="text-red-600 text-xs">Maks 200KB</span>)
+              </h2>
               <ImgUpload
                 name="img"
                 title="Foto Peserta"
@@ -106,7 +109,10 @@ export default function FormDaftar(props: IProps) {
               />
             </div>
             <div>
-              <h2>Foto Kartu Pelajar / Surat Rekomendasi</h2>
+              <h2>
+                Foto Kartu Pelajar / Surat Rekomendasi (
+                <span className="text-red-600 text-xs">Maks 200KB</span>)
+              </h2>
               <ImgUpload
                 name="attachments"
                 title="Foto Kartu Pelajar / Surat Rekomendasi"
