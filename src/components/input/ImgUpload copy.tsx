@@ -9,15 +9,15 @@ interface IProps {
   name?: string;
   title?: string;
   className?: string;
-  maxSize?: number;
 }
 
-export default function ImgUpload(props: IProps) {
+export default function ImgUploadOld(props: IProps) {
   const { setError } = useLayout();
-  const { onChange, name, title, file, className, maxSize } = props;
+  const { onChange, name, title, file, className } = props;
   const [isDrag, setIsDrag] = useState(false);
   const [isStyle, setIsStyle] = useState("bg-gray-100");
   const buttonUpload = useRef<any>();
+  // const thisFile = URL.createObjectURL(file);
 
   function handleDrag(e: any) {
     e.preventDefault();
@@ -39,22 +39,12 @@ export default function ImgUpload(props: IProps) {
       const uploadedFile = e.dataTransfer.files[0];
       const allowedExtensions = ["jpeg", "jpg", "png"];
       const fileExtension = uploadedFile.name.split(".").pop()?.toLowerCase();
-
       if (fileExtension && allowedExtensions.includes(fileExtension)) {
-        // Check file size only if maxSize is defined
-        if (maxSize !== undefined) {
-          if (uploadedFile.size <= maxSize * 1024) {
-            setIsStyle("bg-gray-100");
-            onChange(uploadedFile);
-          } else {
-            setError(true, "Maksimal ukuran file 200KB.");
-          }
-        } else {
-          setIsStyle("bg-gray-100");
-          onChange(uploadedFile);
-        }
+        setIsStyle("bg-gray-100");
+        onChange(uploadedFile);
       } else {
         setError(true, "Please upload a JPEG, JPG, or PNG file.");
+        setIsStyle("bg-gray-100");
       }
     }
   }
@@ -64,22 +54,11 @@ export default function ImgUpload(props: IProps) {
     if (uploadedFile) {
       const allowedExtensions = ["jpeg", "jpg", "png"];
       const fileExtension = uploadedFile.name.split(".").pop()?.toLowerCase();
-
       if (fileExtension && allowedExtensions.includes(fileExtension)) {
-        // Check file size only if maxSize is defined
-        if (maxSize !== undefined) {
-          if (uploadedFile.size <= maxSize * 1024) {
-            setIsStyle("bg-gray-100");
-            onChange(uploadedFile);
-          } else {
-            setError(true, "Maksimal ukuran file 200KB.");
-          }
-        } else {
-          setIsStyle("bg-gray-100");
-          onChange(uploadedFile);
-        }
+        onChange(uploadedFile);
       } else {
         setError(true, "Please upload a JPEG, JPG, or PNG file.");
+        setIsStyle("bg-gray-100");
       }
     }
   }
