@@ -102,6 +102,7 @@ export default function FormDaftar(props: IProps) {
                 className="w-full"
                 file={blob[iPayload].img}
                 onChange={(e) => handlePicture(e, iPayload)}
+                maxSize={200}
               />
             </div>
             <div>
@@ -112,6 +113,7 @@ export default function FormDaftar(props: IProps) {
                 className="w-full"
                 file={blob[iPayload].attachment}
                 onChange={(e) => handleAttachment(e, iPayload)}
+                maxSize={200}
               />
             </div>
 
