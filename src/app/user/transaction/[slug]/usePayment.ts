@@ -1,7 +1,9 @@
 import api from "@/config/axiosConfig";
 import { PaymentStatus } from "@/enum/payment.enum";
-import { decryptString } from "@/utils/encrypt";
-import { useParams } from "next/navigation";
+import { useLayout } from "@/hooks/zustand/layout";
+import { ROUTES } from "@/prefix/routes";
+import { decryptString, encryptString } from "@/utils/encrypt";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface IParticipant {
@@ -27,6 +29,8 @@ const usePayment = () => {
   const params = useParams().slug.toString();
   const decodedSlug = decodeURIComponent(params);
   const paymentId = decryptString(decodedSlug);
+  const { setError, setIsSuccess } = useLayout();
+  const router = useRouter();
 
   const [paymentData, setPaymentData] = useState<IPaymentData>({
     invoice: "",
@@ -74,10 +78,39 @@ const usePayment = () => {
     });
   }
 
+  async function getNewPayment() {
+    await api
+      .post("/participant/regenerate-payment", {
+        oldPaymentId: paymentId,
+        paymentCode: "QRIS",
+      })
+      .then((res) => {
+        res.data.payment.id;
+        setIsSuccess(true, "Berhasil membuat pembayaran baru");
+        router.push(
+          ROUTES.TRANSACTION + "/" + encryptString(`${res.data.payment.id}`)
+        );
+        // setTimeout(() => {
+
+        // }, 2000); // 2000 milidetik = 2 detik
+      })
+      .catch(() => {
+        setError(true, "Gagal membuat pembayaran baru");
+      });
+  }
+
+  /**
+   * HANDLE
+   */
+
+  function handleGetNewPayments() {
+    getNewPayment();
+  }
+
   useEffect(() => {
     getPaymentById();
   }, []);
 
-  return { paymentData, payStatus };
+  return { paymentData, payStatus, handleGetNewPayments };
 };
 export default usePayment;
