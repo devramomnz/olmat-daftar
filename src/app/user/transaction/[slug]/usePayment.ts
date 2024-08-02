@@ -1,4 +1,5 @@
 import api from "@/config/axiosConfig";
+import { PaymentStatus } from "@/enum/payment.enum";
 import { decryptString } from "@/utils/encrypt";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -41,8 +42,12 @@ const usePayment = () => {
     participants: [],
   });
 
+  const [payStatus, setPayStatus] = useState<string>("");
+  const nowDate = new Date();
+
   async function getPaymentById() {
     await api.get(`/payment/${paymentId}`).then((res) => {
+      const exp = new Date(res.data.expired_at);
       const resData = {
         invoice: res.data.invoice,
         code: res.data.code,
@@ -57,6 +62,15 @@ const usePayment = () => {
         participants: res.data.participants,
       };
       setPaymentData(resData);
+      if (res.data.status !== PaymentStatus.PAID && nowDate <= exp) {
+        setPayStatus(PaymentStatus.PENDING);
+      }
+      if (res.data.status === PaymentStatus.PENDING && nowDate >= exp) {
+        setPayStatus(PaymentStatus.EXPIRED);
+      }
+      if (res.data.status === PaymentStatus.PAID) {
+        setPayStatus(PaymentStatus.PAID);
+      }
     });
   }
 
@@ -64,6 +78,6 @@ const usePayment = () => {
     getPaymentById();
   }, []);
 
-  return { paymentData };
+  return { paymentData, payStatus };
 };
 export default usePayment;

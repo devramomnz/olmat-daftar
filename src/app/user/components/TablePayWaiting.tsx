@@ -93,7 +93,9 @@ export default function TablePayWaiting(props: IProps) {
                       data.status
                     )} px-3 rounded-full font-black w-fit`}
                   >
-                    <p className="font-black text-xs">{data.status}</p>
+                    <p className="font-black text-xs uppercase">
+                      {data.status}
+                    </p>
                   </Chip>
                 </div>
               </TableCell>

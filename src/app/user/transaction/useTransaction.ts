@@ -1,15 +1,33 @@
 import api from "@/config/axiosConfig";
+import { PaymentStatus } from "@/enum/payment.enum";
 import { usePaginationProduct } from "@/hooks/pagination/usePagination";
-import { useButtonLoading } from "@/hooks/zustand/useButtonLoading";
 import { IPayment } from "@/interfaces/IPayments";
 import { useEffect, useState } from "react";
 
 const useTransaction = () => {
   const { paginationOptions, metaData, setMetaData, setPaginationOptions } =
     usePaginationProduct();
-  const { setIsButtonLoading } = useButtonLoading();
+  const nowDate = new Date();
 
   const [payments, setPayments] = useState<IPayment[]>([]);
+
+  function statusFunction(res: any) {
+    if (
+      res.status !== PaymentStatus.PAID &&
+      nowDate <= new Date(res.expired_at)
+    ) {
+      return PaymentStatus.PENDING;
+    }
+    if (
+      res.status === PaymentStatus.PENDING &&
+      nowDate >= new Date(res.expired_at)
+    ) {
+      return PaymentStatus.EXPIRED;
+    }
+    if (res.status === PaymentStatus.PAID) {
+      return PaymentStatus.PAID;
+    }
+  }
 
   async function getPayments() {
     await api
@@ -24,7 +42,7 @@ const useTransaction = () => {
           amount: payments.amount,
           totalAmount: payments.total_amount,
           participantAmount: payments.participant_amounts,
-          status: payments.status,
+          status: statusFunction(payments),
         }));
         setPayments(dataPayments);
         setMetaData(res.data.metadata);
@@ -52,8 +70,8 @@ const useTransaction = () => {
 
   useEffect(() => {
     getPayments();
-    setIsButtonLoading(false);
-  }, []);
+    // setIsButtonLoading(false);
+  }, [paginationOptions.curentPage, paginationOptions.pageSize]);
 
   return {
     paginationOptions,
