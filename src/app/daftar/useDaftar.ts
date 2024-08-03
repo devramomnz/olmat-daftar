@@ -180,6 +180,11 @@ export function useDaftar() {
           router.push(
             ROUTES.TRANSACTION + "/" + encryptString(`${res.data.payment.id}`)
           );
+        })
+        .catch((err: any) => {
+          setIsButtonLoading(false);
+          setError(true, "Pendaftaran Gagal");
+          console.log(err);
         });
     } catch (error: any) {
       if (error?.response?.data?.errors?.message) {

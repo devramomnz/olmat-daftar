@@ -1,6 +1,9 @@
 import api from "@/config/axiosConfig";
-import { decryptString } from "@/utils/encrypt";
-import { useParams } from "next/navigation";
+import { PaymentStatus } from "@/enum/payment.enum";
+import { useLayout } from "@/hooks/zustand/layout";
+import { ROUTES } from "@/prefix/routes";
+import { decryptString, encryptString } from "@/utils/encrypt";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface IParticipant {
@@ -26,6 +29,8 @@ const usePayment = () => {
   const params = useParams().slug.toString();
   const decodedSlug = decodeURIComponent(params);
   const paymentId = decryptString(decodedSlug);
+  const { setError, setIsSuccess } = useLayout();
+  const router = useRouter();
 
   const [paymentData, setPaymentData] = useState<IPaymentData>({
     invoice: "",
@@ -41,8 +46,12 @@ const usePayment = () => {
     participants: [],
   });
 
+  const [payStatus, setPayStatus] = useState<string>("");
+  const nowDate = new Date();
+
   async function getPaymentById() {
     await api.get(`/payment/${paymentId}`).then((res) => {
+      const exp = new Date(res.data.expired_at);
       const resData = {
         invoice: res.data.invoice,
         code: res.data.code,
@@ -57,13 +66,51 @@ const usePayment = () => {
         participants: res.data.participants,
       };
       setPaymentData(resData);
+      if (res.data.status !== PaymentStatus.PAID && nowDate <= exp) {
+        setPayStatus(PaymentStatus.PENDING);
+      }
+      if (res.data.status === PaymentStatus.PENDING && nowDate >= exp) {
+        setPayStatus(PaymentStatus.EXPIRED);
+      }
+      if (res.data.status === PaymentStatus.PAID) {
+        setPayStatus(PaymentStatus.PAID);
+      }
     });
+  }
+
+  async function getNewPayment() {
+    await api
+      .post("/participant/regenerate-payment", {
+        oldPaymentId: paymentId,
+        paymentCode: "QRIS",
+      })
+      .then((res) => {
+        res.data.payment.id;
+        setIsSuccess(true, "Berhasil membuat pembayaran baru");
+        router.push(
+          ROUTES.TRANSACTION + "/" + encryptString(`${res.data.payment.id}`)
+        );
+        // setTimeout(() => {
+
+        // }, 2000); // 2000 milidetik = 2 detik
+      })
+      .catch(() => {
+        setError(true, "Gagal membuat pembayaran baru");
+      });
+  }
+
+  /**
+   * HANDLE
+   */
+
+  function handleGetNewPayments() {
+    getNewPayment();
   }
 
   useEffect(() => {
     getPaymentById();
   }, []);
 
-  return { paymentData };
+  return { paymentData, payStatus, handleGetNewPayments };
 };
 export default usePayment;

@@ -13,16 +13,20 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import { useLayout } from "@/hooks/zustand/layout";
 import { RiFileCopy2Line } from "react-icons/ri";
+import Button from "@/components/button/Button";
 
 dayjs.locale("id");
 
 interface IProps {
   paymentData: IPaymentData;
+  payStatus: string;
+  handleGetNewPayment: () => void;
 }
 
 export default function PaymentDetail(props: IProps) {
   const { setIsSuccess, setError } = useLayout();
-  const { paymentData } = props;
+  const { paymentData, payStatus, handleGetNewPayment } = props;
+
   const date = dayjs(paymentData.expiredDate)
     .locale("id")
     .format("dddd, D MMMM YYYY, [Pukul] HH.mm [WIB]");
@@ -62,10 +66,10 @@ export default function PaymentDetail(props: IProps) {
           <h2 className="font-black">{paymentData.code}</h2>
         </div>
         <div className="flex flex-col items-center">
-          {(paymentData.status === PaymentStatus.PENDING && (
+          {(payStatus === PaymentStatus.PENDING && (
             <QRCode value={paymentData.qrString} size={250} />
           )) ||
-            (paymentData.status === PaymentStatus.PAID && (
+            (payStatus === PaymentStatus.PAID && (
               <div className="flex flex-col items-center gap-3">
                 <div className="relative h-28 aspect-square">
                   <Image
@@ -77,10 +81,10 @@ export default function PaymentDetail(props: IProps) {
                 <h1 className="font-bold text-xl">TERBAYAR</h1>
               </div>
             )) ||
-            (paymentData.status === PaymentStatus.EXPIRED && (
-              <div className="flex flex-col items-center gap-3">
+            (payStatus === PaymentStatus.EXPIRED && (
+              <div className="flex w-full flex-col items-center gap-3">
                 <div className="relative h-28 aspect-square">
-                  <Image alt="Succes Cathabot" fill src={`/icons/failed.png`} />
+                  <Image alt="Failed Cathabot" fill src={`/icons/failed.png`} />
                 </div>
                 <h1 className="font-bold text-xl">EXPIRED</h1>
               </div>
@@ -101,6 +105,9 @@ export default function PaymentDetail(props: IProps) {
             </div>
           </div>
         </div>
+        {payStatus === PaymentStatus.EXPIRED && (
+          <Button onClick={handleGetNewPayment}>Ajukan Pembayaran Ulang</Button>
+        )}
       </div>
       <div className="flex font-bold flex-col gap-1 text-sm border-b-3 bg-gray-100 p-2 rounded-lg ">
         <h2 className="text-start font-bold border-b-2 text-base pb-1 border-brand-semi/40">
