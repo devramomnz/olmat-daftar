@@ -84,11 +84,16 @@ const useRegisterSchool = () => {
         router.push("/register");
       })
       .catch((err: any) => {
+        setIsButtonLoading(false);
         if (err?.response?.data?.errors?.code) {
           return Promise.reject(new Error("Code already exist"));
+        } else if (err.response.data.errors.email) {
+          setError(true, "Email telah terdaftar");
+        } else if (err.response.data.errors.phone) {
+          setError(true, "Nomor telah terdaftar");
+        } else {
+          setError(true, "Pendaftaran Sekolah Gagal Terkirim");
         }
-        setError(true, "Pendaftaran Sekolah Gagal Terkirim");
-        setIsButtonLoading(false);
       });
   }
 

@@ -31,6 +31,7 @@ const usePayment = () => {
   const paymentId = decryptString(decodedSlug);
   const { setError, setIsSuccess } = useLayout();
   const router = useRouter();
+  const [isModal, setIsModal] = useState(false);
 
   const [paymentData, setPaymentData] = useState<IPaymentData>({
     invoice: "",
@@ -111,6 +112,12 @@ const usePayment = () => {
     getPaymentById();
   }, []);
 
-  return { paymentData, payStatus, handleGetNewPayments };
+  return {
+    paymentData,
+    payStatus,
+    isModal,
+    setIsModal,
+    handleGetNewPayments,
+  };
 };
 export default usePayment;

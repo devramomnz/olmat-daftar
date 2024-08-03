@@ -144,7 +144,7 @@ export function useDaftar() {
   async function postParticipant() {
     setIsButtonLoading(true);
     const dataPost = Object.values(payload).map((data) => ({
-      name: data.name,
+      name: data.name.toUpperCase(),
       gender: data.gender,
       phone: data.phone,
       email: data.email,
