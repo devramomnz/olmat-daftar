@@ -39,12 +39,14 @@ export default function ListPeserta(props: IProps) {
             </button>
           </div>
         ))}
-        <button
-          className={` py-1 px-2 mb-28 bg-brand-dark rounded-full w-full text-white font-bold mt-3 text-sm`}
-          onClick={handleAddMore}
-        >
-          Tambah Peserta
-        </button>
+        {iPayload <= 9 && (
+          <button
+            className={` py-1 px-2 mb-28 bg-brand-dark rounded-full w-full text-white font-bold mt-3 text-sm`}
+            onClick={handleAddMore}
+          >
+            Tambah Peserta
+          </button>
+        )}
       </div>
     </div>
   );
