@@ -267,7 +267,7 @@ export default function TablePeserta(props: IProps) {
                 <div className="grid place-items-center w-full h-10">
                   {data.status === "active" ? (
                     <button
-                      className="py-1 px-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
+                      className="text-nowrap py-1 px-2 w-fit flex items-center gap-2 text-sm font-medium rounded-md text-center bg-brand  hover:text-white hover:bg-brand-semi duration-500  focus:outline-none focus:ring-red-300 "
                       onClick={() => downloadPdfBtn(i)}
                     >
                       <TbCloudDownload />
