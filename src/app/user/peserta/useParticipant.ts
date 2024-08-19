@@ -58,7 +58,7 @@ const useParticipant = () => {
 
   useEffect(() => {
     getParticipants();
-  }, []);
+  }, [paginationOptions.curentPage, paginationOptions.pageSize]);
 
   return {
     metaData,
