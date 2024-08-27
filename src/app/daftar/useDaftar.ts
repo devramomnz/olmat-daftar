@@ -155,6 +155,22 @@ export function useDaftar() {
       imgs: file.img,
       attachmets: file.attachment,
     }));
+    // Validasi untuk mengecek apakah ada imgs atau attachments yang undefined
+    for (let i = 0; i < filePost.length; i++) {
+      if (!filePost[i].imgs) {
+        setIsButtonLoading(false);
+        setError(true, `Foto Peserta ke-${i + 1} tidak valid`);
+        return; // Hentikan proses jika ada file yang undefined
+      }
+      if (!filePost[i].attachmets) {
+        setIsButtonLoading(false);
+        setError(
+          true,
+          `Kartu pelajar atau surat rekomendasi Peserta ke-${i + 1} tidak valid`
+        );
+        return; // Hentikan proses jika ada file yang undefined
+      }
+    }
     try {
       const payloadForm = new FormData();
       dataPost.map((participat) => {
