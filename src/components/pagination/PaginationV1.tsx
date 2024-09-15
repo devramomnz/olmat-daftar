@@ -18,11 +18,12 @@ const PagintaionV1: FC<TProps> = ({
     handleCurentPage(curentPage);
     handlePageSize(pageSize);
   }
+
   return (
-    <div className="relative flex justify-center w-full">
+    <div className="relative flex flex-col-reverse md:flex-row items-center gap-5 mt-4 justify-center w-full">
       {metaData?.total > 0 ? (
-        <>
-          <p className="absolute text-xs -translate-y-1/2 left-2 top-1/2 text-slate-500">
+        <div>
+          <p className="md:absolute text-xs text-center -translate-y-1/2 left-2 -z-10 top-1/2 text-slate-500">
             Showing {curentPage * 10 - 10 + 1} to{" "}
             {metaData.current_page === metaData.total_pages
               ? metaData?.total
@@ -39,14 +40,14 @@ const PagintaionV1: FC<TProps> = ({
             }}
           >
             <Pagination
-              pageSizeOptions={[10, 15, 20, 50]}
+              pageSizeOptions={[10, 15, 20, 50, 100]}
               current={curentPage}
-              // total={metaData?.total > 100 ? metaData.total : 100}
+              // total={metaData?.total > 10 ? metaData.total : 100}
               total={metaData?.total}
               onChange={paginationOnchange}
             />
           </ConfigProvider>
-        </>
+        </div>
       ) : (
         <>
           <div>
